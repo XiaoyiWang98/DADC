@@ -2,6 +2,6 @@
 A react-app based solution for donation pickup management and pickup route optimization.
 https://master.d25hrbybky3fg.amplifyapp.com/
 
-Github Test:
-    Sean:Tested;
+Github Test:  
+>Sean:Tested;
     
