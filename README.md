@@ -5,6 +5,7 @@ https://master.d25hrbybky3fg.amplifyapp.com/
 Github Test:  
 >Sean:Tested;
 >Wenbo: Tested;
+>Jiaqi: Tested;
 >zixiu: Tested;
 >Xuantong: Tested;
 >Cara: Tested;
