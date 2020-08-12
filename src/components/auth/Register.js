@@ -47,6 +47,8 @@ class RegistrationForm extends Component {
                     values.ngo = "0";
                 }
 
+                values.address = values.address.concat(", ",values.city,", ",values.state," ",values.postal)
+
                 console.log('Received values of form: ', values);
 
                 UserPool.signUp(values.email,values.password,
@@ -73,7 +75,7 @@ class RegistrationForm extends Component {
                         },
                         {
                             "Name":"phone_number",
-                            "Value":values.phone
+                            "Value":("+1").concat(values.phone)
                         },
                         {
                             "Name":"custom:custom:NGO",
@@ -189,14 +191,47 @@ class RegistrationForm extends Component {
                     )}
                 </Form.Item>
 
-                <Form.Item label="Primary Address">
+                <Form.Item label="Mailing Address">
                     {getFieldDecorator('address', {
-                        rules: [{ required: true, message: 'Please input your primary address!' }],
+                        rules: [{ required: true, message: 'Please input your mailing address!' }],
                     })(
                         // <Input
                         //     placeholder="Primary address"
                         // />,
-                        <TextArea placeholder="Primary address" autoSize />
+                        <TextArea placeholder="Mailing address" autoSize />
+                    )}
+                </Form.Item>
+
+                <Form.Item label="City">
+                    {getFieldDecorator('city', {
+                        rules: [{ required: true, message: 'Please input the city of your mailing address!' }],
+                    })(
+                        // <Input
+                        //     placeholder="Primary address"
+                        // />,
+                        <Input placeholder="Ex: San Francisco" autoSize />
+                    )}
+                </Form.Item>
+
+                <Form.Item label="State">
+                    {getFieldDecorator('state', {
+                        rules: [{ required: true, message: 'Please input the state of your mailing address!' }],
+                    })(
+                        // <Input
+                        //     placeholder="Primary address"
+                        // />,
+                        <Input placeholder="Ex: CA" autoSize />
+                    )}
+                </Form.Item>
+
+                <Form.Item label="Postal Code">
+                    {getFieldDecorator('postal', {
+                        rules: [{ required: true, message: 'Please input the postal code of your mailing address!' }],
+                    })(
+                        // <Input
+                        //     placeholder="Primary address"
+                        // />,
+                        <Input placeholder="Ex: 94116" autoSize />
                     )}
                 </Form.Item>
 
@@ -205,7 +240,7 @@ class RegistrationForm extends Component {
                         rules: [{ required: true, message: 'Please input your phone number!' }],
                     })(
                         <Input
-                            placeholder="format: +1##########"
+                            placeholder="Phone Number"
                         />,
                     )}
                 </Form.Item>

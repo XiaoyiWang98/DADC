@@ -14,7 +14,7 @@ class Main extends Component {
 
     getProfile = () =>{
         return this.props.isLoggedIn
-            ? <UserProfile handleLogout={this.props.handleLogout}/>
+            ? <UserProfile session={this.props.session} handleLogout={this.props.handleLogout}/>
             : <Redirect to = "/"/>
     }
 
