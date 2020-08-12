@@ -1,0 +1,7 @@
+.ant-tabs-tab{
+    /*font-weight: bold;*/
+}
+
+.ant-tabs-tab-active{
+    background-color: aliceblue;
+}
