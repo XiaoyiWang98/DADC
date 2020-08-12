@@ -3,6 +3,7 @@ import Login from "./auth/Login";
 import {Register} from "./auth/Register";
 import { Switch, Route, Redirect } from 'react-router-dom';
 import UserProfile from "./users/UserProfile";
+import MapComposite from "./ngo/MapComposite";
 
 class Main extends Component {
 
@@ -24,6 +25,7 @@ class Main extends Component {
             : <Register handleLogout={this.props.handleLogout}/>;
     }
 
+
     render() {
         return (
             <div className="main">
@@ -31,6 +33,7 @@ class Main extends Component {
                     <Route exact path="/register" render={this.getRegister}/>
                     <Route exact path="/" render={this.getLogin}/>
                     <Route exact path="/profile" render={this.getProfile}/>
+                    <Route exact path="/mapTest" component={MapComposite} />
                 </Switch>
             </div>
         );

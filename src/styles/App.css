@@ -3,6 +3,7 @@
 @import "auth/Login.css";
 @import "auth/Register.css";
 @import "TopBar.css";
+@import "MapComposite.css";
 
 .App {
   text-align: center;

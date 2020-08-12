@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Form, Icon, Input, Button, message } from 'antd';
+import { Form, Input, Button, message } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import {AuthenticationDetails, CognitoUser} from "amazon-cognito-identity-js";
 import Pool from "./UserPool";
@@ -56,7 +57,7 @@ class NormalLoginForm extends Component {
                         rules: [{ required: true, type:'email', message: 'Please input a valid email address!' }],
                     })(
                         <Input
-                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                            prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
                             placeholder="Username"
                         />,
                     )}
@@ -67,7 +68,7 @@ class NormalLoginForm extends Component {
                         rules: [{ required: true, message: 'Please input your Password!' }],
                     })(
                         <Input
-                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                            prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
                             type="password"
                             placeholder="Password"
                         />,
@@ -85,5 +86,5 @@ class NormalLoginForm extends Component {
     }
 }
 
-const Login = Form.create({ name: 'normal_login' })(NormalLoginForm);
+const Login = Form.useForm({ name: 'normal_login' })(NormalLoginForm);
 export default Login;

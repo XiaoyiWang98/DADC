@@ -1,0 +1,17 @@
+.mapComposite{
+    flex: auto;
+    height: 700px;
+    width: 100%
+}
+
+.map{
+    height: 100%;
+    width: 70%;
+    float: left;
+}
+
+.itemList{
+    height: 100%;
+    width: 30%;
+    float: right;
+}
