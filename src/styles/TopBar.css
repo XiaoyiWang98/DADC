@@ -1,0 +1,36 @@
+.App-header{
+    background-color: #555555;
+    height:50px;
+}
+
+.App-logo{
+    height:40px;
+    float:left;
+    margin-left:10px;
+    margin-top:5px;
+    background: #FFFFFF;
+}
+
+.App-title{
+    float:left;
+    margin-left:5px;
+    margin-top:5px;
+    color: #FFFFFF;
+    font-size:25px;
+    font-weight: bold;
+}
+.Avatar{
+    height:30px;
+    float:right;
+    margin-right:10px;
+    margin-top:10px;
+}
+
+.logout{
+    float:right;
+    margin-right:10px;
+    margin-top:10px;
+    color: #FFFFFF;
+    font-size:20px;
+}
+
