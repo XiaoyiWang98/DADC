@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/App.css';
 import Main from "./Main";
 import Pool from "./auth/UserPool";
+import TopBar from "./TopBar"
 
 class App extends React.Component{
     //get session
@@ -49,6 +50,9 @@ class App extends React.Component{
     render(){
         return (
             <div className="App">
+                <TopBar handleLogout={this.handleLogout}
+                        isLoggedIn={this.state.isLoggedIn}
+                />
                 <Main
                     isLoggedIn={this.state.isLoggedIn}
                     session={this.state.session}
