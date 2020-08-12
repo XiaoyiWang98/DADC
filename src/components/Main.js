@@ -3,7 +3,7 @@ import Login from "./auth/Login";
 import {Register} from "./auth/Register";
 import { Switch, Route, Redirect } from 'react-router-dom';
 import UserProfile from "./users/UserProfile";
-import MapComposite from "./ngo/MapComposite";
+import MapComposite from "./ngo/map/MapComposite";
 
 class Main extends Component {
 
