@@ -36,7 +36,6 @@ class NormalLoginForm extends Component {
                 this.authenticate(values.username,values.password)
                     .then(data=>{
                         console.log('Logged in!', data);
-                        console.log(data.idToken.payload.email);
                         message.success("Login Success");
                         this.props.handleLoginSuccessed();
                     })
