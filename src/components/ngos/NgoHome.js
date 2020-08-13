@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Tabs} from "antd";
+import {API_ROOT} from '../../constants';
 
 const {TabPane} = Tabs;
 
@@ -11,7 +12,10 @@ class NgoHome extends Component {
         address: this.props.session.idToken.payload["address"].formatted,
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
-        phoneNumber:this.props.session.idToken.payload["phone_number"]
+        phoneNumber: this.props.session.idToken.payload["phone_number"],
+        isLoadingItems: false,
+        error: '',
+        NgoItems: []
     }
 
     componentDidMount() {
@@ -21,12 +25,41 @@ class NgoHome extends Component {
         console.log(this.state.NGO);
         console.log(this.state.address);
         console.log(this.state.phoneNumber);
+        // fetch data and setState here NgoItems = []
+        // api get /ngo/search_item
+        // the API_ROOT and exact headers need to be modified later
+        this.setState({ isLoadingItems: true, error: '' });
+        fetch(`${API_ROOT}/ngo/search_item`, {
+            method: 'GET',
+            headers: {
+                Authorization: `${this.props.session.idToken}`
+            }
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+                throw new Error('Failed to load donorItems');
+            })
+            .then((data) => {
+                this.setState({NgoItems: data ? data : [], isLoadingItems: false});
+            })
+            .catch((e) => {
+                console.error(e);
+                this.setState({isLoadingItems: false, error: e.message});
+            })
 
     }
+
     renderHome = () => {
+        const donationCount = this.state.NgoItems.length;
         return (
-            <h2>Hi, {this.state.firstName} {this.state.lastName}!
-                <br/>This is a NGO home page</h2>)
+            <div className="home-tab">
+                <h1>Hi, {this.state.firstName} {this.state.lastName}!
+                    <br/>There are {donationCount} donations around you!</h1>
+                {/*redirect destination of this button needs to be filled later*/}
+                <button className="button-home-tab"><a href="#">Click here to view -></a></button>
+            </div>)
     }
 
     renderProfile = () => {
@@ -46,6 +79,7 @@ class NgoHome extends Component {
             <h2>Hi, {this.state.firstName} {this.state.lastName}!
                 <br/>This is a NGO history page</h2>)
     }
+
     render() {
         return (
             <div>
