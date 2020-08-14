@@ -26,7 +26,7 @@ class MapItemList extends Component{
                         itemLayout="horizontal"
                         dataSource={this.props.items}
                         renderItem={item => (
-                            <MapItem name ={item.name} address={item.address} />
+                            <MapItem key={item.itemId} name ={item.name} address={item.address} />
                         )
                         }
                         />

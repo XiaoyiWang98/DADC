@@ -6,15 +6,16 @@ class MapCompositeTestLoader extends Component{
     constructor(props){
         super(props)
         this.state = {
-            items: []
+            items: [],
+            checked: []
         };
         // make dummy item list
         const item = {
             itemId: 0,
             status: "pending",
             post_date: "2020-08-14",
-            lat: 37.401288,
-            lng: -121.977793,
+            lat: 37.373288,
+            lng: -121.967793,
             name: "name",
             address: {
                 address: "1 Infinite Loop",
@@ -27,10 +28,18 @@ class MapCompositeTestLoader extends Component{
         }
 
         var i;
+        var xd = 0.00, yd = 0.007;
         for(i = 0; i<25; i++){
+            if( i%5 == 0){
+                xd = -0.007
+                yd = - yd
+            }else{
+                xd = 0
+
+            }
             item.itemId = i
-            item.lat -= 0.01
-            item.lng += 0.01
+            item.lat += xd
+            item.lng += yd
             item.name = "name " + i.toString()
             this.setState({items: this.state.items.push(Object.assign({}, item))})
         }

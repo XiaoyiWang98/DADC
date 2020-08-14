@@ -45,8 +45,8 @@ class NormalMap extends Component{
                 defaultCenter={this.props.mapCenter}
             >
                 {<Marker position={this.props.mapCenter} icon={homeIcon} />}
-                {this.props.items.map((item) => (<ItemMarker item={item} />))}
-                {this.state.directions && <DirectionsRenderer directions={this.state.directions} />}
+                {this.props.items.map((item) => (<ItemMarker key={item.itemId} item={item} />))}
+                {this.state.directions && <DirectionsRenderer directions={this.state.directions} options={{suppressMarkers: true}} />}
             </GoogleMap>
             )
 
