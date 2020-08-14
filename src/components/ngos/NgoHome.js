@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Tabs} from "antd";
 
+import NgoNewDonations from "./NgoNewDonations";
+
 const {TabPane} = Tabs;
 
 class NgoHome extends Component {
@@ -36,9 +38,7 @@ class NgoHome extends Component {
     }
 
     renderNewDonations = () => {
-        return (
-            <h2>Hi, {this.state.firstName} {this.state.lastName}!
-                <br/>This is a NGO new donations page</h2>)
+        return <NgoNewDonations/>;
     }
 
     renderHistory = () => {
@@ -46,6 +46,7 @@ class NgoHome extends Component {
             <h2>Hi, {this.state.firstName} {this.state.lastName}!
                 <br/>This is a NGO history page</h2>)
     }
+
     render() {
         return (
             <div>

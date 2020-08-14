@@ -22,7 +22,7 @@ class Main extends Component {
 
     getHome = () => {
         if (this.props.isLoggedIn) {
-            return this.props.session.idToken.payload["custom:custom:NGO"] == 0
+            return this.props.session.idToken.payload["custom:custom:NGO"] === 0
                 ? <DonorHome session={this.props.session} handleLogout={this.props.handleLogout}/>
                 : <NgoHome session={this.props.session} handleLogout={this.props.handleLogout}/>
         } else {
