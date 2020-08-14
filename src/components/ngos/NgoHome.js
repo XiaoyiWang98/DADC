@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Tabs} from "antd";
+import UserProfile from '../users/UserProfile';
 import {API_ROOT} from '../../constants';
-
 import NgoNewDonations from "./NgoNewDonations";
 
 const {TabPane} = Tabs;
@@ -14,7 +14,8 @@ class NgoHome extends Component {
         address: this.props.session.idToken.payload["address"].formatted,
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
-        phoneNumber: this.props.session.idToken.payload["phone_number"],
+        phoneNumber:this.props.session.idToken.payload["phone_number"],
+        email:this.props.session.idToken.payload["email"]
         isLoadingItems: false,
         error: '',
         NgoItems: []
@@ -88,7 +89,7 @@ class NgoHome extends Component {
                         {this.renderHome()}
                     </TabPane>
                     <TabPane tab="Profile" key="2">
-                        {this.renderProfile()}
+                        <UserProfile info={this.state}/>
                     </TabPane>
                     <TabPane tab="NewDonations" key="3">
                         {this.renderNewDonations()}

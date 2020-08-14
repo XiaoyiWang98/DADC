@@ -10,12 +10,10 @@ class NormalLoginForm extends Component {
         await new Promise((resolve,reject)=>{
 
             const user = new CognitoUser({Username, Pool});
-
             const authDetails = new AuthenticationDetails({Username, Password});
-
-            user.authenticateUser(authDetails, {
+            user.authenticateUser(authDetails, {            
                 onSuccess: data => {
-                    console.log("onSuccess: ",data);
+                    console.log("onSuccess: ",data);                   
                     resolve(data);
                 },
                 onFailure: err => {
@@ -27,6 +25,7 @@ class NormalLoginForm extends Component {
                     resolve(data);
                 }
             });
+            console.log('user->',user);
         });
 
     handleSubmit = e => {

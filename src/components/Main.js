@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import Login from "./auth/Login";
 import {Register} from "./auth/Register";
 import {Switch, Route, Redirect} from 'react-router-dom';
-import UserProfile from "./users/UserProfile";
 import DonorHome from "./donors/DonorHome";
 import NgoHome from "./ngos/NgoHome";
 

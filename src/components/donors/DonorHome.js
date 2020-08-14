@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Tabs} from 'antd';
+import UserProfile from '../users/UserProfile';
 import {API_ROOT} from '../../constants';
 
 const {TabPane} = Tabs;
@@ -9,6 +10,7 @@ class DonorHome extends Component {
         user_id: this.props.session.idToken.payload["cognito:username"],
         NGO: this.props.session.idToken.payload["custom:custom:NGO"],
         address: this.props.session.idToken.payload["address"].formatted,
+        email:this.props.session.idToken.payload["email"],
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
         phoneNumber: this.props.session.idToken.payload["phone_number"],
@@ -84,7 +86,7 @@ class DonorHome extends Component {
                         {this.renderHome()}
                     </TabPane>
                     <TabPane tab="Profile" key="2">
-                        {this.renderProfile()}
+                        <UserProfile info={this.state}/>
                     </TabPane>
                     <TabPane tab="History" key="3">
                         {this.renderHistory()}
