@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Tabs} from 'antd';
+import DonorHistory from "../history/DonorHistory";
 
 const {TabPane} = Tabs;
 
@@ -36,8 +37,8 @@ class DonorHome extends Component {
 
     renderHistory = () => {
         return (
-            <h2>Hi, {this.state.firstName} {this.state.lastName}!
-                <br/>This is a donor history page</h2>)
+            <DonorHistory />
+        )
     }
 
     renderDonateNow = () => {

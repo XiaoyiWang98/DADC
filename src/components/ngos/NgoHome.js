@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Tabs} from "antd";
 
 import NgoNewDonations from "./NgoNewDonations";
+import NgoHistory from "../history/NgoHistory";
+import {NGO_PROCESSED_SCHEDULES, NGO_SCHEDULES} from "../history/dummy_history"; // TODO: Replace me!
 
 const {TabPane} = Tabs;
 
@@ -13,17 +15,12 @@ class NgoHome extends Component {
         address: this.props.session.idToken.payload["address"].formatted,
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
-        phoneNumber:this.props.session.idToken.payload["phone_number"]
+        phoneNumber:this.props.session.idToken.payload["phone_number"],
+        isLoadingPickupList: false
     }
 
     componentDidMount() {
-        console.log(this.state.firstName);
-        console.log(this.state.lastName);
-        console.log(this.state.user_id);
-        console.log(this.state.NGO);
-        console.log(this.state.address);
-        console.log(this.state.phoneNumber);
-
+        console.log("NgoHome state -> ", this.state);
     }
     renderHome = () => {
         return (
@@ -42,9 +39,11 @@ class NgoHome extends Component {
     }
 
     renderHistory = () => {
+        // TODO: Make http request to fetch pickup list here!
         return (
-            <h2>Hi, {this.state.firstName} {this.state.lastName}!
-                <br/>This is a NGO history page</h2>)
+            <NgoHistory past_pickups={NGO_PROCESSED_SCHEDULES}
+                        isLoad={this.state.isLoadingPickupList}/>
+        )
     }
 
     render() {
