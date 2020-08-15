@@ -45,10 +45,29 @@ class MapCompositeTestLoader extends Component{
         }
     }
 
+    handlechecked = (id, check) => {
+        if (check && this.state.checked.indexOf(id) === -1){
+            this.setState((state) => {
+                state.checked.push(id);
+                return state;
+            })
+        }else{
+
+            this.setState(this.setState((state) => {
+                state.checked.splice(state.checked.indexOf(id),1);
+                return state;
+            }))
+        }
+
+    }
+
     render() {
 
         return (
-            <MapComposite items={this.state.items} center={{ lat: 37.351288, lng: -121.967793 }}/>
+            <MapComposite items={this.state.items}
+                          center={{ lat: 37.351288, lng: -121.967793 }}
+                          handleCheckedFunction={this.handlechecked}
+            />
         );
     }
 }

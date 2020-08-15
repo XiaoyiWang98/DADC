@@ -12,19 +12,21 @@ class MapItem extends Component {
         this.addressString = [a.city, a.state, a.zip].join(', ')
     }
 
-    toggleChecked = () => {
-        this.setState({ checked: !this.state.checked });
-    };
-
-    toggleDisable = () => {
-        this.setState({ disabled: !this.state.disabled });
-    };
+    // toggleChecked = () => {
+    //     this.setState({ checked: !this.state.checked });
+    // };
+    //
+    // toggleDisable = () => {
+    //     this.setState({ disabled: !this.state.disabled });
+    // };
 
     onChange = e => {
-        console.log('checked = ', e.target.checked);
+        // console.log('checked = ', e.target.checked);
         this.setState({
             checked: e.target.checked,
         });
+        this.props.markFunction(this.props.itemId, e.target.checked)
+        this.props.outMarkFunction(this.props.itemId, e.target.checked)
     };
 
     render(){

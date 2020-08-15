@@ -11,10 +11,19 @@ class MapItemList extends Component{
             container: null
         };
     }
+    mouseEnterItem = (id) => {
+        // console.log('mouse enter', id)
+        this.props.hoverFunction(id, true)
+
+    }
+    mouseLeaveItem = (id) => {
+        // console.log('mouse leave', e)
+        this.props.hoverFunction(id, false)
+    }
 
     render(){
         // const [container, setContainer] = useState(null);
-        console.log(this.props.items)
+        // console.log(this.props.items)
 
         return (
             <div className="scrollable-container" ref={this.setState()}>
@@ -26,7 +35,17 @@ class MapItemList extends Component{
                         itemLayout="horizontal"
                         dataSource={this.props.items}
                         renderItem={item => (
-                            <MapItem key={item.itemId} name ={item.name} address={item.address} />
+                            <div onMouseEnter={() => this.mouseEnterItem(item.itemId)}
+                                 onMouseLeave={() => this.mouseLeaveItem(item.itemId)}>
+                                <MapItem
+                                    key={item.itemId}
+                                    itemId = {item.itemId}
+                                    name ={item.name}
+                                    address={item.address}
+                                    markFunction={this.props.markFunction}
+                                    outMarkFunction={this.props.outMarkFunction}
+                                />
+                            </div>
                         )
                         }
                         />

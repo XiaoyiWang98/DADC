@@ -33,8 +33,13 @@
     background-color: #FFFFFF;
     border-bottom: 1px solid black;
     display: flex;
+    transition:background 1s;
 
 }
+.mapItem:hover{
+    background: rgba(255, 230, 0, 1);
+}
+
 .mapItemAddress{
     text-align: left;
 
@@ -57,3 +62,4 @@
     margin-bottom: auto;
     margin-right: 15px;
 }
+
