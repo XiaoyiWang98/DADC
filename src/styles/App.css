@@ -8,6 +8,7 @@
 @import "ngos/NgoNewDonations.css";
 @import "history/NgoHistory.css";
 @import "history/DonorHistory.css";
+@import "history/NgoHistoryTable.css";
 
 .App {
   text-align: center;
