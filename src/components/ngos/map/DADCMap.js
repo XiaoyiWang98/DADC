@@ -55,6 +55,7 @@ class NormalMap extends Component{
                     origin: new google.maps.LatLng(this.props.mapCenter.lat, this.props.mapCenter.lng),
                     destination: new google.maps.LatLng(this.props.mapCenter.lat, this.props.mapCenter.lng),
                     waypoints: waypoints,
+                    optimizeWaypoints: true,
                     travelMode: google.maps.TravelMode.DRIVING,
                 }, (result, status) => {
                     if (status === google.maps.DirectionsStatus.OK) {

@@ -15,7 +15,7 @@ class NgoHome extends Component {
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
         phoneNumber:this.props.session.idToken.payload["phone_number"],
-        email:this.props.session.idToken.payload["email"]
+        email:this.props.session.idToken.payload["email"],
         isLoadingItems: false,
         error: '',
         NgoItems: []
