@@ -4,7 +4,7 @@ import {Tabs} from "antd";
 import NgoNewDonations from "./NgoNewDonations";
 import NgoHistorySection from "./history/NgoHistorySection";
 import DonorHistorySection from "../donors/history/DonorHistorySection";
-import {DONATED_ITEMS, NGO_PROCESSED_SCHEDULES} from "../history/dummy_history"; // TODO: Replace me!
+import {DONATED_ITEMS, NGO_PROCESSED_SCHEDULES} from "../../tests/dummy_history"; // TODO: Replace me!
 
 const {TabPane} = Tabs;
 

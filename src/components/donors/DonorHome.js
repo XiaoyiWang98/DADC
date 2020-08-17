@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Tabs} from 'antd';
 
 import DonorHistorySection from "./history/DonorHistorySection";
-import { DONATED_ITEMS } from "../history/dummy_history";
+import { DONATED_ITEMS } from "../../tests/dummy_history";
 
 const {TabPane} = Tabs;
 
