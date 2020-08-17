@@ -1,23 +1,23 @@
-.ngo-history-heading {
+.history-heading {
     text-align: left;
     margin: auto;
     font-size: 32px;
     color: black;
 }
 
-.ngo-status-filter {
+.history-status-filter {
     float: left;
     margin-left: 1em;
     margin-top: 2em;
     font-size: 1.2em;
 }
 
-.ngo-status-menu {
+.history-status-menu {
     max-width: 12em;
     text-align: center;
 }
 
-.ngo-history-datepicker {
+.history-datepicker {
     float: left;
     margin-left: 6em;
     margin-top: 2em;

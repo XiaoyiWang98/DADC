@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {Tabs} from "antd";
 
 import NgoNewDonations from "./NgoNewDonations";
-import NgoHistory from "../history/NgoHistory";
-import {NGO_PROCESSED_SCHEDULES, NGO_SCHEDULES} from "../history/dummy_history"; // TODO: Replace me!
+import NgoHistorySection from "./history/NgoHistorySection";
+import DonorHistorySection from "../donors/history/DonorHistorySection";
+import {DONATED_ITEMS, NGO_PROCESSED_SCHEDULES} from "../history/dummy_history"; // TODO: Replace me!
 
 const {TabPane} = Tabs;
 
@@ -41,8 +42,10 @@ class NgoHome extends Component {
     renderHistory = () => {
         // TODO: Make http request to fetch pickup list here!
         return (
-            <NgoHistory past_pickups={NGO_PROCESSED_SCHEDULES}
-                        isLoad={this.state.isLoadingPickupList}/>
+            <DonorHistorySection full_history={DONATED_ITEMS}
+                                 isLoad={this.state.isLoadingPickupList}/>
+            // <NgoHistorySection full_history={NGO_PROCESSED_SCHEDULES}
+            //                    isLoad={this.state.isLoadingPickupList}/>
         )
     }
 

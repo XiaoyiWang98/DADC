@@ -31,6 +31,23 @@ export const DONATED_ITEMS = [
         },
         description: "item2 description",
         image_link: "https://www.nindelivers.com/wp-content/uploads/2019/05/parcel-package.jpeg"
+    },
+
+    {
+        itemId: 1,
+        status: "scheduled",
+        post_date: "2020-08-12",
+        lat: 0,
+        lng: 0,
+        name: "Item 3",
+        address: {
+            address: "1 Infinite Loop",
+            city: "Cupertino",
+            state: "CA",
+            zip: 95014
+        },
+        description: "item3 description",
+        image_link: "https://www.nindelivers.com/wp-content/uploads/2019/05/parcel-package.jpeg"
     }
 ];
 

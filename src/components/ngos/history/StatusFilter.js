@@ -10,7 +10,7 @@ export const StatusFilter = ({filterBy, ...props}) => {
     }
 
     const status_menu = (
-        <Menu className="ngo-status-menu" onClick={onClick}>
+        <Menu className="history-status-menu" onClick={onClick}>
             <Menu.Item key={PENDING}>Pending</Menu.Item>
             <Menu.Item key={COMPLETED}>Completed</Menu.Item>
             <Menu.Divider />
@@ -21,7 +21,7 @@ export const StatusFilter = ({filterBy, ...props}) => {
     return(
         <div {...props}>
             <Dropdown overlay={status_menu} trigger={['click']}>
-                <p className="ngo-status-filter" onClick={e => e.preventDefault()}>
+                <p className="history-status-filter" onClick={e => e.preventDefault()}>
                     Select Pickup Status <DownOutlined />
                 </p>
             </Dropdown>

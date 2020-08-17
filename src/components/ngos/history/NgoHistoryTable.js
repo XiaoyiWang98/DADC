@@ -1,13 +1,23 @@
 import React, {Component} from 'react';
 import {Avatar, Button, List, Spin} from "antd"
-import {COMPLETE_MSG, COMPLETED, PENDING_MSG} from "./constants"
-import gift from "../../assets/images/gift.svg"
+import {COMPLETE_MSG, COMPLETED, PENDING_MSG} from "./constants";
+import gift from "../../../assets/images/gift.svg";
 
 
-class HistoryTable extends Component {
+class NgoHistoryTable extends Component {
+
+    handle_viewOnMap = () => {
+        console.log("View on Map clicked!");
+        // TODO: Route to Map page
+    }
+
+    handle_markComplete = () => {
+        console.log("Mark complete clicked!");
+        // TODO: send http request to backend to update order status
+    };
 
     render() {
-        const { isLoad, filtered_pickups } = this.props;
+        const { isLoad, filtered_history } = this.props;
         return(
             <div className="ngo-pickup-list-box">
                 {isLoad ?
@@ -18,7 +28,7 @@ class HistoryTable extends Component {
                     <List className="ngo-pickup-list"
                           itemLayout="horizontal"
                           size="large"
-                          dataSource={filtered_pickups}
+                          dataSource={filtered_history}
                           renderItem={schedule => {return(
 
                               <List.Item actions={[
@@ -43,4 +53,4 @@ class HistoryTable extends Component {
     }
 }
 
-export default HistoryTable;
+export default NgoHistoryTable;

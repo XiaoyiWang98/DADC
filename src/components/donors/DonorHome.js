@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Tabs} from 'antd';
-import DonorHistory from "../history/DonorHistory";
+
+import DonorHistorySection from "./history/DonorHistorySection";
+import { DONATED_ITEMS } from "../history/dummy_history";
 
 const {TabPane} = Tabs;
 
@@ -11,7 +13,8 @@ class DonorHome extends Component {
         address: this.props.session.idToken.payload["address"].formatted,
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
-        phoneNumber: this.props.session.idToken.payload["phone_number"]
+        phoneNumber: this.props.session.idToken.payload["phone_number"],
+        isLoad: false
     }
 
     componentDidMount() {
@@ -36,8 +39,10 @@ class DonorHome extends Component {
     }
 
     renderHistory = () => {
+        // TODO: get donation history list via HTTP req!
         return (
-            <DonorHistory />
+            <DonorHistorySection full_history={DONATED_ITEMS}
+                                 isLoad={this.state.isLoad}/>
         )
     }
 
