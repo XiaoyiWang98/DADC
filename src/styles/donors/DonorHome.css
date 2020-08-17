@@ -1,0 +1,12 @@
+.ant-tabs-tab{
+    /*font-weight: bold;*/
+}
+
+.ant-tabs-tab-active{
+    background-color: aliceblue;
+}
+
+.home-tab {
+    text-align: left;
+    margin: 50px 50px;
+}

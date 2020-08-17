@@ -1,0 +1,12 @@
+@import "~antd/dist/antd.css";
+@import "Main.css";
+@import "auth/Login.css";
+@import "auth/Register.css";
+@import "TopBar.css";
+@import "donors/DonorHome.css";
+@import "ngos/NgoHome.css";
+@import "ngos/NgoNewDonations.css";
+
+.App {
+  text-align: center;
+}
