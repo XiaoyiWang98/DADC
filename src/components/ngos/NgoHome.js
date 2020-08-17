@@ -42,10 +42,10 @@ class NgoHome extends Component {
     renderHistory = () => {
         // TODO: Make http request to fetch pickup list here!
         return (
-            <DonorHistorySection full_history={DONATED_ITEMS}
-                                 isLoad={this.state.isLoadingPickupList}/>
-            // <NgoHistorySection full_history={NGO_PROCESSED_SCHEDULES}
-            //                    isLoad={this.state.isLoadingPickupList}/>
+            // <DonorHistorySection full_history={DONATED_ITEMS}
+            //                      isLoad={this.state.isLoadingPickupList}/>
+            <NgoHistorySection full_history={NGO_PROCESSED_SCHEDULES}
+                               isLoad={this.state.isLoadingPickupList}/>
         )
     }
 
