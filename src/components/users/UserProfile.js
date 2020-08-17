@@ -10,6 +10,7 @@ class UserProfileForm extends Component {
         user_id: this.props.info.user_id,
         email: this.props.info.email,
         address: this.props.info.address,
+        NGO:this.props.info.NGO,
         lastName: this.props.info.lastName,
         firstName: this.props.info.firstName,
         phoneNumber:this.props.info.phoneNumber,
@@ -32,6 +33,9 @@ class UserProfileForm extends Component {
         console.log(this.state.postal);
     }
 
+    // componentDidUpdate(){
+    //     this.props.updateInfo(this.state);
+    // }
     editProfile = () =>{
         this.setState(
             {edit : !this.state.edit}
@@ -103,6 +107,7 @@ class UserProfileForm extends Component {
                             postal: values.postal,
                             edit: false
                         })
+                        this.props.updateInfo(this.state);
                     }
                     console.log('call result:' + result);            
                 }) 
@@ -150,17 +155,26 @@ class UserProfileForm extends Component {
             <div>
                 {!this.state.edit ? 
                 <div className="profile">
+                    {this.state.NGO == 0 ? 
                     <div className="name">
-                        <div className="first-name">First name: {this.state.firstName}</div> 
-                        <div className="last-name">Last name: {this.state.lastName}</div>
+                    <div className="first-name">First name:   {this.state.firstName}</div> 
+                    <div className="last-name">Last name:   {this.state.lastName}</div>
+                    <EditTwoTone className="edit" size="large" onClick={this.editProfile}/>
+                </div>
+                :
+                <div className="name">
+                        <div className="first-name">Organization name:{this.state.firstName}</div> 
                         <EditTwoTone className="edit" size="large" onClick={this.editProfile}/>
                     </div>
-                    <div className="email">Email: {this.state.email}</div>
-                    <div className="phone">Phone Number: {this.state.phoneNumber}</div>
-                    <div className="address">Address: {this.state.address}</div>
-                    <div className="city">City: {this.state.city}</div>
-                    <div className="state">State: {this.state.state}</div>
-                    <div className="postal">Postal Code: {this.state.postal}</div>
+                }
+                    <div className="email">Email:   {this.state.email}</div>
+                    <div className="phone">Phone Number:   {this.state.phoneNumber}</div>
+                    <div className="address">Address:   <div className="addressInfo"><div>{this.state.address}</div>
+                                                                                <div>{this.state.city}</div>
+                                                                                <div>{this.state.state}</div>
+                                                                                <div>{this.state.postal}</div>
+                                                      </div>
+                    </div>
                 </div>
             :
             <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register" >

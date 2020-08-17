@@ -87,6 +87,18 @@ class DonorHome extends Component {
                 <br/>This is a donor donate now page</h2>)
     }
 
+    updateInfo = (e) =>{
+        this.setState({
+            firstName: e.firstName,
+            lastName: e.lastName,
+            address: e.address,
+            city: e.city,
+            state: e.state,
+            postal: e.postal
+        })
+    }
+
+
     render() {
         return (
             <div>
@@ -95,7 +107,10 @@ class DonorHome extends Component {
                         {this.renderHome()}
                     </TabPane>
                     <TabPane tab="Profile" key="2">
-                        <UserProfile info={this.state}/>
+                        <UserProfile info={this.state}
+                            updateInfo={this.updateInfo}
+                        
+                        />
                     </TabPane>
                     <TabPane tab="History" key="3">
                         {this.renderHistory()}

@@ -28,10 +28,15 @@
     margin-top: 30px;
 }
 .address{
-    /* display:flex; */
+    display:flex;
     margin-top: 30px;
 }
 
 .edit{
     margin-left: 30px;
+}
+
+.addressInfo{
+    /* display: flex; */
+    margin-left: 10px;
 }
