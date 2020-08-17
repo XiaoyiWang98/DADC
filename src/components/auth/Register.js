@@ -26,10 +26,22 @@ class RegistrationForm extends Component {
 
     validateToNextPassword = (rule, value, callback) => {
         const { form } = this.props;
-        if (value && this.state.confirmDirty) {
-            form.validateFields(['confirm'], { force: true });
+        if (value && value.length < 8){
+            callback('Minimum length of the password is 8 characters');
+        }else if(value && !(/\d/.test(value))){
+            callback('Password requires numbers');
+        }else if(value && !(/(?=.*[a-z])/.test(value))){
+            callback('Password requires lowercase letters');
+        }else if(value && !(/(?=.*[A-Z])/.test(value))){
+            callback('Password requires uppercase letters');
+        } else if(value && !(/(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/.test(value))){
+            callback('Password requires special characters');
+        }  else {
+            if (value && this.state.confirmDirty) {
+                form.validateFields(['confirm'], {force: true});
+            }
+            callback();
         }
-        callback();
     };
 
     handleSubmit = e => {
