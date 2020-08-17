@@ -44,7 +44,11 @@ class App extends React.Component{
     }
 
     handleLogout = () => {
-        this.setState((prevState)=>({isLoggedIn:false, session:null}))
+        const user = Pool.getCurrentUser();
+        if (user) {
+            user.signOut();
+            this.setState((prevState)=>({isLoggedIn:false, session:null}))
+        }
     }
 
     render(){
