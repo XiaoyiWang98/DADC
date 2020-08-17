@@ -75,10 +75,15 @@ class NgoHome extends Component {
             </div>)
     }
 
-    renderProfile = () => {
-        return (
-            <h2>Hi, {this.state.firstName} {this.state.lastName}!
-                <br/>This is a NGO profile page</h2>)
+    updateInfo = (e) =>{
+        this.setState({
+            firstName: e.firstName,
+            lastName: e.lastName,
+            address: e.address,
+            city: e.city,
+            state: e.state,
+            postal: e.postal
+        })
     }
 
     renderNewDonations = () => {
@@ -102,7 +107,9 @@ class NgoHome extends Component {
                         {this.renderHome()}
                     </TabPane>
                     <TabPane tab="Profile" key="2">
-                        <UserProfile info={this.state}/>
+                        <UserProfile info={this.state}
+                        updateInfo={this.updateInfo}
+                        />
                     </TabPane>
                     <TabPane tab="NewDonations" key="3">
                         {this.renderNewDonations()}
