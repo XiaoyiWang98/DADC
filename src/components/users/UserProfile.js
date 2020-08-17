@@ -13,17 +13,23 @@ class UserProfileForm extends Component {
         lastName: this.props.info.lastName,
         firstName: this.props.info.firstName,
         phoneNumber:this.props.info.phoneNumber,
+        city:this.props.info.city,
+        state:this.props.info.state,
+        postal:this.props.info.postal,
         edit: false
     }
 
     componentDidMount() {
+        console.log(this.props.info);
         console.log(this.state.firstName);
         console.log(this.state.lastName);
         console.log(this.state.user_id);
         console.log(this.state.address);
         console.log(this.state.phoneNumber);
         console.log(this.state.email);
-
+        console.log(this.state.city);
+        console.log(this.state.state);
+        console.log(this.state.postal);
     }
 
     editProfile = () =>{
@@ -69,6 +75,18 @@ class UserProfileForm extends Component {
                             "Name":"phone_number",
                             "Value":values.phoneNumber
                         },
+                        {
+                            "Name":"custom:city",
+                            "Value":values.city
+                        },
+                        {
+                            "Name":"custom:state",
+                            "Value":values.state
+                        },
+                        {
+                            "Name":"custom:postalCode",
+                            "Value":values.postal
+                        }
                     ], (err, result) => {
                     if(err){
                         alert(err.message || JSON.stringify(err));
@@ -80,6 +98,9 @@ class UserProfileForm extends Component {
                             email:values.email,
                             phoneNumber: values.phoneNumber,
                             address: values.address,
+                            city: values.city,
+                            state: values.state,
+                            postal: values.postal,
                             edit: false
                         })
                     }
@@ -92,7 +113,7 @@ class UserProfileForm extends Component {
 
     render() {
         const {getFieldDecorator } = this.props.form;
-        const {firstName, lastName, phoneNumber, email, address} = this.state;
+        const {firstName, lastName, phoneNumber, email, address, city, state, postal} = this.state;
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
@@ -137,6 +158,9 @@ class UserProfileForm extends Component {
                     <div className="email">Email: {this.state.email}</div>
                     <div className="phone">Phone Number: {this.state.phoneNumber}</div>
                     <div className="address">Address: {this.state.address}</div>
+                    <div className="city">City: {this.state.city}</div>
+                    <div className="state">State: {this.state.state}</div>
+                    <div className="postal">Postal Code: {this.state.postal}</div>
                 </div>
             :
             <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register" >
@@ -195,8 +219,9 @@ class UserProfileForm extends Component {
                     )}
                 </Form.Item>
 
-                {/* <Form.Item label="City">
+                <Form.Item label="City">
                     {getFieldDecorator('city', {
+                        initialValue:city,
                         rules: [{ required: true, message: 'Please input the city of your mailing address!' }],
                     })(
                         // <Input
@@ -208,6 +233,7 @@ class UserProfileForm extends Component {
 
                 <Form.Item label="State">
                     {getFieldDecorator('state', {
+                        initialValue:state,
                         rules: [{ required: true, message: 'Please input the state of your mailing address!' }],
                     })(
                         // <Input
@@ -219,6 +245,7 @@ class UserProfileForm extends Component {
 
                 <Form.Item label="Postal Code">
                     {getFieldDecorator('postal', {
+                        initialValue:postal,
                         rules: [{ required: true, message: 'Please input the postal code of your mailing address!' }],
                     })(
                         // <Input
@@ -226,10 +253,7 @@ class UserProfileForm extends Component {
                         // />,
                         <Input placeholder="Ex: 94116"  />
                     )}
-                </Form.Item> */}
-
-                
-
+                </Form.Item>
            
 
                 <Form.Item {...tailFormItemLayout}>

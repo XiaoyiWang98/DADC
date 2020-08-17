@@ -47,8 +47,6 @@ class RegistrationForm extends Component {
                     values.ngo = "0";
                 }
 
-                values.address = values.address.concat(", ",values.city,", ",values.state," ",values.postal)
-
                 console.log('Received values of form: ', values);
 
                 UserPool.signUp(values.email,values.password,
@@ -80,6 +78,18 @@ class RegistrationForm extends Component {
                         {
                             "Name":"custom:custom:NGO",
                             "Value":values.ngo
+                        },
+                        {
+                            "Name":"custom:city",
+                            "Value":values.city
+                        },
+                        {
+                            "Name":"custom:state",
+                            "Value":values.state
+                        },
+                        {
+                            "Name":"custom:postalCode",
+                            "Value":values.postal
                         }
                     ]
                     ,null,(err,data)=>{
