@@ -7,6 +7,9 @@
 @import "ngos/NgoHome.css";
 @import "ngos/map/MapComposite.css";
 @import "ngos/NgoNewDonations.css";
+@import "history/HistorySection.css";
+@import "history/DonorHistoryTable.css";
+@import "history/NgoHistoryTable.css";
 
 .App {
   text-align: center;

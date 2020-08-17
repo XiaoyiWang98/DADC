@@ -3,6 +3,9 @@ import {Tabs} from 'antd';
 import UserProfile from '../users/UserProfile';
 import {API_ROOT} from '../../constants';
 
+import DonorHistorySection from "./history/DonorHistorySection";
+import { DONATED_ITEMS } from "../../tests/dummy_history";
+
 const {TabPane} = Tabs;
 
 class DonorHome extends Component {
@@ -14,6 +17,7 @@ class DonorHome extends Component {
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
         phoneNumber: this.props.session.idToken.payload["phone_number"],
+        isLoadingHistory: false,
         isLoadingItems: false,
         error: '',
         donorItems: []
@@ -67,9 +71,11 @@ class DonorHome extends Component {
     }
 
     renderHistory = () => {
+        // TODO: get donation history list via HTTP req!
         return (
-            <h2>Hi, {this.state.firstName} {this.state.lastName}!
-                <br/>This is a donor history page</h2>)
+            <DonorHistorySection full_history={DONATED_ITEMS}
+                                 isLoad={this.state.isLoadingHistory}/>
+        )
     }
 
     renderDonateNow = () => {

@@ -3,6 +3,11 @@ import {Tabs} from "antd";
 import UserProfile from '../users/UserProfile';
 import {API_ROOT} from '../../constants';
 import NgoNewDonations from "./NgoNewDonations";
+import MapComposite from "./map/MapComposite";
+import MapCompositeTestLoader from "./map/MapCompositeTestLoader";
+import NgoHistorySection from "./history/NgoHistorySection";
+import DonorHistorySection from "../donors/history/DonorHistorySection";
+import {DONATED_ITEMS, NGO_PROCESSED_SCHEDULES} from "../../tests/dummy_history"; // TODO: Replace me!
 
 const {TabPane} = Tabs;
 
@@ -15,6 +20,7 @@ class NgoHome extends Component {
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
         phoneNumber:this.props.session.idToken.payload["phone_number"],
+        isLoadingPickupList: false,
         email:this.props.session.idToken.payload["email"],
         isLoadingItems: false,
         error: '',
@@ -50,8 +56,7 @@ class NgoHome extends Component {
             .catch((e) => {
                 console.error(e);
                 this.setState({isLoadingItems: false, error: e.message});
-            })
-
+            });
     }
 
     renderHome = () => {
@@ -72,13 +77,16 @@ class NgoHome extends Component {
     }
 
     renderNewDonations = () => {
-        return <NgoNewDonations/>;
+        //return <NgoNewDonations/>; TODO: Add Calender!
+        return <MapCompositeTestLoader />
     }
 
     renderHistory = () => {
+        // TODO: Make http request to fetch pickup list here!
         return (
-            <h2>Hi, {this.state.firstName} {this.state.lastName}!
-                <br/>This is a NGO history page</h2>)
+            <NgoHistorySection full_history={NGO_PROCESSED_SCHEDULES}
+                               isLoad={this.state.isLoadingPickupList}/>
+        )
     }
 
     render() {
