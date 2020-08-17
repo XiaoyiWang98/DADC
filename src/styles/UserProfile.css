@@ -1,0 +1,37 @@
+.profile{
+    text-align: left;
+    margin-top: 50px;
+    margin-left: 400px;
+    font-size: large;
+    font-weight: bolder;
+}
+.center{
+    align-items: left;
+}
+
+.name{
+    display: flex;
+}
+
+.last-name{
+    margin-left: 80px;
+
+}
+
+.email{
+    /* display: flex; */
+    margin-top: 30px;
+}
+
+.phone{
+    /* display:flex; */
+    margin-top: 30px;
+}
+.address{
+    /* display:flex; */
+    margin-top: 30px;
+}
+
+.edit{
+    margin-left: 30px;
+}

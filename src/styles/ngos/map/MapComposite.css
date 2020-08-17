@@ -1,0 +1,65 @@
+.mapComposite{
+    flex: auto;
+    height: 700px;
+    width: 100%
+}
+
+.map{
+    height: 100%;
+    width: 70%;
+    float: left;
+}
+
+.itemList{
+    height: 100%;
+    width: 30%;
+    float: right;
+}
+
+.scrollable-container {
+    height: 100%;
+    overflow-y: scroll;
+
+}
+.background {
+    height: 700px;
+    background-image: url('https://zos.alipayobjects.com/rmsportal/RmjwQiJorKyobvI.jpg');
+}
+
+.mapItem {
+    height: 100px;
+    width: 100%;
+
+    background-color: #FFFFFF;
+    border-bottom: 1px solid black;
+    display: flex;
+    transition:background 1s;
+
+}
+.mapItem:hover{
+    background: rgba(255, 230, 0, 1);
+}
+
+.mapItemAddress{
+    text-align: left;
+
+}
+.mapItemName{
+    font-weight: bold;
+    text-align: left;
+}
+.mapItemImage{
+    height: 100%;
+    width: 100px;
+    background-image: url('https://via.placeholder.com/100');
+}
+.mapItemDetail{
+
+}
+.mapItemCheckbox{
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 15px;
+}
+

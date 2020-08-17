@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import Login from "./auth/Login";
 import {Register} from "./auth/Register";
 import {Switch, Route, Redirect} from 'react-router-dom';
-import UserProfile from "./users/UserProfile";
 import DonorHome from "./donors/DonorHome";
 import NgoHome from "./ngos/NgoHome";
+import MapCompositeTestLoader from "./ngos/map/MapCompositeTestLoader";
 
 class Main extends Component {
 
@@ -22,7 +22,7 @@ class Main extends Component {
 
     getHome = () => {
         if (this.props.isLoggedIn) {
-            return this.props.session.idToken.payload["custom:custom:NGO"] === 0
+            return this.props.session.idToken.payload["custom:custom:NGO"] == 0
                 ? <DonorHome session={this.props.session} handleLogout={this.props.handleLogout}/>
                 : <NgoHome session={this.props.session} handleLogout={this.props.handleLogout}/>
         } else {
@@ -43,6 +43,7 @@ class Main extends Component {
                     <Route exact path="/register" render={this.getRegister}/>
                     <Route exact path="/" render={this.getLogin}/>
                     <Route exact path="/home" render={this.getHome}/>
+                    <Route exact path="/mapTest" component={MapCompositeTestLoader}/>
                 </Switch>
             </div>
         );
