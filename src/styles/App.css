@@ -6,6 +6,7 @@
 @import "donors/DonorHome.css";
 @import "ngos/NgoHome.css";
 @import "ngos/map/MapComposite.css";
+@import "ngos/NgoNewDonations.css";
 
 .App {
   text-align: center;
