@@ -17,6 +17,9 @@ class NgoHome extends Component {
         user_id: this.props.session.idToken.payload["cognito:username"],
         NGO: this.props.session.idToken.payload["custom:custom:NGO"],
         address: this.props.session.idToken.payload["address"].formatted,
+        city:this.props.session.idToken.payload["custom:city"],
+        state:this.props.session.idToken.payload["custom:state"],
+        postal:this.props.session.idToken.payload["custom:postalCode"],
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
         phoneNumber:this.props.session.idToken.payload["phone_number"],
@@ -34,6 +37,8 @@ class NgoHome extends Component {
         console.log(this.state.NGO);
         console.log(this.state.address);
         console.log(this.state.phoneNumber);
+        console.log(this.state.city);
+        console.log(this.state.postal);
         // fetch data and setState here NgoItems = []
         // api get /ngo/search_item
         // the API_ROOT and exact headers need to be modified later
