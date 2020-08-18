@@ -3,6 +3,11 @@ import {Tabs} from "antd";
 import UserProfile from '../users/UserProfile';
 import {API_ROOT} from '../../constants';
 import NgoNewDonations from "./NgoNewDonations";
+import MapComposite from "./map/MapComposite";
+import MapCompositeTestLoader from "./map/MapCompositeTestLoader";
+import NgoHistorySection from "./history/NgoHistorySection";
+import DonorHistorySection from "../donors/history/DonorHistorySection";
+import {DONATED_ITEMS, NGO_PROCESSED_SCHEDULES} from "../../tests/dummy_history"; // TODO: Replace me!
 
 const {TabPane} = Tabs;
 
@@ -12,9 +17,13 @@ class NgoHome extends Component {
         user_id: this.props.session.idToken.payload["cognito:username"],
         NGO: this.props.session.idToken.payload["custom:custom:NGO"],
         address: this.props.session.idToken.payload["address"].formatted,
+        city:this.props.session.idToken.payload["custom:city"],
+        state:this.props.session.idToken.payload["custom:state"],
+        postal:this.props.session.idToken.payload["custom:postalCode"],
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
         phoneNumber:this.props.session.idToken.payload["phone_number"],
+        isLoadingPickupList: false,
         email:this.props.session.idToken.payload["email"],
         isLoadingItems: false,
         error: '',
@@ -28,6 +37,8 @@ class NgoHome extends Component {
         console.log(this.state.NGO);
         console.log(this.state.address);
         console.log(this.state.phoneNumber);
+        console.log(this.state.city);
+        console.log(this.state.postal);
         // fetch data and setState here NgoItems = []
         // api get /ngo/search_item
         // the API_ROOT and exact headers need to be modified later
@@ -50,8 +61,7 @@ class NgoHome extends Component {
             .catch((e) => {
                 console.error(e);
                 this.setState({isLoadingItems: false, error: e.message});
-            })
-
+            });
     }
 
     renderHome = () => {
@@ -65,20 +75,28 @@ class NgoHome extends Component {
             </div>)
     }
 
-    renderProfile = () => {
-        return (
-            <h2>Hi, {this.state.firstName} {this.state.lastName}!
-                <br/>This is a NGO profile page</h2>)
+    updateInfo = (e) =>{
+        this.setState({
+            firstName: e.firstName,
+            lastName: e.lastName,
+            address: e.address,
+            city: e.city,
+            state: e.state,
+            postal: e.postal
+        })
     }
 
     renderNewDonations = () => {
-        return <NgoNewDonations/>;
+        //return <NgoNewDonations/>; TODO: Add Calender!
+        return <MapCompositeTestLoader />
     }
 
     renderHistory = () => {
+        // TODO: Make http request to fetch pickup list here!
         return (
-            <h2>Hi, {this.state.firstName} {this.state.lastName}!
-                <br/>This is a NGO history page</h2>)
+            <NgoHistorySection full_history={NGO_PROCESSED_SCHEDULES}
+                               isLoad={this.state.isLoadingPickupList}/>
+        )
     }
 
     render() {
@@ -89,7 +107,9 @@ class NgoHome extends Component {
                         {this.renderHome()}
                     </TabPane>
                     <TabPane tab="Profile" key="2">
-                        <UserProfile info={this.state}/>
+                        <UserProfile info={this.state}
+                        updateInfo={this.updateInfo}
+                        />
                     </TabPane>
                     <TabPane tab="NewDonations" key="3">
                         {this.renderNewDonations()}

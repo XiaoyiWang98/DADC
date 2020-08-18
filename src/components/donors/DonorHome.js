@@ -3,6 +3,9 @@ import {Tabs} from 'antd';
 import UserProfile from '../users/UserProfile';
 import {API_ROOT} from '../../constants';
 
+import DonorHistorySection from "./history/DonorHistorySection";
+import { DONATED_ITEMS } from "../../tests/dummy_history";
+
 const {TabPane} = Tabs;
 
 class DonorHome extends Component {
@@ -10,10 +13,14 @@ class DonorHome extends Component {
         user_id: this.props.session.idToken.payload["cognito:username"],
         NGO: this.props.session.idToken.payload["custom:custom:NGO"],
         address: this.props.session.idToken.payload["address"].formatted,
+        city:this.props.session.idToken.payload["custom:city"],
+        state:this.props.session.idToken.payload["custom:state"],
+        postal:this.props.session.idToken.payload["custom:postalCode"],
         email:this.props.session.idToken.payload["email"],
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
         phoneNumber: this.props.session.idToken.payload["phone_number"],
+        isLoadingHistory: false,
         isLoadingItems: false,
         error: '',
         donorItems: []
@@ -67,9 +74,11 @@ class DonorHome extends Component {
     }
 
     renderHistory = () => {
+        // TODO: get donation history list via HTTP req!
         return (
-            <h2>Hi, {this.state.firstName} {this.state.lastName}!
-                <br/>This is a donor history page</h2>)
+            <DonorHistorySection full_history={DONATED_ITEMS}
+                                 isLoad={this.state.isLoadingHistory}/>
+        )
     }
 
     renderDonateNow = () => {
@@ -77,6 +86,18 @@ class DonorHome extends Component {
             <h2>Hi, {this.state.firstName} {this.state.lastName}!
                 <br/>This is a donor donate now page</h2>)
     }
+
+    updateInfo = (e) =>{
+        this.setState({
+            firstName: e.firstName,
+            lastName: e.lastName,
+            address: e.address,
+            city: e.city,
+            state: e.state,
+            postal: e.postal
+        })
+    }
+
 
     render() {
         return (
@@ -86,7 +107,10 @@ class DonorHome extends Component {
                         {this.renderHome()}
                     </TabPane>
                     <TabPane tab="Profile" key="2">
-                        <UserProfile info={this.state}/>
+                        <UserProfile info={this.state}
+                            updateInfo={this.updateInfo}
+                        
+                        />
                     </TabPane>
                     <TabPane tab="History" key="3">
                         {this.renderHistory()}

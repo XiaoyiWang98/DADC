@@ -4,6 +4,7 @@ import {Register} from "./auth/Register";
 import {Switch, Route, Redirect} from 'react-router-dom';
 import DonorHome from "./donors/DonorHome";
 import NgoHome from "./ngos/NgoHome";
+import MapCompositeTestLoader from "./ngos/map/MapCompositeTestLoader";
 
 class Main extends Component {
 
@@ -42,6 +43,7 @@ class Main extends Component {
                     <Route exact path="/register" render={this.getRegister}/>
                     <Route exact path="/" render={this.getLogin}/>
                     <Route exact path="/home" render={this.getHome}/>
+                    <Route exact path="/mapTest" component={MapCompositeTestLoader}/>
                 </Switch>
             </div>
         );

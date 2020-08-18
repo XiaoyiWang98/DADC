@@ -1,0 +1,24 @@
+.history-heading {
+    text-align: left;
+    margin: auto;
+    font-size: 32px;
+    color: black;
+}
+
+.history-status-filter {
+    float: left;
+    margin-left: 1em;
+    margin-top: 2em;
+    font-size: 1.2em;
+}
+
+.history-status-menu {
+    max-width: 12em;
+    text-align: center;
+}
+
+.history-datepicker {
+    float: left;
+    margin-left: 6em;
+    margin-top: 2em;
+}
