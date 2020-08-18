@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Tabs} from "antd";
+import {Button, Tabs} from "antd";
 import UserProfile from '../users/UserProfile';
 import {API_ROOT} from '../../constants';
 import NgoNewDonations from "./NgoNewDonations";
@@ -27,7 +27,8 @@ class NgoHome extends Component {
         email:this.props.session.idToken.payload["email"],
         isLoadingItems: false,
         error: '',
-        NgoItems: []
+        NgoItems: [],
+        activeTabKey: '1'
     }
 
     componentDidMount() {
@@ -70,8 +71,7 @@ class NgoHome extends Component {
             <div className="home-tab">
                 <h1>Hi, {this.state.firstName} {this.state.lastName}!
                     <br/>There are {donationCount} donations around you!</h1>
-                {/*redirect destination of this button needs to be filled later*/}
-                <button className="button-home-tab"><a href="#">Click here to view -></a></button>
+                <Button className="button-home-tab" onClick={() => this.changeActiveTab("3")}>Click here to view -></Button>
             </div>)
     }
 
@@ -99,10 +99,16 @@ class NgoHome extends Component {
         )
     }
 
+    changeActiveTab = (targetTabKey) => {
+        this.setState({
+            activeTabKey: targetTabKey
+        })
+    }
+
     render() {
         return (
             <div>
-                <Tabs tabPosition="left">
+                <Tabs activeKey={this.state.activeTabKey} onChange={this.changeActiveTab} tabPosition="left">
                     <TabPane tab="Home" key="1">
                         {this.renderHome()}
                     </TabPane>
