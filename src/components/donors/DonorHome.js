@@ -60,9 +60,13 @@ class DonorHome extends Component {
     }
 
     renderHome = () => {
+        const donorItems = this.state.donorItems;
+        const pendingItems = donorItems.filter(item => item.status === "pending");
+        const pendingItemCount = pendingItems.length;
         return (
             <div className="home-tab">
                 <h1>Hi, {this.state.firstName} {this.state.lastName}!
+                    <br/>You have {pendingItemCount} unscheduled donations!
                     <br/>Make your donations today!</h1>
             </div>)
     }
