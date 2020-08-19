@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
 import Login from "../auth/Login";
-import DonorHome from "../donors/DonorHome";
 import NgoHome from "./NgoHome";
 import {Register} from "../auth/Register";
 import MapCompositeTestLoader from "./map/MapCompositeTestLoader";
-import NgoNewDonations from "./NgoNewDonations"
 import TopBar from "../TopBar";
 import NgoNavbar from "./NgoNavbar";
 import NgoHistorySection from "./history/NgoHistorySection";
@@ -76,17 +74,22 @@ class NgoMain extends Component {
             : <Login handleLoginSucceed={this.props.handleLoginSucceed}/>;
     }
 
+    getHome = () => {
+        return this.props.isLoggedIn
+            ? <NgoHome session={this.props.session}
+                       handleLogout={this.props.handleLogout}
+                       firstName={this.state.firstName}
+                       lastName={this.state.lastName}
+                       donationCount={this.state.NgoItems.length}
+            />
+            : <Redirect to={"/"} />
+    }
+
     getProfile = () => {
         return this.props.isLoggedIn
             //? <UserProfile session={this.props.session} handleLogout={this.props.handleLogout}/>
             ? <UserProfile info={this.state} updateInfo={this.updateInfo}/>
             : <Redirect to="/"/>
-    }
-
-    getHome = () => {
-        return this.props.isLoggedIn
-            ? <NgoHome session={this.props.session} handleLogout={this.props.handleLogout}/>
-            : <Redirect to={"/"} />
     }
 
     getRegister = () => {

@@ -61,6 +61,31 @@ class App extends React.Component{
         return this.state.session.idToken.payload["custom:custom:NGO"] == 0;
     }
 
+    getLoggedInUserMain = () => {
+        return this.isDonor()
+            ? <DonorMain isLoggedIn={this.state.isLoggedIn}
+                         session={this.state.session}
+                         handleLoginSucceed = {this.handleLoginSucceed}
+                         handleLogout = {this.handleLogout}/>
+            : <NgoMain isLoggedIn={this.state.isLoggedIn}
+                       session={this.state.session}
+                       handleLoginSucceed={this.handleLoginSucceed}
+                       handleLogout={this.handleLogout}/>
+    }
+
+    getAuthPageWithRouter = () => {
+        return(
+            <div className="auth-main">
+                <Switch>
+                    <Route exact path="/register" render={() => <Register handleLogout={this.handleLogout}/>}/>
+                    <Route exact path="/" render={() => <Login handleLoginSucceed={this.handleLoginSucceed}/>}/>
+
+                    <Route render={() => <Login handleLoginSucceed={this.handleLoginSucceed}/>}/>
+                </Switch>
+            </div>
+        );
+    }
+
     render(){
         return (
             <div className="App">
@@ -69,24 +94,9 @@ class App extends React.Component{
                     <div>
                         <TopBar handleLogout={this.handleLogout}
                                 isLoggedIn={this.state.isLoggedIn}/>
-                        <div className="auth-main">
-                            <Switch>
-                                <Route exact path="/register" render={() => <Register handleLogout={this.handleLogout}/>}/>
-                                <Route exact path="/" render={() => <Login handleLoginSucceed={this.handleLoginSucceed}/>}/>
-
-                                <Route render={() => <Login handleLoginSucceed={this.handleLoginSucceed}/>}/>
-                            </Switch>
-                        </div>
+                        {this.getAuthPageWithRouter()}
                     </div>
-                    : this.isDonor()
-                        ? <DonorMain isLoggedIn={this.state.isLoggedIn}
-                                     session={this.state.session}
-                                     handleLoginSucceed = {this.handleLoginSucceed}
-                                     handleLogout = {this.handleLogout}/>
-                        : <NgoMain isLoggedIn={this.state.isLoggedIn}
-                                   session={this.state.session}
-                                   handleLoginSucceed={this.handleLoginSucceed}
-                                   handleLogout={this.handleLogout}/>
+                    : this.getLoggedInUserMain()
                 }
             </div>
         );

@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import NgoMain from "./ngos/NgoMain"
-import DonorMain from "./donors/DonorMain"
+import NgoMain from "./ngos/NgoMain";
+import DonorMain from "./donors/DonorMain";
 
+// TODO: Delete me? (Leave the auth route in App.js?)
 
 class AppMain extends Component {
 
