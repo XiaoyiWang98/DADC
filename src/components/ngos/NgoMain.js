@@ -31,6 +31,7 @@ class NgoMain extends Component {
 
     componentDidMount() {
         console.log(this.state);
+        // TODO: Check if fetch() is async. Consider using axios.get()
         // fetch data and setState here NgoItems = []
         // api get /ngo/search_item
         // the API_ROOT and exact headers need to be modified later
@@ -67,7 +68,6 @@ class NgoMain extends Component {
         })
     }
 
-
     getLogin = () => {
         return this.props.isLoggedIn
             ? <Redirect to="/ngo/home"/>
@@ -99,7 +99,6 @@ class NgoMain extends Component {
     }
 
     render() {
-        console.log("NgoMain called!");
         return (
             <div className="ngo-main">
                 <TopBar handleLogout={this.props.handleLogout} isLoggedIn={this.props.isLoggedIn}/>

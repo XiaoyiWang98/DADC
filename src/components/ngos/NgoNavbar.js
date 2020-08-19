@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {Container, Icon, Nav, Sidenav, Sidebar} from 'rsuite';
+import {Icon, Nav, Sidenav} from 'rsuite';
 
 
 class NgoNavbar extends Component {
-
+    // TODO: This side bar is on top of the page... Change style to move it to the LEFT!
     render() {
         return (
             <div style={{width: 250, overflow: "hidden"}}>
