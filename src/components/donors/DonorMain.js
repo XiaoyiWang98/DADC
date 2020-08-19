@@ -6,7 +6,7 @@ class DonorMain extends Component {
         return (
             <div className="donor-main">
                 <TopBar handleLogout={this.props.handleLogout} isLoggedIn={this.props.isLoggedIn}/>
-                This is Donor Main!
+                This is Donor Main placeholder! Router in progress...
             </div>
         );
     }
