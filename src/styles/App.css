@@ -1,4 +1,6 @@
 @import "~antd/dist/antd.css";
+@import "~rsuite/dist/styles/rsuite-default.css";
+
 @import "Main.css";
 @import "auth/Login.css";
 @import "auth/Register.css";
@@ -10,6 +12,8 @@
 @import "history/HistorySection.css";
 @import "history/DonorHistoryTable.css";
 @import "history/NgoHistoryTable.css";
+
+
 
 .App {
   text-align: center;

@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
-import Login from "./auth/Login";
-import {Register} from "./auth/Register";
-import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
-import DonorHome from "./donors/DonorHome";
-import NgoHome from "./ngos/NgoHome";
-import MapCompositeTestLoader from "./ngos/map/MapCompositeTestLoader";
-import NgoNewDonations from "./ngos/NgoNewDonations";
+import NgoMain from "./ngos/NgoMain"
+import DonorMain from "./donors/DonorMain"
 
-class Main extends Component {
+
+class AppMain extends Component {
 
     getLogin = () => {
         return this.props.isLoggedIn
@@ -43,14 +39,34 @@ class Main extends Component {
                 <Switch>
                     <Route exact path="/register" render={this.getRegister}/>
                     <Route exact path="/" render={this.getLogin}/>
-                    <Route exact path="/home" render={this.getHome}/>
-                    <Route exact path="/mapTest" component={MapCompositeTestLoader}/>
-                    <Route exact path="/completed_pickup" component={NgoNewDonations} />
+                    {/*<Route exact path="/home" render={this.getHome}/>*/}
+                    {/*<Route exact path="/mapTest" component={MapCompositeTestLoader}/>*/}
+
                 </Switch>
             </div>
         );
     }
 
+
+    isNgo = () => {
+        return this.props.session.idToken.payload["custom:custom:NGO"] == 0;
+    }
+
+    render() {
+        return (
+            <div>
+                {this.isNgo()
+                    ? <NgoMain isLoggedIn={this.props.isLoggedIn}
+                               session={this.props.session}
+                               handleLoginSucceed={this.props.handleLoginSucceed}
+                               handleLogout={this.props.handleLogout}/>
+                    : <DonorMain isLoggedIn={this.props.isLoggedIn}
+                                 session={this.props.session}
+                                 handleLoginSucceed = {this.props.handleLoginSucceed}
+                                 handleLogout = {this.props.handleLogout}/>}
+            </div>
+        );
+    }
 }
 
-export default Main;
+export default AppMain;

@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import {Tabs} from "antd";
 import UserProfile from '../users/UserProfile';
 import {API_ROOT} from '../../constants';
-import NgoNewDonations from "./NgoNewDonations";
+//import NgoNewDonations from "./NgoNewDonations";
 import MapComposite from "./map/MapComposite";
 import MapCompositeTestLoader from "./map/MapCompositeTestLoader";
 import NgoHistorySection from "./history/NgoHistorySection";
 import DonorHistorySection from "../donors/history/DonorHistorySection";
-import {DONATED_ITEMS, NGO_PROCESSED_SCHEDULES} from "../../tests/dummy_history"; // TODO: Replace me!
+import {DONATED_ITEMS, NGO_PROCESSED_SCHEDULES} from "../../tests/dummy_history";
+import {Link} from "react-router-dom" // TODO: Replace me!
 
 const {TabPane} = Tabs;
 
@@ -100,26 +101,34 @@ class NgoHome extends Component {
     }
 
     render() {
+        const donationCount = this.state.NgoItems.length;
         return (
-            <div>
-                <Tabs tabPosition="left">
-                    <TabPane tab="Home" key="1">
-                        {this.renderHome()}
-                    </TabPane>
-                    <TabPane tab="Profile" key="2">
-                        <UserProfile info={this.state}
-                        updateInfo={this.updateInfo}
-                        />
-                    </TabPane>
-                    <TabPane tab="NewDonations" key="3">
-                        {this.renderNewDonations()}
-                    </TabPane>
-                    <TabPane tab="History" key="4">
-                        {this.renderHistory()}
-                    </TabPane>
-                </Tabs>
+            <div className="home-tab">
+                <h1>Hi, {this.state.firstName} {this.state.lastName}!
+                    <br/>There are {donationCount} donations around you!</h1>
+                {/*redirect destination of this button needs to be filled later*/}
+                <button className="button-home-tab"><a href="#">Click here to view -></a></button>
             </div>
         );
+        // return (
+        //     <div>
+        //         <Tabs tabPosition="left">
+        //             <TabPane tab="Home" key="1">
+        //                 {this.renderHome()}
+        //             </TabPane>
+        //             <TabPane tab="Profile" key="2">
+        //                 <UserProfile info={this.state}
+        //                              updateInfo={this.updateInfo}/>
+        //             </TabPane>
+        //             <TabPane tab="New Donations" key="3">
+        //                 {this.renderNewDonations()}
+        //             </TabPane>
+        //             <TabPane tab="History" key="4">
+        //                 {/*{this.renderHistory()}*/}
+        //             </TabPane>
+        //         </Tabs>
+        //     </div>
+        // );
     }
 
 }
