@@ -1,6 +1,12 @@
 import React, {Component} from 'react';
-import {Avatar, Button, List, Spin} from "antd"
-import {COMPLETE_MSG, COMPLETED, PENDING_MSG} from "./constants";
+import {Link} from 'react-router-dom';
+import {Avatar, Button, List, Spin} from "antd";
+import axios from "axios";
+
+import {
+    COMPLETE_MSG, COMPLETED, PENDING_MSG,
+    URL_GET_SCHEDULES, URL_POST_COMPLETE_SCHEDULE
+} from "./constants";
 import gift from "../../../assets/images/gift.svg";
 
 
@@ -8,12 +14,28 @@ class NgoHistoryTable extends Component {
 
     handle_viewOnMap = () => {
         console.log("View on Map clicked!");
-        // TODO: Route to Map page
+        // let path = "/completed_pickup";
+        // let history = useHistory();
+        // history.push(path);
     }
 
-    handle_markComplete = () => {
-        console.log("Mark complete clicked!");
-        // TODO: send http request to backend to update order status
+    handle_markComplete = (e) => {
+        console.log("Mark complete trigger event:", e);
+        console.log("scheduleId: ", e.target.value);
+
+        // TODO: Has not been tested!!
+        axios.post(URL_POST_COMPLETE_SCHEDULE,
+            {schedule_id: e.target.value})
+            .then( response => {
+                console.log("Mark complete succeeded!");
+            })
+            .catch( error => {
+                console.log("Mark complete FAILED!");
+                alert("Fail to mark this schedule as completed!");
+        });
+
+        // TODO: Fetch history from backend again! <== multiple users modifying the same history list)
+
     };
 
     render() {
@@ -32,13 +54,16 @@ class NgoHistoryTable extends Component {
                           renderItem={schedule => {return(
 
                               <List.Item actions={[
-                                  <Button onClick={this.handle_viewOnMap}>View on Map</Button>,
+                                  <Link to={"/ngo/mapTest"}>
+                                      {/*TODO: Fow now, route to mapTest (replace with a new component later)*/}
+                                      <Button onClick={this.handle_viewOnMap}>View on Map</Button>
+                                  </Link>,
                                   schedule.status === COMPLETED ? null
-                                      : <Button onClick={this.handle_markComplete}>Mark Completed</Button>]}>
+                                      : <Button value={schedule.scheduleId} onClick={this.handle_markComplete}>
+                                          Mark Completed</Button>]}>
                                   <List.Item.Meta
                                       avatar={<Avatar size={60} src={gift} alt="donation items"/>}
-                                      title={<p>{`Total Items: ${schedule.itemList.length}`}
-                                          <br/>{`Total Stops: ${schedule.totalLocations}`}</p>}
+                                      title={<p>{`Total Items: ${schedule.itemList.length}`}</p>}
                                       description={`Date: ${schedule.scheduleDate}`}/>
                                   {schedule.status === COMPLETED
                                       ? <div className="ngo-pickup-complete-text">{COMPLETE_MSG}</div>

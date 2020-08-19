@@ -36,7 +36,7 @@ class NormalLoginForm extends Component {
                     .then(data=>{
                         console.log('Logged in!', data);
                         message.success("Login Success");
-                        this.props.handleLoginSuccessed();
+                        this.props.handleLoginSucceed();
                     })
                     .catch(err=>{
                         console.error('Failed to login!',err.code);

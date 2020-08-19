@@ -1,3 +1,9 @@
+.history-container {
+    margin-left: 3em;
+    margin-right: 3em;
+    margin-bottom: 1em;
+}
+
 .history-heading {
     text-align: left;
     margin: auto;
