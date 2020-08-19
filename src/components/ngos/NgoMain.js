@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
+
 import Login from "../auth/Login";
 import NgoHome from "./NgoHome";
 import {Register} from "../auth/Register";
@@ -9,6 +10,7 @@ import NgoNavbar from "./NgoNavbar";
 import NgoHistorySection from "./history/NgoHistorySection";
 import UserProfile from "../users/UserProfile";
 import {API_ROOT} from "../../constants";
+import {NGO_PROCESSED_SCHEDULES} from "../../tests/dummy_history";
 
 class NgoMain extends Component {
 
@@ -98,6 +100,14 @@ class NgoMain extends Component {
             : <Register handleLogout={this.props.handleLogout}/>;
     }
 
+    getHistory = () => {
+        // TODO: Add axios.get to get history from backend
+        return this.props.isLoggedIn
+            ? <NgoHistorySection full_history={NGO_PROCESSED_SCHEDULES}
+                                 isLoad={this.state.isLoadingPickupList}/>
+            : <Redirect to="/"/>
+    }
+
     render() {
         return (
             <div className="ngo-main">
@@ -109,7 +119,7 @@ class NgoMain extends Component {
                     <Route exact path="/ngo/home" render={this.getHome}/>
                     <Route exact path="/ngo/profile" component={this.getProfile} />
                     <Route exact path="/ngo/mapTest" component={MapCompositeTestLoader}/>
-                    <Route exact path="/ngo/completed_pickup" component={NgoHistorySection} />
+                    <Route exact path="/ngo/completed_pickup" render={this.getHistory} />
                 </Switch>
             </div>
         );

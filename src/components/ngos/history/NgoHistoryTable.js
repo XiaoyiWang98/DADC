@@ -23,6 +23,7 @@ class NgoHistoryTable extends Component {
         console.log("Mark complete trigger event:", e);
         console.log("scheduleId: ", e.target.value);
 
+        // TODO: Has not been tested!!
         axios.post(URL_POST_COMPLETE_SCHEDULE,
             {schedule_id: e.target.value})
             .then( response => {
@@ -53,8 +54,8 @@ class NgoHistoryTable extends Component {
                           renderItem={schedule => {return(
 
                               <List.Item actions={[
-                                  <Link to={"/completed_pickup"}>
-                                      {/*TODO: Fow now, route to NgoNewDonations (replace with a new component later)*/}
+                                  <Link to={"/ngo/mapTest"}>
+                                      {/*TODO: Fow now, route to mapTest (replace with a new component later)*/}
                                       <Button onClick={this.handle_viewOnMap}>View on Map</Button>
                                   </Link>,
                                   schedule.status === COMPLETED ? null
