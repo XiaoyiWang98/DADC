@@ -12,7 +12,7 @@
 @import "history/HistorySection.css";
 @import "history/DonorHistoryTable.css";
 @import "history/NgoHistoryTable.css";
-
+@import "donors/DonorMain.css";
 
 
 .App {

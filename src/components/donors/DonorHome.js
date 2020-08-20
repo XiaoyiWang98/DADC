@@ -106,23 +106,7 @@ class DonorHome extends Component {
     render() {
         return (
             <div>
-                <Tabs tabPosition="left" className="tabs">
-                    <TabPane tab="Home" key="1" className="home-tab">
-                        {this.renderHome()}
-                    </TabPane>
-                    <TabPane tab="Profile" key="2">
-                        <UserProfile info={this.state}
-                            updateInfo={this.updateInfo}
-                        
-                        />
-                    </TabPane>
-                    <TabPane tab="History" key="3">
-                        {this.renderHistory()}
-                    </TabPane>
-                    <TabPane tab="Donate Now!" key="4">
-                        {this.renderDonateNow()}
-                    </TabPane>
-                </Tabs>
+                {this.renderHome()};
             </div>
         );
     }
