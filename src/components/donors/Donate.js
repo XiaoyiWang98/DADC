@@ -23,7 +23,8 @@ class DonateForm extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        this.form.validateFields((err, values) => {
+
+        this.props.form.validateFields((err, values) => {
             if (!err) {
                 const formData = new FormData();
                 formData.set('itemname', values.itemname);
@@ -38,11 +39,12 @@ class DonateForm extends Component {
                     },
                     body: formData,
                 })
-                    // .then((response) => {
-                    //     response.ok
-                    //         ? message.success('Post created successfully!')
-                    //         : throw new Error('Failed to create post.');
-                    // })
+                    .then((response) => {
+                        if(response.ok) {
+                            message.success('Post created successfully!')
+                        }
+                        throw new Error('Failed to create post.');
+                    })
                     .catch((e) => {
                         console.error(e);
                         message.error('Failed to create post.');
@@ -50,6 +52,10 @@ class DonateForm extends Component {
             }
         })
     }
+
+    onFinish = () => {
+        this.props.form.resetFields();
+    };
 
     normFile = e => {
         console.log('Upload event:', e);
@@ -66,11 +72,13 @@ class DonateForm extends Component {
         console.log(`is checked -> ${this.state.checked}`);
     }
 
+
     render() {
 
         const {getFieldDecorator} = this.props.form;
 
         const formItemLayout = {
+
             labelCol: {
                 span: 8,
             },
@@ -94,6 +102,7 @@ class DonateForm extends Component {
             <Form
                 {...formItemLayout}
                 onSubmit={this.handleSubmit}
+                onFinish={this.onFinish}
                 className="donate"
             >
                 <Form.Item
