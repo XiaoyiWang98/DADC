@@ -9,6 +9,7 @@ import NgoHistorySection from "./history/NgoHistorySection";
 import DonorHistorySection from "../donors/history/DonorHistorySection";
 import {DONATED_ITEMS, NGO_PROCESSED_SCHEDULES} from "../../tests/dummy_history"; // TODO: Replace me!
 
+const {TabPane} = Tabs;
 
 class NgoHome extends Component {
 
@@ -69,7 +70,7 @@ class NgoHome extends Component {
         const {firstName, lastName} = this.state;
         return (
             <div className="home-tab">
-                <h1>Hi, {firstName} {lastName}!
+                <h1>Hi, {this.state.firstName} {this.state.lastName}!
                     <br/>There are {donationCount} donations around you!</h1>
 
                 <Button className="button-home-tab" onClick={() => this.changeActiveTab("3")}>Click here to view -></Button>
