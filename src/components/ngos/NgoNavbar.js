@@ -18,7 +18,7 @@ class NgoNavbar extends Component {
                                 <Link to="/ngo/profile">Profile</Link>
                             </Nav.Item>
                             <Nav.Item eventKey="3" icon={<Icon icon="gift" />}>
-                                <Link to="/ngo/mapTest">New Donations</Link>
+                                <Link to="/ngo/new_donation">New Donations</Link>
                             </Nav.Item>
                             <Nav.Item eventKey="4" icon={<Icon icon="history" />}>
                                 <Link to="/ngo/completed_pickup">History</Link>
