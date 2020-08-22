@@ -1,59 +1,43 @@
 .ngo-new-donations {
     position: relative;
-    height: 1080px;
+    height: 800px;
     /*background-color: aqua;*/
     margin-right: 40px;
-    margin-bottom: 40px;
-}
-
-.ngo-nd-left {
-    position: absolute;
-    margin: 45px 200px 10px 10px;
-    width: 710px;
-    border: 2px solid #ccc;
-}
-
-.ngo-nd-right {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin-left: 750px;
-    width: 400px;
-    border: 2px solid #ccc;
+    /*border: 2px solid #ccc;*/
     padding-left: 20px;
     padding-right: 20px;
-    /*background-color: aquamarine;*/
 }
 
 .ngo-nd-title {
-    margin-top: 10px;
-    font-size: 1.2em;
+    position: absolute;
+    font-size: 2em;
+    margin-top: 15px;
+    left: 20px;
 }
 
-.ngo-nd-list {
-    height: 670px;
-    overflow: scroll;
+.ngo-nd-map {
+    position: absolute;
+    border: 2px solid #ccc;
+    left: 0;
+    right: 0;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 70px
 }
 
 .ngo-nd-date {
     position: absolute;
-    padding-left: 50px;
-    padding-right: 50px;
-    /*border-top: 2px solid #ccc;*/
-    bottom: 0;
-    left: 0;
+    margin-top: 20px;
     right: 0;
-    margin-bottom: 20px;
-    transform: scale(0.8);
-    /*background-color: seagreen;*/
+    margin-right: 255px;
+    transform: scale(1.2);
 }
 
 .ngo-nd-schedule {
     position: absolute;
-    bottom: 0;
-    left: 0;
     right: 0;
-    margin-bottom: 10px;
+    margin-top: 15px;
+    margin-right: 20px;
     display: flex;
     justify-content: center;
 }

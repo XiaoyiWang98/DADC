@@ -66,6 +66,7 @@ class NgoHome extends Component {
 
     renderHome = () => {
         const donationCount = this.state.NgoItems.length;
+        const {firstName, lastName} = this.state;
         return (
             <div className="home-tab">
                 <h1>Hi, {firstName} {lastName}!
@@ -87,8 +88,7 @@ class NgoHome extends Component {
     }
 
     renderNewDonations = () => {
-        //return <NgoNewDonations/>; TODO: Add Calender!
-        return <MapCompositeTestLoader />
+        return <NgoNewDonations/>;
     }
 
     renderHistory = () => {
@@ -109,20 +109,20 @@ class NgoHome extends Component {
         return (
             <div>
                 <Tabs activeKey={this.state.activeTabKey} onChange={this.changeActiveTab} tabPosition="left">
-                    <TabPane tab="Home" key="1">
+                    <Tabs.TabPane tab="Home" key="1">
                         {this.renderHome()}
-                    </TabPane>
-                    <TabPane tab="Profile" key="2">
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab="Profile" key="2">
                         <UserProfile info={this.state}
                         updateInfo={this.updateInfo}
                         />
-                    </TabPane>
-                    <TabPane tab="NewDonations" key="3">
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab="NewDonations" key="3">
                         {this.renderNewDonations()}
-                    </TabPane>
-                    <TabPane tab="History" key="4">
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab="History" key="4">
                         {this.renderHistory()}
-                    </TabPane>
+                    </Tabs.TabPane>
                 </Tabs>
             </div>
         );
