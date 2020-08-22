@@ -150,7 +150,7 @@ class DonateForm extends Component {
                         {getFieldDecorator('image', {
                             valuePropName: 'fileList',
                             getValueFromEvent: this.normFile,
-                            rules: [{required: true, message: 'Please select an image.'}]
+                            rules: [{message: 'Please select an image.'}]
                         })(
                             <Upload.Dragger name="files" beforeUpload={this.beforeUpload}>
                                 <p className="ant-upload-drag-icon">
