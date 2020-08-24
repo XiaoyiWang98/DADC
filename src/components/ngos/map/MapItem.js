@@ -10,23 +10,25 @@ class MapItem extends Component {
         };
         const a = this.props.address
         this.addressString = [a.city, a.state, a.zip].join(', ')
+
     }
 
-    // toggleChecked = () => {
-    //     this.setState({ checked: !this.state.checked });
-    // };
-    //
-    // toggleDisable = () => {
-    //     this.setState({ disabled: !this.state.disabled });
-    // };
+    componentDidMount() {
+        if(typeof this.props.outMarkFunction !== 'function'){
+            // this.props.markFunction(this.props.itemId, true)
+            this.setState({checked: true, disabled:true})
+        }
+    }
 
     onChange = e => {
         // console.log('checked = ', e.target.checked);
+        console.log(this.props.outMarkFunction)
         this.setState({
             checked: e.target.checked,
         });
         this.props.markFunction(this.props.itemId, e.target.checked)
         this.props.outMarkFunction(this.props.itemId, e.target.checked)
+
     };
 
     render(){

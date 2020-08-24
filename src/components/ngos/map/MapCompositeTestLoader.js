@@ -45,6 +45,9 @@ class MapCompositeTestLoader extends Component{
         }
     }
 
+    componentDidMount() {
+    }
+
     handlechecked = (id, check) => {
         if (check && this.state.checked.indexOf(id) === -1){
             this.setState((state) => {
