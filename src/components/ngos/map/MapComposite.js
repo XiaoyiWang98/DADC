@@ -5,18 +5,41 @@ import MapItemList from "./MapItemList";
 class MapComposite extends Component{
     constructor(props){
         super(props)
-        this.state = {
-            selectedStatus: {},
-            hoverStatus: {}
-        };
+
+        const selected = {}
+        const hover = {}
         this.props.items.forEach(
             (item) => {
-                this.setState({selectedStatus: this.state.selectedStatus[item.itemId] = false})
-                this.setState({selectedStatus: this.state.hoverStatus[item.itemId] = false})
+                selected[item.itemId] = false;
+                hover[item.itemId] = false
             }
         )
 
+        this.state = {
+            selectedStatus: selected,
+            hoverStatus: hover
+        }
+        ;
     }
+
+    componentDidMount() {
+        const mimicUpdate =  () => {
+            const selected = {}
+            this.props.items.forEach(
+                (item) => {
+                    if (typeof this.props.handleCheckedFunction !== 'function'){
+                        selected[item.itemId] = true;
+                    }
+                }
+            )
+            this.setState({selectedStatus: selected})
+        }
+        setTimeout(
+            () => mimicUpdate(),
+            1000
+        );
+    }
+
     markSelected =  (id, checked) => {
         this.setState((state) => {
           state.selectedStatus[id] = checked;

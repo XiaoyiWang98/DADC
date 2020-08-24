@@ -1,6 +1,5 @@
-import React, { useState, Component } from 'react';
-import { Affix, Button } from 'antd';
-import { List, Avatar, Card } from 'antd';
+import React, { Component } from 'react';
+import { List} from 'antd';
 
 import MapItem from "./MapItem";
 
@@ -24,9 +23,10 @@ class MapItemList extends Component{
     render(){
         // const [container, setContainer] = useState(null);
         // console.log(this.props.items)
+        //const outMarkFunction = this.props.outMarkFunction ? this.props.outMarkFunction : null
 
         return (
-            <div className="scrollable-container" ref={this.setState()}>
+            <div className="scrollable-container">
                 <div className="background">
                     {/*<Affix target={() => this.state.container}>*/}
                     {/*    <Button type="primary">Fixed at the top of container</Button>*/}
