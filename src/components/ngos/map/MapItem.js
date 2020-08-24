@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Checkbox, Button } from 'antd';
+import { Checkbox } from 'antd';
 
 class MapItem extends Component {
     constructor(props){

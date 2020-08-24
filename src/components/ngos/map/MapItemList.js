@@ -1,6 +1,5 @@
-import React, { useState, Component } from 'react';
-import { Affix, Button } from 'antd';
-import { List, Avatar, Card } from 'antd';
+import React, { Component } from 'react';
+import { List} from 'antd';
 
 import MapItem from "./MapItem";
 
