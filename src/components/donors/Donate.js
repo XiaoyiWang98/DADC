@@ -8,15 +8,14 @@ import {
     Icon,
     Upload,
 } from 'antd';
-import {InboxOutlined} from '@ant-design/icons';
 import {API_ROOT, AUTH_HEADER} from "../../constants";
 
 
 class DonateForm extends Component {
     state = {
-        defaultAddress: this.props.session.idToken.payload["address"].formatted,
+        street: this.props.session.idToken.payload["address"]["formatted"],
         city: this.props.session.idToken.payload["custom:city"],
-        state: this.props.session.idToken.payload["custom:state"],
+        defState: this.props.session.idToken.payload["custom:state"],
         postal: this.props.session.idToken.payload["custom:postalCode"],
         checked: false,
     }
@@ -27,23 +26,34 @@ class DonateForm extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const formData = new FormData();
-                formData.set('itemname', values.itemname);
-                this.state.checked ? formData.set('address', this.state.defaultAddress) : formData.set('address', values.address);
+                formData.set('name', values.itemname);
+                formData.set('address', values.street);
+                formData.set('city', values.city);
+                formData.set('state', values.state);
+                formData.set('zip', values.postalCode);
                 formData.set('description', values.description);
-                formData.set('image', values.image[0].originFileObj);
+                formData.set('image', values.image ? values.image[0].originFileObj : undefined);
 
-                fetch(`${API_ROOT}/post`, {
+                fetch(`${API_ROOT}/donor/new_item`, {
                     method: 'POST',
                     headers: {
-                        Authorization: `${AUTH_HEADER} ${this.props.session.idToken}`
+                        Authorization: `${AUTH_HEADER} ${this.props.session.idToken}`,
                     },
                     body: formData,
                 })
                     .then((response) => {
-                        if(response.ok) {
-                            message.success('Post created successfully!')
+                        if(response.ok ) {
+                            return response.json();
                         }
-                        throw new Error('Failed to create post.');
+                        throw new Error('Failed to send request.');
+                    })
+                    .then((data) => {
+                        console.log(data)
+                        if(data.result === "SUCCESS"){
+                            message.success('Post created successfully!');
+                        } else {
+                            throw new Error('Failed to create post.')
+                        }
                     })
                     .catch((e) => {
                         console.error(e);
@@ -67,11 +77,18 @@ class DonateForm extends Component {
 
     beforeUpload = () => false;
 
-    onCheckboxChange = e => {
-        this.setState({ checked: e.target.checked });
-        console.log(`is checked -> ${this.state.checked}`);
-    }
-
+    onCheck = e => {
+        if( e.target.checked ){
+            this.props.form.setFieldsValue({
+                street:this.state.street,
+                city:this.state.city,
+                state: this.state.defState,
+                postalCode: this.state.postal
+            });
+        } else {
+            this.props.form.resetFields();
+        }
+    };
 
     render() {
 
@@ -94,7 +111,7 @@ class DonateForm extends Component {
         const tailFormItemLayout = {
             wrapperCol: {
                     span: 24,
-                    offset: 4,
+                    offset: 9,
             },
         };
 
@@ -106,7 +123,7 @@ class DonateForm extends Component {
                 className="donate"
             >
                 <Form.Item
-                    label="itemname"
+                    label="Item name"
                     name="itemname"
                     rules={[{required: true}]}
                 >
@@ -116,11 +133,41 @@ class DonateForm extends Component {
                 </Form.Item>
 
                 <Form.Item
-                    label="Pickup Address"
-                    name="address"
+                    label="Street"
+                    name="street"
                     rules={[{required: true}]}
                 >
-                    {getFieldDecorator('address', {
+                    {getFieldDecorator('street', {
+                        rules: [{required: true}],
+                    })(<Input/>)}
+                </Form.Item>
+
+                <Form.Item
+                    label="City"
+                    name="city"
+                    rules={[{required: true}]}
+                >
+                    {getFieldDecorator('city', {
+                        rules: [{required: true}],
+                    })(<Input/>)}
+                </Form.Item>
+
+                <Form.Item
+                    label="State"
+                    name="state"
+                    rules={[{required: true}]}
+                >
+                    {getFieldDecorator('state', {
+                        rules: [{required: true}],
+                    })(<Input/>)}
+                </Form.Item>
+
+                <Form.Item
+                    label="Postal code"
+                    name="postalCode"
+                    rules={[{required: true}]}
+                >
+                    {getFieldDecorator('postalCode', {
                         rules: [{required: true}],
                     })(<Input/>)}
                 </Form.Item>
@@ -131,10 +178,7 @@ class DonateForm extends Component {
                     valuePropName="checked"
                     className="check-box"
                 >
-                    <Checkbox
-                        checked={this.state.checked}
-                        onChange={this.onCheckboxChange}
-                    >
+                    <Checkbox onChange={this.onCheck}>
                         Use profile address
                     </Checkbox>
                 </Form.Item>
@@ -150,14 +194,12 @@ class DonateForm extends Component {
                         {getFieldDecorator('image', {
                             valuePropName: 'fileList',
                             getValueFromEvent: this.normFile,
-                            rules: [{message: 'Please select an image.'}]
                         })(
                             <Upload.Dragger name="files" beforeUpload={this.beforeUpload}>
                                 <p className="ant-upload-drag-icon">
-                                    <Icon type="inbox"/>
+                                    <Icon type="inbox" />
                                 </p>
                                 <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                                <p className="ant-upload-hint">Support for a single or bulk upload.</p>
                             </Upload.Dragger>,
                         )}
                     </div>
