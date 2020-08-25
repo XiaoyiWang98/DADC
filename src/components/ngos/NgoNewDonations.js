@@ -4,6 +4,7 @@ import {Button, Modal, message, DatePicker} from "antd";
 
 import MapComposite from "./map/MapComposite";
 
+import {API_ROOT} from "../../constants";
 
 
 class NgoNewDonations extends Component {
@@ -13,6 +14,7 @@ class NgoNewDonations extends Component {
         this.state = {
             pickupDate: null,
             // TODO: change list info and center to this.props, also check the names, this list is only for test and should be deleted
+            // TODO: add whether you have already get a schedule
             pickUpList: [],
             selected: [],
             center: { lat: 37.351288, lng: -121.967793 },
@@ -98,6 +100,9 @@ class NgoNewDonations extends Component {
     }
 
     handleChecked = (id, check) => {
+        this.setState({
+            errorMessage: ""
+        })
         if (check && this.state.selected.indexOf(id) === -1) {
             this.setState((state) => {
                 state.selected.push(id);
@@ -109,6 +114,7 @@ class NgoNewDonations extends Component {
                 return state;
             }))
         }
+        // console.log(this.state.selected);
     }
 
     onChangeDate = (value) => {
@@ -175,21 +181,51 @@ class NgoNewDonations extends Component {
         });
     };
 
-    // TODO: change the schedule function and interaction with the parent node
     handleOk = e => {
         // console.log(e);
-        console.log("Pickup information:\nDate: ", this.state.pickupDate, "\nItems: ", this.state.selected);
+        // console.log("Pickup information:\nDate: ", this.state.pickupDate, "\nItems: ", this.state.selected);
         this.setState({
             visibleModal: false,
         });
-        message.success({
-            content: "You have scheduled your next route successfully!"
-        });
+
+        const {pickupDate} = this.state;
+        // const pickups = [];
+        // var i;
+        // for (i in this.state.selected) {
+        //     pickups.push(this.state.pickUpList[i].itemId);
+        // }
+
+        const formdata = new FormData();
+        formdata.set("ScheduleDate", `${pickupDate.year}-${pickupDate.month < 10 ? 0 : ''}${pickupDate.month}-${pickupDate.date < 10 ? 0 : ''}${pickupDate.date}`);
+        formdata.set("ItemIds", this.state.selected);
+
+        console.log(formdata.get("ScheduleDate"));
+        console.log(formdata.get("ItemIds"));
+
+        fetch(`${API_ROOT}/ngo/new_schedule`, {
+            method: 'POST',
+            body: formdata
+        })
+            .then((response) => {
+                console.log(response);
+                if (response.ok) {
+                    message.success({
+                        content: "You have scheduled your next route successfully!"
+                    });
+                } else {
+                    message.error('Failed to schedule pickups.');
+                    throw new Error('Failed to schedule pickups.');
+                }
+            })
+            .catch(error => {
+                console.error(e);
+                message.error('Failed to schedule pickups.');
+            })
     };
 
     handleCancel = e => {
         // console.log(e);
-        console.log("cancelled");
+        // console.log("cancelled");
         this.setState({
             visibleModal: false,
         });
