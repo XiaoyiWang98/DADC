@@ -26,26 +26,34 @@ class DonateForm extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const formData = new FormData();
-                formData.set('itemname', values.itemname);
-                formData.set('street', values.street);
+                formData.set('name', values.itemname);
+                formData.set('address', values.street);
                 formData.set('city', values.city);
                 formData.set('state', values.state);
-                formData.set('postal', values.postalCode);
+                formData.set('zip', values.postalCode);
                 formData.set('description', values.description);
-                formData.set('image', values.image[0].originFileObj);
+                formData.set('image', values.image ? values.image[0].originFileObj : undefined);
 
-                fetch(`${API_ROOT}/post`, {
+                fetch(`${API_ROOT}/donor/new_item`, {
                     method: 'POST',
                     headers: {
-                        Authorization: `${AUTH_HEADER} ${this.props.session.idToken}`
+                        Authorization: `${AUTH_HEADER} ${this.props.session.idToken}`,
                     },
                     body: formData,
                 })
                     .then((response) => {
-                        if(response.ok) {
-                            message.success('Post created successfully!')
+                        if(response.ok ) {
+                            return response.json();
                         }
-                        throw new Error('Failed to create post.');
+                        throw new Error('Failed to send request.');
+                    })
+                    .then((data) => {
+                        console.log(data)
+                        if(data.result === "SUCCESS"){
+                            message.success('Post created successfully!');
+                        } else {
+                            throw new Error('Failed to create post.')
+                        }
                     })
                     .catch((e) => {
                         console.error(e);
@@ -173,9 +181,6 @@ class DonateForm extends Component {
                     <Checkbox onChange={this.onCheck}>
                         Use profile address
                     </Checkbox>
-                    {/*<Button type="link" htmlType="button" onClick={this.onCheck}>*/}
-                    {/*    Use profile address*/}
-                    {/*</Button>*/}
                 </Form.Item>
 
                 <Form.Item label="Description">
