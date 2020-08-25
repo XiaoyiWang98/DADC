@@ -120,14 +120,16 @@ class DonorMain extends Component {
                 <TopBar handleLogout={this.props.handleLogout} isLoggedIn={this.props.isLoggedIn}/>
                 <div className="main">
                     <DonorNavbar className="navbar"/>
-                    <Switch className="switch">
-                        <Route exact path="/register" render={this.getRegister}/>
-                        <Route exact path="/" render={this.getLogin}/>
-                        <Route exact path="/donors/home" render={this.getHome}/>
-                        <Route exact path="/donors/profile" component={this.getProfile} />
-                        <Route exact path="/donors/completed_pickup" render={this.getHistory} />
-                        <Route exact path="/donors/donate" component={this.getDonate}/>
-                    </Switch>
+                    <div className="switch">
+                        <Switch>
+                            <Route exact path="/register" render={this.getRegister}/>
+                            <Route exact path="/" render={this.getLogin}/>
+                            <Route exact path="/donors/home" render={this.getHome}/>
+                            <Route exact path="/donors/profile" component={this.getProfile} />
+                            <Route exact path="/donors/completed_pickup" render={this.getHistory} />
+                            <Route exact path="/donors/donate" component={this.getDonate}/>
+                        </Switch>
+                    </div>
                 </div>
 
             </div>
