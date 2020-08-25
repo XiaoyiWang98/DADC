@@ -83,6 +83,7 @@ class DonorMain extends Component {
                        firstName={this.state.firstName}
                        lastName={this.state.lastName}
                        donationCount={this.state.NgoItems.length}
+                       info={this.state}
             />
             : <Redirect to="/" />
     }
@@ -104,13 +105,15 @@ class DonorMain extends Component {
         // TODO: Add axios.get to get history from backend
         return this.props.isLoggedIn
             ? <DonorHistorySection full_history={DONATED_ITEMS}
-                                 isLoad={this.state.isLoadingHistory}/>
+                                 isLoad={this.state.isLoadingHistory}
+                                 info={this.state} updateInfo={this.updateInfo}/>
             : <Redirect to="/"/>
     }
 
     getDonate = () => {
         return this.props.isLoggedIn
-            ? <Donate session={this.props.session}/>
+            ? <Donate session={this.props.session}
+            info={this.state}/>
             : <Redirect to="/"/>
     }
 

@@ -120,6 +120,7 @@ class NgoMain extends Component {
         return (
             <div className="ngo-main">
                 <TopBar handleLogout={this.props.handleLogout} isLoggedIn={this.props.isLoggedIn}/>
+                <div className="content">
                 <NgoNavbar />
                 <Switch>
                     <Route exact path="/register" render={this.getRegister}/>
@@ -130,6 +131,8 @@ class NgoMain extends Component {
                     <Route exact path="/ngo/new_donation" component={this.getNewDonation}/>
                     <Route exact path="/ngo/completed_pickup" render={this.getHistory} />
                 </Switch>
+                </div>
+                
             </div>
         );
     }

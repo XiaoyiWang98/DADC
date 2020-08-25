@@ -109,22 +109,7 @@ class NgoHome extends Component {
     render() {
         return (
             <div>
-                <Tabs activeKey={this.state.activeTabKey} onChange={this.changeActiveTab} tabPosition="left">
-                    <Tabs.TabPane tab="Home" key="1">
-                        {this.renderHome()}
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab="Profile" key="2">
-                        <UserProfile info={this.state}
-                        updateInfo={this.updateInfo}
-                        />
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab="NewDonations" key="3">
-                        {this.renderNewDonations()}
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab="History" key="4">
-                        {this.renderHistory()}
-                    </Tabs.TabPane>
-                </Tabs>
+                {this.renderHome()}        
             </div>
         );
     }

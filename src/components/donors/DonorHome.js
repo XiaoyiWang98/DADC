@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Tabs} from 'antd';
-import UserProfile from '../users/UserProfile';
 import {API_ROOT} from '../../constants';
 
 import DonorHistorySection from "./history/DonorHistorySection";
@@ -10,16 +9,16 @@ const {TabPane} = Tabs;
 
 class DonorHome extends Component {
     state = {
-        user_id: this.props.session.idToken.payload["cognito:username"],
-        NGO: this.props.session.idToken.payload["custom:custom:NGO"],
-        address: this.props.session.idToken.payload["address"].formatted,
-        city:this.props.session.idToken.payload["custom:city"],
-        state:this.props.session.idToken.payload["custom:state"],
-        postal:this.props.session.idToken.payload["custom:postalCode"],
-        email:this.props.session.idToken.payload["email"],
-        lastName: this.props.session.idToken.payload["family_name"],
-        firstName: this.props.session.idToken.payload["given_name"],
-        phoneNumber: this.props.session.idToken.payload["phone_number"],
+        user_id: this.props.info.user_id,
+        email: this.props.info.email,
+        address: this.props.info.address,
+        NGO:this.props.info.NGO,
+        lastName: this.props.info.lastName,
+        firstName: this.props.info.firstName,
+        phoneNumber:this.props.info.phoneNumber,
+        city:this.props.info.city,
+        state:this.props.info.state,
+        postal:this.props.info.postal,
         isLoadingHistory: false,
         isLoadingItems: false,
         error: '',

@@ -14,10 +14,10 @@ import {API_ROOT, AUTH_HEADER} from "../../constants";
 
 class DonateForm extends Component {
     state = {
-        defaultAddress: this.props.session.idToken.payload["address"].formatted,
-        city: this.props.session.idToken.payload["custom:city"],
-        state: this.props.session.idToken.payload["custom:state"],
-        postal: this.props.session.idToken.payload["custom:postalCode"],
+        // defaultAddress: this.props.session.idToken.payload["address"].formatted,
+        // city: this.props.session.idToken.payload["custom:city"],
+        // state: this.props.session.idToken.payload["custom:state"],
+        // postal: this.props.session.idToken.payload["custom:postalCode"],
         checked: false,
     }
 
@@ -27,23 +27,31 @@ class DonateForm extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const formData = new FormData();
-                formData.set('itemname', values.itemname);
-                this.state.checked ? formData.set('address', this.state.defaultAddress) : formData.set('address', values.address);
+                formData.set('name', values.itemname);
+                formData.set('address', '3262 oakleaf ct');
+                formData.set('city','chino hills');
+                formData.set('state','ca');
+                formData.set('zip','91709')
+                // this.state.checked ? formData.set('address', this.state.defaultAddress) : formData.set('address', values.address);
                 formData.set('description', values.description);
                 formData.set('image', values.image[0].originFileObj);
 
-                fetch(`${API_ROOT}/post`, {
+                fetch(`http://localhost:8080/dc/donor/new_item`, {
                     method: 'POST',
+                    mode:'cors',
                     headers: {
-                        Authorization: `${AUTH_HEADER} ${this.props.session.idToken}`
+                        Authorization: `${AUTH_HEADER} ${this.props.session.idToken.jwtToken}`,
+                        "Access-Control-Allow-Origin" : "*"
                     },
                     body: formData,
                 })
                     .then((response) => {
                         if(response.ok) {
                             message.success('Post created successfully!')
+                        }else{
+                            throw new Error('Failed to create post.');
                         }
-                        throw new Error('Failed to create post.');
+                        
                     })
                     .catch((e) => {
                         console.error(e);
@@ -150,7 +158,7 @@ class DonateForm extends Component {
                         {getFieldDecorator('image', {
                             valuePropName: 'fileList',
                             getValueFromEvent: this.normFile,
-                            rules: [{message: 'Please select an image.'}]
+                            // rules: [{message: 'Please select an image.'}]
                         })(
                             <Upload.Dragger name="files" beforeUpload={this.beforeUpload}>
                                 <p className="ant-upload-drag-icon">
