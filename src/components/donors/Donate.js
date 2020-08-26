@@ -18,6 +18,7 @@ class DonateForm extends Component {
         defState: this.props.session.idToken.payload["custom:state"],
         postal: this.props.session.idToken.payload["custom:postalCode"],
         checked: false,
+        disabled: false,
     }
 
     handleSubmit = e => {
@@ -37,7 +38,7 @@ class DonateForm extends Component {
                 fetch(`${API_ROOT}/donor/new_item`, {
                     method: 'POST',
                     headers: {
-                        Authorization: `${AUTH_HEADER} ${this.props.session.idToken}`,
+                        Authorization: `${AUTH_HEADER} ${this.props.session.idToken.jwtToken}`,
                     },
                     body: formData,
                 })
@@ -88,6 +89,7 @@ class DonateForm extends Component {
         } else {
             this.props.form.resetFields();
         }
+        this.setState((prevState) => ({disabled: !prevState.disabled}));
     };
 
     render() {
@@ -139,7 +141,7 @@ class DonateForm extends Component {
                 >
                     {getFieldDecorator('street', {
                         rules: [{required: true}],
-                    })(<Input/>)}
+                    })(<Input disabled={this.state.disabled}/>)}
                 </Form.Item>
 
                 <Form.Item
@@ -149,7 +151,7 @@ class DonateForm extends Component {
                 >
                     {getFieldDecorator('city', {
                         rules: [{required: true}],
-                    })(<Input/>)}
+                    })(<Input disabled={this.state.disabled}/>)}
                 </Form.Item>
 
                 <Form.Item
@@ -159,7 +161,7 @@ class DonateForm extends Component {
                 >
                     {getFieldDecorator('state', {
                         rules: [{required: true}],
-                    })(<Input/>)}
+                    })(<Input disabled={this.state.disabled}/>)}
                 </Form.Item>
 
                 <Form.Item
@@ -169,7 +171,7 @@ class DonateForm extends Component {
                 >
                     {getFieldDecorator('postalCode', {
                         rules: [{required: true}],
-                    })(<Input/>)}
+                    })(<Input disabled={this.state.disabled}/>)}
                 </Form.Item>
 
                 <Form.Item
