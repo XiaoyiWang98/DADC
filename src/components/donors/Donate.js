@@ -49,7 +49,7 @@ class DonateForm extends Component {
                         throw new Error('Failed to send request.');
                     })
                     .then((data) => {
-                        console.log(data)
+                        console.log(data.result)
                         if(data.result === "SUCCESS"){
                             message.success('Post created successfully!');
                         } else {
@@ -196,6 +196,7 @@ class DonateForm extends Component {
                         {getFieldDecorator('image', {
                             valuePropName: 'fileList',
                             getValueFromEvent: this.normFile,
+                            rules: [{ required: true, message: 'Please select an image.' }]
                         })(
                             <Upload.Dragger name="files" beforeUpload={this.beforeUpload}>
                                 <p className="ant-upload-drag-icon">
