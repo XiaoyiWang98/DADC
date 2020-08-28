@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import TopBar from "../TopBar"
-import {API_ROOT} from "../../constants"
+import {API_ROOT, AUTH_HEADER} from "../../constants"
 import {Redirect, Route, Switch} from "react-router-dom"
 import Login from "../auth/Login"
 import DonorHome from "../donors/DonorHome"
@@ -26,9 +26,9 @@ class DonorMain extends Component {
         phoneNumber:this.props.session.idToken.payload["phone_number"],
         isLoadingPickupList: false,
         email:this.props.session.idToken.payload["email"],
-        isLoadingItems: false,
-        error: '',
-        NgoItems: []
+        // isLoadingItems: false,
+        // error: '',
+        // donorItems: []
     }
 
     componentDidMount() {
@@ -37,26 +37,26 @@ class DonorMain extends Component {
         // fetch data and setState here NgoItems = []
         // api get /ngo/search_item
         // the API_ROOT and exact headers need to be modified later
-        this.setState({ isLoadingItems: true, error: '' });
-        fetch(`${API_ROOT}/donor/search_item`, {
-            method: 'GET',
-            headers: {
-                Authorization: `${this.props.session.idToken}`
-            }
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                throw new Error('Failed to load donorItems');
-            })
-            .then((data) => {
-                this.setState({NgoItems: data ? data : [], isLoadingItems: false});
-            })
-            .catch((e) => {
-                console.error(e);
-                this.setState({isLoadingItems: false, error: e.message});
-            });
+        // this.setState({ isLoadingItems: true, error: '' });
+        // fetch(`${API_ROOT}/donor/my_item`, {
+        //     method: 'GET',
+        //     headers: {
+        //         Authorization: `${AUTH_HEADER} ${this.props.session.idToken.jwtToken}`
+        //     }
+        // })
+        //     .then((response) => {
+        //         if (response.status === 200) {
+        //             return response.json();
+        //         }
+        //         throw new Error('Failed to load donorItems');
+        //     })
+        //     .then((data) => {
+        //         this.setState({donorItems: data ? data : [], isLoadingItems: false});
+        //     })
+        //     .catch((e) => {
+        //         console.error(e);
+        //         this.setState({isLoadingItems: false, error: e.message});
+        //     })
     }
 
     updateInfo = (e) =>{
@@ -79,10 +79,6 @@ class DonorMain extends Component {
     getHome = () => {
         return this.props.isLoggedIn
             ? <DonorHome session={this.props.session}
-                       handleLogout={this.props.handleLogout}
-                       firstName={this.state.firstName}
-                       lastName={this.state.lastName}
-                       donationCount={this.state.NgoItems.length}
             />
             : <Redirect to="/" />
     }

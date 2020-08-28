@@ -27,37 +27,35 @@ class NgoMain extends Component {
         phoneNumber:this.props.session.idToken.payload["phone_number"],
         isLoadingPickupList: false,
         email:this.props.session.idToken.payload["email"],
-        isLoadingItems: false,
-        error: '',
-        NgoItems: []
+        // isLoadingItems: false,
+        // error: '',
+        // NgoItems: []
     }
 
     componentDidMount() {
         console.log(this.state);
         // TODO: Check if fetch() is async. Consider using axios.get()
-        // fetch data and setState here NgoItems = []
-        // api get /ngo/search_item
-        // the API_ROOT and exact headers need to be modified later
-        this.setState({ isLoadingItems: true, error: '' });
-        fetch(`${API_ROOT}/ngo/search_item`, {
-            method: 'GET',
-            headers: {
-                Authorization: `${this.props.session.idToken}`
-            }
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                throw new Error('Failed to load donorItems');
-            })
-            .then((data) => {
-                this.setState({NgoItems: data ? data : [], isLoadingItems: false});
-            })
-            .catch((e) => {
-                console.error(e);
-                this.setState({isLoadingItems: false, error: e.message});
-            });
+        //
+        // this.setState({ isLoadingItems: true, error: '' });
+        // fetch(`${API_ROOT}/ngo/search_item`, {
+        //     method: 'GET',
+        //     headers: {
+        //         Authorization: `${AUTH_HEADER} ${this.props.session.idToken.jwtToken}`
+        //     }
+        // })
+        //     .then((response) => {
+        //         if (response.status === 200) {
+        //             return response.json();
+        //         }
+        //         throw new Error('Failed to load donorItems');
+        //     })
+        //     .then((data) => {
+        //         this.setState({NgoItems: data ? data : [], isLoadingItems: false});
+        //     })
+        //     .catch((e) => {
+        //         console.error(e);
+        //         this.setState({isLoadingItems: false, error: e.message});
+        //     });
     }
 
     updateInfo = (e) =>{
@@ -80,12 +78,8 @@ class NgoMain extends Component {
     getHome = () => {
         return this.props.isLoggedIn
             ? <NgoHome session={this.props.session}
-                       handleLogout={this.props.handleLogout}
-                       firstName={this.state.firstName}
-                       lastName={this.state.lastName}
-                       donationCount={this.state.NgoItems.length}
             />
-            : <Redirect to={"/"} />
+            : <Redirect to="/" />
     }
 
     getProfile = () => {
