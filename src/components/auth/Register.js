@@ -53,10 +53,14 @@ class RegistrationForm extends Component {
                     values.middleName = "";
                 }
 
-                if(values.ngo){
+                if(this.props.userNGO){
                     values.ngo = "1";
                 }else{
                     values.ngo = "0";
+                }
+
+                if(!values.lastName){
+                    values.lastName="b";
                 }
 
                 console.log('Received values of form: ', values);
@@ -183,43 +187,69 @@ class RegistrationForm extends Component {
                     })(<Input.Password onBlur={this.handleConfirmBlur} />)}
                 </Form.Item>
 
-                <Form.Item label="First Name">
-                    {getFieldDecorator('firstName', {
-                        rules: [{ required: true, message: 'Please input your first name!' }],
-                    })(
-                        <Input
-                            placeholder="First Name"
-                        />,
-                    )}
-                </Form.Item>
+                {this.props.userNGO? <Form.Item label="NGO Invitation Code" hasFeedback>
+                    {getFieldDecorator("NGOInvitation", {
+                        rules: [
+                            {
+                                required: true,
+                                message: 'Please confirm your NGO Invitation Code!',
+                            },
+                        ],
+                    })(<Input onBlur={this.handleConfirmBlur} />)}
+                </Form.Item>: null}
 
-                <Form.Item label="Middle Name">
-                    {getFieldDecorator('middleName', {
-                        rules: [{ required: false}],
-                    })(
-                        <Input
-                            placeholder="Middle Name"
-                        />,
-                    )}
-                </Form.Item>
+                {this.props.userNGO ?
+                    <Form.Item label="Organization Name">
+                        {getFieldDecorator('firstName', {
+                            rules: [{required: true, message: 'Please input your first name!'}],
+                        })(
+                            <Input
+                                placeholder="First Name"
+                            />,
+                        )}
+                    </Form.Item>
+                    :
+                    <Form.Item label="First Name">
+                        {getFieldDecorator('firstName', {
+                            rules: [{required: true, message: 'Please input your first name!'}],
+                        })(
+                            <Input
+                                placeholder="First Name"
+                            />,
+                        )}
+                    </Form.Item>
+                }
 
-                <Form.Item label="Last Name">
-                    {getFieldDecorator('lastName', {
-                        rules: [{ required: true, message: 'Please input your last name!' }],
-                    })(
-                        <Input
-                            placeholder="Last Name"
-                        />,
-                    )}
-                </Form.Item>
+                {this.props.userNGO?
+                    null:
+                    <Form.Item label="Middle Name">
+                        {getFieldDecorator('middleName', {
+                            rules: [{ required: false}],
+                        })(
+                            <Input
+                                placeholder="Middle Name"
+                            />,
+                        )}
+                    </Form.Item>
+                }
+
+                {this.props.userNGO?
+                    null:
+                    <Form.Item label="Last Name">
+                        {getFieldDecorator('lastName', {
+                            rules: [{ required: true, message: 'Please input your last name!' }],
+                        })(
+                            <Input
+                                placeholder="Last Name"
+                            />,
+                        )}
+                    </Form.Item>
+                }
 
                 <Form.Item label="Mailing Address">
                     {getFieldDecorator('address', {
                         rules: [{ required: true, message: 'Please input your mailing address!' }],
                     })(
-                        // <Input
-                        //     placeholder="Primary address"
-                        // />,
                         <TextArea placeholder="Mailing address" autoSize />
                     )}
                 </Form.Item>
@@ -228,9 +258,6 @@ class RegistrationForm extends Component {
                     {getFieldDecorator('city', {
                         rules: [{ required: true, message: 'Please input the city of your mailing address!' }],
                     })(
-                        // <Input
-                        //     placeholder="Primary address"
-                        // />,
                         <Input placeholder="Ex: San Francisco" autoSize />
                     )}
                 </Form.Item>
@@ -239,9 +266,6 @@ class RegistrationForm extends Component {
                     {getFieldDecorator('state', {
                         rules: [{ required: true, message: 'Please input the state of your mailing address!' }],
                     })(
-                        // <Input
-                        //     placeholder="Primary address"
-                        // />,
                         <Input placeholder="Ex: CA" autoSize />
                     )}
                 </Form.Item>
@@ -250,9 +274,6 @@ class RegistrationForm extends Component {
                     {getFieldDecorator('postal', {
                         rules: [{ required: true, message: 'Please input the postal code of your mailing address!' }],
                     })(
-                        // <Input
-                        //     placeholder="Primary address"
-                        // />,
                         <Input placeholder="Ex: 94116" autoSize />
                     )}
                 </Form.Item>
@@ -264,14 +285,6 @@ class RegistrationForm extends Component {
                         <Input
                             placeholder="Phone Number"
                         />,
-                    )}
-                </Form.Item>
-
-                <Form.Item className="check-box">
-                    {getFieldDecorator('ngo', {
-                        rules: [{ required: false}],
-                    })(
-                        <Checkbox>Are you a NGO member?</Checkbox>,
                     )}
                 </Form.Item>
 

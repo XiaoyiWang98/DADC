@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../styles/App.css';
 import Pool from "./auth/UserPool";
 import NgoMain from "./ngos/NgoMain";
@@ -30,6 +30,7 @@ class App extends React.Component{
     state = {
         isLoggedIn: false,
         session: null,
+        userNGO: false
     }
 
     componentDidMount() {
@@ -77,13 +78,22 @@ class App extends React.Component{
         return(
             <div className="auth-main">
                 <Switch>
-                    <Route exact path="/register" render={() => <Register handleLogout={this.handleLogout}/>}/>
+                    <Route exact path="/register" render={() => <Register handleLogout={this.handleLogout}
+                                                                          userNGO={this.state.userNGO}/>}/>
                     <Route exact path="/" render={() => <Login handleLoginSucceed={this.handleLoginSucceed}/>}/>
-
-                    <Route render={() => <Login handleLoginSucceed={this.handleLoginSucceed}/>}/>
+                    <Route render={() => <Login handleLoginSucceed={this.handleLoginSucceed}
+                                                userNGO={this.state.userNGO} handleLogout={this.handleLogout}/>}/>
                 </Switch>
             </div>
         );
+    }
+
+    switchToNGO = () =>{
+        this.setState({userNGO:true})
+    }
+
+    switchToDonor = () =>{
+        this.setState({userNGO:false})
     }
 
     render(){
@@ -93,7 +103,8 @@ class App extends React.Component{
                     ?
                     <div>
                         <TopBar handleLogout={this.handleLogout}
-                                isLoggedIn={this.state.isLoggedIn}/>
+                                isLoggedIn={this.state.isLoggedIn} state={this.state.userNGO}
+                                switchToNGO={this.switchToNGO} switchToDonor={this.switchToDonor}/>
                         {this.getAuthPageWithRouter()}
                     </div>
                     : this.getLoggedInUserMain()

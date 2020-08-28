@@ -35,9 +35,19 @@ class NormalLoginForm extends Component {
                 this.authenticate(values.username,values.password)
                     .then(data=>{
                         console.log('Logged in!', data);
-                        message.success("Login Success");
-                        this.props.handleLoginSucceed();
-                    })
+
+                        if(((data.idToken.payload["custom:custom:NGO"] == 0)&&(this.props.userNGO==false))
+                        ||((data.idToken.payload["custom:custom:NGO"] == 1)&&(this.props.userNGO==true))){
+                            message.success("Login Success");
+                            this.props.handleLoginSucceed();
+                        }else{
+                            this.props.userNGO?
+                                message.error("Please switch to Donor Page to login")
+                                :message.error("Please switch to NGO Page to login");
+                            this.props.handleLogout();
+                        }
+
+                })
                     .catch(err=>{
                         console.error('Failed to login!',err.code);
                         message.error(err.message);
@@ -46,10 +56,18 @@ class NormalLoginForm extends Component {
         });
     };
 
+
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
+                <Form.Item>
+                    {this.props.userNGO?
+                        <h4>Welcome and Pickup</h4>
+                        :<h4>Welcome and Donate</h4>
+                    }
+                </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('username', {
                         rules: [{ required: true, type:'email', message: 'Please input a valid email address!' }],
