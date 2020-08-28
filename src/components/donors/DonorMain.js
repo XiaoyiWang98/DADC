@@ -28,7 +28,8 @@ class DonorMain extends Component {
         email:this.props.session.idToken.payload["email"],
         isLoadingItems: false,
         error: '',
-        NgoItems: []
+        NgoItems: [],
+        donateSuccess: false,
     }
 
     componentDidMount() {
@@ -109,9 +110,26 @@ class DonorMain extends Component {
     }
 
     getDonate = () => {
-        return this.props.isLoggedIn
-            ? <Donate session={this.props.session}/>
-            : <Redirect to="/"/>
+        if(this.props.isLoggedIn){
+            if(this.state.donateSuccess){
+                return <Redirect to="/donors/home"/>
+            } else {
+                return <Donate session={this.props.session} backToHome={this.backToHome}/>
+            }
+        } else {
+            return <Redirect to="/"/>;
+        }
+    }
+
+    backToHome = () => {
+        this.setState({donateSuccess: true})
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.state.donateSuccess){
+            this.setState({donateSuccess: false});
+            console.log("updated")
+        }
     }
 
     render() {
@@ -127,7 +145,7 @@ class DonorMain extends Component {
                             <Route exact path="/donors/home" render={this.getHome}/>
                             <Route exact path="/donors/profile" component={this.getProfile} />
                             <Route exact path="/donors/completed_pickup" render={this.getHistory} />
-                            <Route exact path="/donors/donate" component={this.getDonate}/>
+                            <Route exact path="/donors/donate" render={this.getDonate}/>
                         </Switch>
                     </div>
                 </div>

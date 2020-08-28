@@ -9,6 +9,7 @@ import {
     Upload,
 } from 'antd';
 import {API_ROOT, AUTH_HEADER} from "../../constants";
+import {Route, Switch} from "react-router-dom"
 
 
 class DonateForm extends Component {
@@ -52,6 +53,7 @@ class DonateForm extends Component {
                         console.log(data.result)
                         if(data.result === "SUCCESS"){
                             message.success('Post created successfully!');
+                            this.props.backToHome();
                         } else {
                             throw new Error('Failed to create post.')
                         }
@@ -64,9 +66,6 @@ class DonateForm extends Component {
         })
     }
 
-    onFinish = () => {
-        this.props.form.resetFields();
-    };
 
     normFile = e => {
         console.log('Upload event:', e);
@@ -121,7 +120,6 @@ class DonateForm extends Component {
             <Form
                 {...formItemLayout}
                 onSubmit={this.handleSubmit}
-                onFinish={this.onFinish}
                 className="donate"
             >
                 <Form.Item
