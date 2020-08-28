@@ -28,9 +28,8 @@ class DonorMain extends Component {
         email:this.props.session.idToken.payload["email"],
         isLoadingItems: false,
         error: '',
-        NgoItems: [],
+        donorItems: [],
         donateSuccess: false,
-
     }
 
     componentDidMount() {
@@ -78,9 +77,15 @@ class DonorMain extends Component {
             : <Login handleLoginSucceed={this.props.handleLoginSucceed}/>;
     }
 
+    collectMyItem = (data) => {
+        this.setState({
+            donorItems: data
+        })
+    }
+
     getHome = () => {
         return this.props.isLoggedIn
-            ? <DonorHome session={this.props.session}
+            ? <DonorHome session={this.props.session} collectMyItem = {this.collectMyItem}
             />
             : <Redirect to="/" />
     }
@@ -121,6 +126,7 @@ class DonorMain extends Component {
     backToHome = () => {
         this.setState({donateSuccess: true})
     }
+
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(this.state.donateSuccess){
