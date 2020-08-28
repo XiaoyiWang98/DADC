@@ -69,7 +69,7 @@ class MapCompositeTestLoader extends Component{
         return (
             <MapComposite items={this.state.items}
                           center={{ lat: 37.351288, lng: -121.967793 }}
-                          handleCheckedFunction={this.handlechecked}
+                          // handleCheckedFunction={this.handlechecked}
             />
         );
     }
