@@ -45,7 +45,7 @@ class NgoHome extends Component {
         const {firstName, lastName} = this.state;
         return (
             <div className="home-tab">
-                <h1>Hi, {this.state.firstName} {this.state.lastName}!
+                <h1>Hi, {this.state.firstName}!
                     <br/>There are {donationCount} donations around you!</h1>
                 <Button className="button-home-tab" ><Link to="/ngo/new_donation">Click here to view -></Link></Button>
             </div>)
