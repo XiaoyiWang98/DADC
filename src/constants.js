@@ -1,3 +1,3 @@
-export const API_ROOT = "http://localhost:8080/dc";
+export const API_ROOT = "https://virtserver.swaggerhub.com/laioffer-dadc/dadc/1.0.0";
 
 export const AUTH_HEADER = 'Bearer';
