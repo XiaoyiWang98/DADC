@@ -22,7 +22,7 @@ class MapItem extends Component {
 
     onChange = e => {
         // console.log('checked = ', e.target.checked);
-        console.log(this.props.outMarkFunction)
+        // console.log(this.props.outMarkFunction)
         this.setState({
             checked: e.target.checked,
         });
