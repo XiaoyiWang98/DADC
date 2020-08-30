@@ -27,9 +27,7 @@ class NgoMain extends Component {
         phoneNumber:this.props.session.idToken.payload["phone_number"],
         isLoadingPickupList: false,
         email:this.props.session.idToken.payload["email"],
-        // isLoadingItems: false,
-        // error: '',
-        // NgoItems: []
+        NgoItems: []
     }
 
     componentDidMount() {
@@ -75,9 +73,15 @@ class NgoMain extends Component {
             : <Login handleLoginSucceed={this.props.handleLoginSucceed}/>;
     }
 
+    collectSearchItem = (data) => {
+        this.setState({
+            NgoItems: data
+        })
+    }
+
     getHome = () => {
         return this.props.isLoggedIn
-            ? <NgoHome session={this.props.session}
+            ? <NgoHome session={this.props.session} collectSearchItem = {this.collectSearchItem}
             />
             : <Redirect to="/" />
     }
