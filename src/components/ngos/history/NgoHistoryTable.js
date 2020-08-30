@@ -100,6 +100,8 @@ class NgoHistoryTable extends Component {
 
     };
 
+    // TODO: replace filtered_history to real history and check input value in buttons
+
     render() {
         const { isLoad, filtered_history } = this.props;
         console.log(filtered_history);

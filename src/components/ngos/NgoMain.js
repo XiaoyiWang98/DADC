@@ -54,7 +54,8 @@ class NgoMain extends Component {
         // error: '',
         // NgoItems: []
         // pickupList: null
-        backToHistory: false
+        backToHistory: false,
+        NgoItems: []
     }
 
     // updatePickupList = () => {
@@ -133,9 +134,15 @@ class NgoMain extends Component {
             : <Login handleLoginSucceed={this.props.handleLoginSucceed}/>;
     }
 
+    collectSearchItem = (data) => {
+        this.setState({
+            NgoItems: data
+        })
+    }
+
     getHome = () => {
         return this.props.isLoggedIn
-            ? <NgoHome session={this.props.session}
+            ? <NgoHome session={this.props.session} collectSearchItem = {this.collectSearchItem}
             />
             : <Redirect to="/" />
     }
