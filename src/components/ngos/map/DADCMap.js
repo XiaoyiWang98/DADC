@@ -60,7 +60,7 @@ class NormalMap extends Component{
                 }, (result, status) => {
                     if (status === google.maps.DirectionsStatus.OK) {
                         this.setState({directions: result, lastRouteUpdate: thisTime});
-                        return true
+                        this.props.updateOrderFunc(result.routes[0].waypoint_order)
                     } else {
                         console.error(`error fetching directions ${result}`);
                     }
