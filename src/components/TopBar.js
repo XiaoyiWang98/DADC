@@ -17,19 +17,19 @@ class TopBar extends Component {
                     <span>
                         {this.props.initState?
                             <span>
-                                {this.props.state ?
-                                    <span>
-                                        <a className="NGO" aria-disabled={"true"} style={{color: "blue"}}>
-                                        NGO </a> | <a className="Donor" onClick={this.props.switchToDonor}>
-                                        Donor </a>
-                                    </span> :
-                                    <span>
-                                        <a className="NGO" onClick={this.props.switchToNGO}>
-                                            NGO </a> |
-                                        <a className="Donor" style={{color: "blue"}} aria-disabled={"true"}>
-                                        Donor </a>
-                                    </span>
-                                }
+                                {/*{this.props.state ?*/}
+                                {/*    <span>*/}
+                                {/*        <a className="NGO" aria-disabled={"true"} style={{color: "blue"}}>*/}
+                                {/*        NGO </a> | <a className="Donor" onClick={this.props.switchToDonor}>*/}
+                                {/*        Donor </a>*/}
+                                {/*    </span> :*/}
+                                {/*    <span>*/}
+                                {/*        <a className="NGO" onClick={this.props.switchToNGO}>*/}
+                                {/*            NGO </a> |*/}
+                                {/*        <a className="Donor" style={{color: "blue"}} aria-disabled={"true"}>*/}
+                                {/*        Donor </a>*/}
+                                {/*    </span>*/}
+                                {/*}*/}
                             </span>:<span>
                                 <a className="Login" onClick={this.props.afterInit}>
                                     Login </a>
