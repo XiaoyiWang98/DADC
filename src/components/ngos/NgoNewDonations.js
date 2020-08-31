@@ -59,7 +59,7 @@ class NgoNewDonations extends Component {
         pickupDate: null,
         pickupList: null,
         selected: [],
-        center: { lat: 37.351288, lng: -121.967793 },
+        center: null,
         visibleModal: false,
         errorMessage: ""
     }
@@ -79,7 +79,7 @@ class NgoNewDonations extends Component {
                     >Schedule Pickup</Button>
                 </div>
                 <div className="ngo-nd-map">
-                    {this.state.pickupList === null ?
+                    {(this.state.pickupList === null || this.state.center === null) ?
                         <Spin tip="Loading..." size="large"/>
                             :
                         <MapComposite
@@ -180,6 +180,38 @@ class NgoNewDonations extends Component {
                 console.error(error);
                 message.error('Error caught: Failed to get pickup list.');
             })
+
+        fetch("https://maps.googleapis.com/maps/api/geocode/json?address="
+            + this.props.session.idToken.payload["address"].formatted.replace(' ', '+')
+            + ",+"
+            + this.props.session.idToken.payload["custom:city"].replace(' ', '+')
+            + ",+"
+            + this.props.session.idToken.payload["custom:state"]
+            + "+"
+            + this.props.session.idToken.payload["custom:postalCode"]
+            + "&key=AIzaSyCq-BRueDRRCUgFkqTgO93mFkgBfP0hOjU",
+            {
+                method: 'GET'
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                message.error("Failed to get your geo location.");
+            })
+            .then(data => {
+                // console.log(data);
+                if (data.status === "OK") {
+                    this.setState({
+                        center: data.results[0].geometry.location
+                    })
+                } else {
+                    message.error("Failed to get your geo location.");
+                }
+            })
+            .catch(error => {
+                message.error("Error caught: Failed to get your geo location.")
+            })
     }
 
     componentDidMount() {
@@ -224,6 +256,7 @@ class NgoNewDonations extends Component {
 
     schedulePickup = () => {
         // console.log(this.state);
+        console.log(this.props.session);
         if (this.state.selected.length == 0) {
             this.setState({
                 errorMessage: "Please select at least 1 item!"
@@ -253,10 +286,10 @@ class NgoNewDonations extends Component {
             return false;
         }
         if (date.year === now.getFullYear()) {
-            if (date.month < now.getMonth()) {
+            if (date.month < now.getMonth() + 1) {
                 return false;
             }
-            if (date.month === now.getMonth() && date.date <= now.getDate()) {
+            if (date.month === now.getMonth() + 1 && date.date <= now.getDate()) {
                 return false;
             }
         }
@@ -323,7 +356,6 @@ class NgoNewDonations extends Component {
                     message.success("You have scheduled your next route successfully!");
                     this.props.backToHistory();
                 } else {
-                    console.log("dsafa");
                     message.error('Failed to schedule pickups.');
                     throw new Error('Failed to schedule pickups.')
                 }
