@@ -95,7 +95,16 @@ class NormalLoginForm extends Component {
                     <Button type="primary" htmlType="submit" className="login-form-button">
                         Log in
                     </Button>
-                    Or <Link to="/register">register now!</Link>
+                    Or <Link to="/register">register now!</Link> <br/>
+                    {this.props.state?
+                        <span>
+                            Are you <Link onClick={this.props.switchToDonor}>Donor</Link>?
+                        </span>:
+                        <span>
+                            Are you <Link onClick={this.props.switchToNGO}>NGO</Link>?
+                        </span>
+                    }
+
                 </Form.Item>
             </Form>
         );
