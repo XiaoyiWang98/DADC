@@ -96,7 +96,7 @@ class NormalLoginForm extends Component {
                         Log in
                     </Button>
                     Or <Link to="/register">register now!</Link> <br/>
-                    {this.props.state?
+                    {this.props.userNGO?
                         <span>
                             Are you <Link onClick={this.props.switchToDonor}>Donor</Link>?
                         </span>:

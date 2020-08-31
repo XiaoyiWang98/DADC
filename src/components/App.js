@@ -84,9 +84,11 @@ class App extends React.Component{
                                                                           userNGO={this.state.userNGO}
                                                                           switchToNGO={this.switchToNGO} switchToDonor={this.switchToDonor}/>}/>
                     <Route exact path="/" render={() => <Login handleLoginSucceed={this.handleLoginSucceed}
-                                                                    state={this.state.userNGO}
+                                                                    userNGO={this.state.userNGO} handleLogout={this.handleLogout}
                                                                     switchToNGO={this.switchToNGO} switchToDonor={this.switchToDonor}/>}/>
-                    <Route render={() => <Login handleLoginSucceed={this.handleLoginSucceed}/>}/>
+                    <Route render={() => <Login handleLoginSucceed={this.handleLoginSucceed}
+                                                userNGO={this.state.userNGO} handleLogout={this.handleLogout}
+                                                switchToNGO={this.switchToNGO} switchToDonor={this.switchToDonor}/>}/>
                 </Switch>
             </div>
         );
@@ -122,7 +124,6 @@ class App extends React.Component{
                     <div>
                         <TopBar handleLogout={this.handleLogout}
                                 isLoggedIn={this.state.isLoggedIn} state={this.state.userNGO}
-                                switchToNGO={this.switchToNGO} switchToDonor={this.switchToDonor}
                                 initState={this.state.initState} afterInit={this.AfterInit}/>
                         {
                             this.state.initState?
