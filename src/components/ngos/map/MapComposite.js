@@ -3,20 +3,75 @@ import DADCMap from './DADCMap'
 import MapItemList from "./MapItemList";
 
 class MapComposite extends Component{
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state = {
-            selectedStatus: {},
-            hoverStatus: {}
-        };
+
+        const selected = {}
+        const hover = {}
         this.props.items.forEach(
             (item) => {
-                this.setState({selectedStatus: this.state.selectedStatus[item.itemId] = false})
-                this.setState({selectedStatus: this.state.hoverStatus[item.itemId] = false})
+                selected[item.itemId] = false;
+                hover[item.itemId] = false
             }
         )
 
+        this.state = {
+            selectedStatus: selected,
+            hoverStatus: hover,
+            items: this.props.items,
+            items_order: []
+        }
+        ;
+
+        }
+
+    updateItemOrder = (orderList) => {
+        this.setState({items_order: orderList})
     }
+    componentDidMount() {
+        const mimicUpdate =  () => {
+            const selected = {}
+            this.state.items.forEach(
+                (item) => {
+                    if (typeof this.props.handleCheckedFunction !== 'function'){
+                        selected[item.itemId] = true;
+                    }
+                }
+            )
+            this.setState({selectedStatus: selected})
+            const sort_item = () => {
+                if (typeof this.props.handleCheckedFunction !== 'function') {
+                    // sort the item here
+                    console.log(this.state.items_order)
+                    const sorted_item = []
+                    this.state.items_order.forEach(
+                        idx =>
+                        {
+                            sorted_item.push(this.state.items[idx])
+                        }
+                    )
+                    this.setState({items:sorted_item})
+                }
+            }
+            setTimeout(
+                () => sort_item(),
+                1000
+            );
+
+        }
+        setTimeout(
+            () => mimicUpdate(),
+            1000
+        );
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        // if (typeof this.props.handleCheckedFunction !== 'function') {
+        //     // sort the item here
+        //     console.log(this.state.items_order)
+        // }
+    }
+
     markSelected =  (id, checked) => {
         this.setState((state) => {
           state.selectedStatus[id] = checked;
@@ -39,8 +94,9 @@ class MapComposite extends Component{
                         loadingElement={<div style={{height: `100%`}}/>}
                         containerElement={<div style={{height: `100%`}}/>}
                         mapElement={<div style={{height: `100%`}}/>}
+                        updateOrderFunc = {this.updateItemOrder}
                         mapCenter = {this.props.center}
-                        items = {this.props.items}
+                        items = {this.state.items}
                         selectedIds = {JSON.stringify(this.state.selectedStatus)}
                         hoverIds = {JSON.stringify(this.state.hoverStatus)}
                     />
@@ -49,7 +105,7 @@ class MapComposite extends Component{
 
                 <div className="itemList">
                     <MapItemList
-                        items={this.props.items}
+                        items={this.state.items}
                         markFunction={this.markSelected}
                         hoverFunction={this.markHover}
                         outMarkFunction={this.props.handleCheckedFunction}

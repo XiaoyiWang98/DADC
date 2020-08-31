@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import TopBar from "../TopBar"
-import {API_ROOT} from "../../constants"
+import {API_ROOT, AUTH_HEADER} from "../../constants"
 import {Redirect, Route, Switch} from "react-router-dom"
 import Login from "../auth/Login"
 import DonorHome from "../donors/DonorHome"
@@ -11,6 +11,7 @@ import MapCompositeTestLoader from "../ngos/map/MapCompositeTestLoader"
 import DonorNavbar from "./DonorNavbar"
 import DonorHistorySection from "./history/DonorHistorySection"
 import {Donate} from "./Donate"
+
 
 class DonorMain extends Component {
 
@@ -28,7 +29,8 @@ class DonorMain extends Component {
         email:this.props.session.idToken.payload["email"],
         isLoadingItems: false,
         error: '',
-        NgoItems: []
+        donorItems: [],
+        donateSuccess: false,
     }
 
     componentDidMount() {
@@ -37,26 +39,26 @@ class DonorMain extends Component {
         // fetch data and setState here NgoItems = []
         // api get /ngo/search_item
         // the API_ROOT and exact headers need to be modified later
-        this.setState({ isLoadingItems: true, error: '' });
-        fetch(`${API_ROOT}/donor/search_item`, {
-            method: 'GET',
-            headers: {
-                Authorization: `${this.props.session.idToken}`
-            }
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                throw new Error('Failed to load donorItems');
-            })
-            .then((data) => {
-                this.setState({NgoItems: data ? data : [], isLoadingItems: false});
-            })
-            .catch((e) => {
-                console.error(e);
-                this.setState({isLoadingItems: false, error: e.message});
-            });
+        // this.setState({ isLoadingItems: true, error: '' });
+        // fetch(`${API_ROOT}/donor/my_item`, {
+        //     method: 'GET',
+        //     headers: {
+        //         Authorization: `${AUTH_HEADER} ${this.props.session.idToken.jwtToken}`
+        //     }
+        // })
+        //     .then((response) => {
+        //         if (response.status === 200) {
+        //             return response.json();
+        //         }
+        //         throw new Error('Failed to load donorItems');
+        //     })
+        //     .then((data) => {
+        //         this.setState({donorItems: data ? data : [], isLoadingItems: false});
+        //     })
+        //     .catch((e) => {
+        //         console.error(e);
+        //         this.setState({isLoadingItems: false, error: e.message});
+        //     })
     }
 
     updateInfo = (e) =>{
@@ -76,14 +78,15 @@ class DonorMain extends Component {
             : <Login handleLoginSucceed={this.props.handleLoginSucceed}/>;
     }
 
+    collectMyItem = (data) => {
+        this.setState({
+            donorItems: data
+        })
+    }
+
     getHome = () => {
         return this.props.isLoggedIn
-            ? <DonorHome session={this.props.session}
-                       handleLogout={this.props.handleLogout}
-                       firstName={this.state.firstName}
-                       lastName={this.state.lastName}
-                       donationCount={this.state.NgoItems.length}
-                       info={this.state}
+            ? <DonorHome session={this.props.session} collectMyItem = {this.collectMyItem}
             />
             : <Redirect to="/" />
     }
@@ -111,10 +114,27 @@ class DonorMain extends Component {
     }
 
     getDonate = () => {
-        return this.props.isLoggedIn
-            ? <Donate session={this.props.session}
-            info={this.state}/>
-            : <Redirect to="/"/>
+        if(this.props.isLoggedIn){
+            if(this.state.donateSuccess){
+                return <Redirect to="/donors/home"/>
+            } else {
+                return <Donate session={this.props.session} backToHome={this.backToHome}/>
+            }
+        } else {
+            return <Redirect to="/"/>;
+        }
+    }
+
+    backToHome = () => {
+        this.setState({donateSuccess: true})
+    }
+
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.state.donateSuccess){
+            this.setState({donateSuccess: false});
+            console.log("updated")
+        }
     }
 
     render() {
@@ -123,14 +143,16 @@ class DonorMain extends Component {
                 <TopBar handleLogout={this.props.handleLogout} isLoggedIn={this.props.isLoggedIn}/>
                 <div className="main">
                     <DonorNavbar className="navbar"/>
-                    <Switch className="switch">
-                        <Route exact path="/register" render={this.getRegister}/>
-                        <Route exact path="/" render={this.getLogin}/>
-                        <Route exact path="/donors/home" render={this.getHome}/>
-                        <Route exact path="/donors/profile" component={this.getProfile} />
-                        <Route exact path="/donors/completed_pickup" render={this.getHistory} />
-                        <Route exact path="/donors/donate" component={this.getDonate}/>
-                    </Switch>
+                    <div className="switch">
+                        <Switch>
+                            <Route exact path="/register" render={this.getRegister}/>
+                            <Route exact path="/" render={this.getLogin}/>
+                            <Route exact path="/donors/home" render={this.getHome}/>
+                            <Route exact path="/donors/profile" component={this.getProfile} />
+                            <Route exact path="/donors/completed_pickup" render={this.getHistory} />
+                            <Route exact path="/donors/donate" render={this.getDonate}/>
+                        </Switch>
+                    </div>
                 </div>
 
             </div>

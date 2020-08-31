@@ -8,17 +8,18 @@ import {
     Icon,
     Upload,
 } from 'antd';
-import {InboxOutlined} from '@ant-design/icons';
 import {API_ROOT, AUTH_HEADER} from "../../constants";
+import {Route, Switch} from "react-router-dom"
 
 
 class DonateForm extends Component {
     state = {
-        // defaultAddress: this.props.session.idToken.payload["address"].formatted,
-        // city: this.props.session.idToken.payload["custom:city"],
-        // state: this.props.session.idToken.payload["custom:state"],
-        // postal: this.props.session.idToken.payload["custom:postalCode"],
+        street: this.props.session.idToken.payload["address"]["formatted"],
+        city: this.props.session.idToken.payload["custom:city"],
+        defState: this.props.session.idToken.payload["custom:state"],
+        postal: this.props.session.idToken.payload["custom:postalCode"],
         checked: false,
+        disabled: false,
     }
 
     handleSubmit = e => {
@@ -28,30 +29,35 @@ class DonateForm extends Component {
             if (!err) {
                 const formData = new FormData();
                 formData.set('name', values.itemname);
-                formData.set('address', '3262 oakleaf ct');
-                formData.set('city','chino hills');
-                formData.set('state','ca');
-                formData.set('zip','91709')
-                // this.state.checked ? formData.set('address', this.state.defaultAddress) : formData.set('address', values.address);
+                formData.set('address', values.street);
+                formData.set('city', values.city);
+                formData.set('state', values.state);
+                formData.set('zip', values.postalCode);
                 formData.set('description', values.description);
-                formData.set('image', values.image[0].originFileObj);
+                formData.set('image', values.image ? values.image[0].originFileObj : undefined);
 
-                fetch(`http://localhost:8080/dc/donor/new_item`, {
+                fetch(`${API_ROOT}/donor/new_item`, {
                     method: 'POST',
                     mode:'cors',
                     headers: {
                         Authorization: `${AUTH_HEADER} ${this.props.session.idToken.jwtToken}`,
-                        "Access-Control-Allow-Origin" : "*"
                     },
                     body: formData,
                 })
                     .then((response) => {
-                        if(response.ok) {
-                            message.success('Post created successfully!')
-                        }else{
-                            throw new Error('Failed to create post.');
+                        if(response.ok ) {
+                            return response.json();
                         }
-                        
+                        throw new Error('Failed to send request.');
+                    })
+                    .then((data) => {
+                        console.log(data.result)
+                        if(data.result === "SUCCESS"){
+                            message.success('Post created successfully!');
+                            this.props.backToHome();
+                        } else {
+                            throw new Error('Failed to create post.')
+                        }
                     })
                     .catch((e) => {
                         console.error(e);
@@ -61,9 +67,6 @@ class DonateForm extends Component {
         })
     }
 
-    onFinish = () => {
-        this.props.form.resetFields();
-    };
 
     normFile = e => {
         console.log('Upload event:', e);
@@ -75,11 +78,19 @@ class DonateForm extends Component {
 
     beforeUpload = () => false;
 
-    onCheckboxChange = e => {
-        this.setState({ checked: e.target.checked });
-        console.log(`is checked -> ${this.state.checked}`);
-    }
-
+    onCheck = e => {
+        if( e.target.checked ){
+            this.props.form.setFieldsValue({
+                street:this.state.street,
+                city:this.state.city,
+                state: this.state.defState,
+                postalCode: this.state.postal
+            });
+        } else {
+            this.props.form.resetFields();
+        }
+        this.setState((prevState) => ({disabled: !prevState.disabled}));
+    };
 
     render() {
 
@@ -102,7 +113,7 @@ class DonateForm extends Component {
         const tailFormItemLayout = {
             wrapperCol: {
                     span: 24,
-                    offset: 4,
+                    offset: 9,
             },
         };
 
@@ -110,11 +121,10 @@ class DonateForm extends Component {
             <Form
                 {...formItemLayout}
                 onSubmit={this.handleSubmit}
-                onFinish={this.onFinish}
                 className="donate"
             >
                 <Form.Item
-                    label="itemname"
+                    label="Item name"
                     name="itemname"
                     rules={[{required: true}]}
                 >
@@ -124,13 +134,43 @@ class DonateForm extends Component {
                 </Form.Item>
 
                 <Form.Item
-                    label="Pickup Address"
-                    name="address"
+                    label="Street"
+                    name="street"
                     rules={[{required: true}]}
                 >
-                    {getFieldDecorator('address', {
+                    {getFieldDecorator('street', {
                         rules: [{required: true}],
-                    })(<Input/>)}
+                    })(<Input disabled={this.state.disabled}/>)}
+                </Form.Item>
+
+                <Form.Item
+                    label="City"
+                    name="city"
+                    rules={[{required: true}]}
+                >
+                    {getFieldDecorator('city', {
+                        rules: [{required: true}],
+                    })(<Input disabled={this.state.disabled}/>)}
+                </Form.Item>
+
+                <Form.Item
+                    label="State"
+                    name="state"
+                    rules={[{required: true}]}
+                >
+                    {getFieldDecorator('state', {
+                        rules: [{required: true}],
+                    })(<Input disabled={this.state.disabled}/>)}
+                </Form.Item>
+
+                <Form.Item
+                    label="Postal code"
+                    name="postalCode"
+                    rules={[{required: true}]}
+                >
+                    {getFieldDecorator('postalCode', {
+                        rules: [{required: true}],
+                    })(<Input disabled={this.state.disabled}/>)}
                 </Form.Item>
 
                 <Form.Item
@@ -139,10 +179,7 @@ class DonateForm extends Component {
                     valuePropName="checked"
                     className="check-box"
                 >
-                    <Checkbox
-                        checked={this.state.checked}
-                        onChange={this.onCheckboxChange}
-                    >
+                    <Checkbox onChange={this.onCheck}>
                         Use profile address
                     </Checkbox>
                 </Form.Item>
@@ -158,14 +195,13 @@ class DonateForm extends Component {
                         {getFieldDecorator('image', {
                             valuePropName: 'fileList',
                             getValueFromEvent: this.normFile,
-                            // rules: [{message: 'Please select an image.'}]
+                            rules: [{ required: true, message: 'Please select an image.' }]
                         })(
                             <Upload.Dragger name="files" beforeUpload={this.beforeUpload}>
                                 <p className="ant-upload-drag-icon">
-                                    <Icon type="inbox"/>
+                                    <Icon type="inbox" />
                                 </p>
                                 <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                                <p className="ant-upload-hint">Support for a single or bulk upload.</p>
                             </Upload.Dragger>,
                         )}
                     </div>
