@@ -34,7 +34,12 @@ class MapItem extends Component {
     render(){
         return(
             <div className="mapItem">
-                <div className="mapItemImage"></div>
+                <div className="mapItemImage">
+                    <img className="mapItemImageImage"
+                        src={this.props.imageUrl}
+                        alt="new"
+                    />
+                </div>
                 <div className='mapItemDetail'>
                     <div className="mapItemName">{this.props.name}</div>
                     <div className="mapItemAddress">
