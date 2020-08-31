@@ -29,7 +29,7 @@ class MapCompositeTestLoader extends Component{
 
         var i;
         var xd = 0.00, yd = 0.007;
-        for(i = 0; i<25; i++){
+        for(i = 0; i<10; i++){
             if( i%5 == 0){
                 xd = -0.007
                 yd = - yd
