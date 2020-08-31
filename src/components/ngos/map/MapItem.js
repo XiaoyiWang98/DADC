@@ -49,11 +49,13 @@ class MapItem extends Component {
                     </div>
                 </div>
                 <div className='mapItemCheckbox'>
+                    {typeof this.props.outMarkFunction === 'function' &&
                     <Checkbox
                         checked={this.state.checked}
                         disabled={this.state.disabled}
                         onChange={this.onChange}
                     />
+                    }
                 </div>
             </div>
         )
