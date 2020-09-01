@@ -289,16 +289,16 @@ class RegistrationForm extends Component {
                 </Form.Item>
 
                 <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">
-                        Register
+                    <Button className="button-submit" htmlType="submit">
+                        Sign Up
                     </Button><br/>
-                    I already have an account, go back to <Link to="/Login">login</Link><br/>
+                    Already have an account?<Link className="link" to="/Login">Sign in</Link><br/>
                     {this.props.userNGO?
                         <span>
-                            Are you <Link onClick={this.props.switchToDonor}>Donor</Link>?
+                            Switch to <Link className="link" onClick={this.props.switchToDonor}>Resident Account</Link>
                         </span>:
                         <span>
-                            Are you <Link onClick={this.props.switchToNGO}>NGO</Link>?
+                            Switch to <Link className="link" onClick={this.props.switchToNGO}>Ngo Account</Link>
                         </span>
                     }
                 </Form.Item>
