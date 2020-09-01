@@ -125,31 +125,31 @@ class RegistrationForm extends Component {
     render() {
         const { getFieldDecorator } = this.props.form;
 
-        const formItemLayout = {
-            labelCol: {
-                xs: { span: 24 },
-                sm: { span: 8 },
-            },
-            wrapperCol: {
-                xs: { span: 24 },
-                sm: { span: 16 },
-            },
-        };
-        const tailFormItemLayout = {
-            wrapperCol: {
-                xs: {
-                    span: 24,
-                    offset: 0,
-                },
-                sm: {
-                    span: 16,
-                    offset: 4,
-                },
-            },
-        };
+        // const formItemLayout = {
+        //     labelCol: {
+        //         xs: { span: 24 },
+        //         sm: { span: 4 },
+        //     },
+        //     wrapperCol: {
+        //         xs: { span: 24 },
+        //         sm: { span: 16 },
+        //     },
+        // };
+        // const tailFormItemLayout = {
+        //     wrapperCol: {
+        //         xs: {
+        //             span: 24,
+        //             offset: 0,
+        //         },
+        //         sm: {
+        //             span: 16,
+        //             offset: 4,
+        //         },
+        //     },
+        // };
 
         return (
-            <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register">
+            <Form  onSubmit={this.handleSubmit} className="register">
 
                <dev className="signUp">
                {this.props.userNGO?
@@ -160,7 +160,45 @@ class RegistrationForm extends Component {
 
                <hr className="line"/>
 
-                <Form.Item label="Email">
+                
+                {this.props.userNGO ?
+                <div >
+                    <Form.Item >
+                        {getFieldDecorator('firstName', {
+                            rules: [{required: true, message: 'Please input your Bussiness name!'}],
+                        })(
+                            <Input
+                                placeholder="Organization Name"
+                            />,
+                        )}
+                    </Form.Item>
+                    </div>
+                    :
+                    <div className="name">
+                    <Form.Item >
+                        {getFieldDecorator('firstName', {
+                            rules: [{required: true, message: 'Please input your first name!'}],
+                        })(
+                            <Input
+                                placeholder="First Name"
+                            />,
+                        )}
+                    </Form.Item>
+                    <Form.Item >
+                    {getFieldDecorator('lastName', {
+                        rules: [{ required: true, message: 'Please input your last name!' }],
+                    })(
+                        <Input
+                            placeholder="Last Name"
+                        />,
+                    )}
+                </Form.Item>
+                </div>
+                }
+                
+               
+
+                <Form.Item >
                     {getFieldDecorator('email', {
                         rules: [{ required: true, type:'email', message: 'Please input a valid email address!'}],
                     })(<Input
@@ -168,7 +206,17 @@ class RegistrationForm extends Component {
                     />)}
                 </Form.Item>
 
-                <Form.Item label="Password" hasFeedback>
+                <Form.Item >
+                    {getFieldDecorator('phone', {
+                        rules: [{ required: true, message: 'Please input your phone number!' }],
+                    })(
+                        <Input
+                            placeholder="Mobile Number"
+                        />,
+                    )}
+                </Form.Item>
+
+                <Form.Item  hasFeedback>
                     {getFieldDecorator('password', {
                         rules: [
                             {
@@ -179,10 +227,10 @@ class RegistrationForm extends Component {
                                 validator: this.validateToNextPassword,
                             },
                         ],
-                    })(<Input.Password />)}
+                    })(<Input.Password placeholder="Password"/>)}
                 </Form.Item>
 
-                <Form.Item label="Confirm Password" hasFeedback>
+                <Form.Item hasFeedback>
                     {getFieldDecorator('confirm', {
                         rules: [
                             {
@@ -193,10 +241,12 @@ class RegistrationForm extends Component {
                                 validator: this.compareToFirstPassword,
                             },
                         ],
-                    })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+                    })(<Input.Password onBlur={this.handleConfirmBlur} 
+                                        placeholder="Confirm Password"
+                    />)}
                 </Form.Item>
 
-                {this.props.userNGO? <Form.Item label="NGO Invitation Code" hasFeedback>
+                {this.props.userNGO? <Form.Item  hasFeedback>
                     {getFieldDecorator("NGOInvitation", {
                         rules: [
                             {
@@ -204,34 +254,15 @@ class RegistrationForm extends Component {
                                 message: 'Please confirm your NGO Invitation Code!',
                             },
                         ],
-                    })(<Input onBlur={this.handleConfirmBlur} />)}
+                    })(<Input onBlur={this.handleConfirmBlur} 
+                                placeholder="NGO Invitation Code"/>)}
                 </Form.Item>: null}
 
-                {this.props.userNGO ?
-                    <Form.Item label="Organization Name">
-                        {getFieldDecorator('firstName', {
-                            rules: [{required: true, message: 'Please input your first name!'}],
-                        })(
-                            <Input
-                                placeholder="First Name"
-                            />,
-                        )}
-                    </Form.Item>
-                    :
-                    <Form.Item label="First Name">
-                        {getFieldDecorator('firstName', {
-                            rules: [{required: true, message: 'Please input your first name!'}],
-                        })(
-                            <Input
-                                placeholder="First Name"
-                            />,
-                        )}
-                    </Form.Item>
-                }
-
+                
+{/* 
                 {this.props.userNGO?
                     null:
-                    <Form.Item label="Middle Name">
+                    <Form.Item >
                         {getFieldDecorator('middleName', {
                             rules: [{ required: false}],
                         })(
@@ -240,64 +271,47 @@ class RegistrationForm extends Component {
                             />,
                         )}
                     </Form.Item>
-                }
+                } */}
 
-                {this.props.userNGO?
-                    null:
-                    <Form.Item label="Last Name">
-                        {getFieldDecorator('lastName', {
-                            rules: [{ required: true, message: 'Please input your last name!' }],
-                        })(
-                            <Input
-                                placeholder="Last Name"
-                            />,
-                        )}
-                    </Form.Item>
-                }
+                
 
-                <Form.Item label="Mailing Address">
+                <Form.Item >
                     {getFieldDecorator('address', {
                         rules: [{ required: true, message: 'Please input your mailing address!' }],
                     })(
-                        <TextArea placeholder="Mailing address" autoSize />
+                        <Input placeholder="Street Address" autoSize />
                     )}
                 </Form.Item>
 
-                <Form.Item label="City">
+                <Form.Item >
                     {getFieldDecorator('city', {
                         rules: [{ required: true, message: 'Please input the city of your mailing address!' }],
                     })(
-                        <Input placeholder="Ex: San Francisco" autoSize />
+                        <Input placeholder="City" autoSize />
                     )}
                 </Form.Item>
-
-                <Form.Item label="State">
+                <div className="name">
+                <Form.Item >
                     {getFieldDecorator('state', {
                         rules: [{ required: true, message: 'Please input the state of your mailing address!' }],
                     })(
-                        <Input placeholder="Ex: CA" autoSize />
+                        <Input placeholder="State" autoSize />
                     )}
                 </Form.Item>
 
-                <Form.Item label="Postal Code">
+                <Form.Item >
                     {getFieldDecorator('postal', {
                         rules: [{ required: true, message: 'Please input the postal code of your mailing address!' }],
                     })(
-                        <Input placeholder="Ex: 94116" autoSize />
+                        <Input placeholder="Zip Code" autoSize />
                     )}
                 </Form.Item>
+                </div>
+                
 
-                <Form.Item label="Phone Number">
-                    {getFieldDecorator('phone', {
-                        rules: [{ required: true, message: 'Please input your phone number!' }],
-                    })(
-                        <Input
-                            placeholder="Phone Number"
-                        />,
-                    )}
-                </Form.Item>
+                
 
-                <Form.Item {...tailFormItemLayout} className="signUp">
+                <Form.Item className="signUp">
                     <Button className="button-submit" htmlType="submit">
                         Sign Up
                     </Button><br/>

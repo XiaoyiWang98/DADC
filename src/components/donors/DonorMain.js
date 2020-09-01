@@ -88,14 +88,14 @@ class DonorMain extends Component {
         return this.props.isLoggedIn
             ? <DonorHome session={this.props.session} collectMyItem = {this.collectMyItem}
             />
-            : <Redirect to="/" />
+            : <Redirect to="/donors/home" />
     }
 
     getProfile = () => {
         return this.props.isLoggedIn
             //? <UserProfile session={this.props.session} handleLogout={this.props.handleLogout}/>
             ? <UserProfile info={this.state} updateInfo={this.updateInfo}/>
-            : <Redirect to="/"/>
+            : <Redirect to="/donors/home"/>
     }
 
     getRegister = () => {
@@ -110,7 +110,7 @@ class DonorMain extends Component {
             ? <DonorHistorySection full_history={DONATED_ITEMS}
                                  isLoad={this.state.isLoadingHistory}
                                  info={this.state} updateInfo={this.updateInfo}/>
-            : <Redirect to="/"/>
+            : <Redirect to="/donors/home"/>
     }
 
     getDonate = () => {
@@ -145,7 +145,7 @@ class DonorMain extends Component {
                     <DonorNavbar className="navbar"/>
                     <div className="switch">
                         <Switch>
-                            <Route exact path="/register" render={this.getRegister}/>
+                            {/* <Route exact path="/register" render={this.getRegister}/> */}
                             <Route exact path="/" render={this.getLogin}/>
                             <Route exact path="/donors/home" render={this.getHome}/>
                             <Route exact path="/donors/profile" component={this.getProfile} />

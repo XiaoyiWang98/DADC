@@ -1,6 +1,7 @@
 .register {
-    width: 500px;
+    width: 380px;
     margin: 0 auto;
+    text-align: center;
 }
 
 .check-box {
@@ -14,4 +15,9 @@
 .line{
     margin-top: 30px;
     margin-bottom: 30px;
+}
+
+.name{
+    display: flex;
+    justify-content: space-between;
 }
