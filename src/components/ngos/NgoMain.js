@@ -204,8 +204,9 @@ class NgoMain extends Component {
 
     render() {
         return (
-            <div className="ngo-main">
+            <div>
                 <TopBar handleLogout={this.props.handleLogout} isLoggedIn={this.props.isLoggedIn}/>
+<<<<<<< HEAD
                 <div className="content">
                 <NgoNavbar />
                 <Switch>
@@ -219,6 +220,23 @@ class NgoMain extends Component {
                 </Switch>
                 </div>
                 
+=======
+                <div className="ngo-main">
+                    <NgoNavbar className="navbar"/>
+                    <div className="ngo-switch" >
+                        <Switch >
+                            <Route exact path="/register" render={this.getRegister}/>
+                            <Route exact path="/" render={this.getLogin}/>
+                            <Route exact path="/ngo/home" render={this.getHome}/>
+                            <Route exact path="/ngo/profile" component={this.getProfile} />
+                            <Route exact path="/ngo/mapTest" component={MapCompositeTestLoader}/>
+                            <Route exact path="/ngo/new_donation" component={this.getNewDonation}/>
+                            <Route exact path="/ngo/completed_pickup" render={this.getHistory} />
+                        </Switch>
+                    </div>
+                </div>
+
+>>>>>>> ea32a86f625cd6462fd12afd132870d0828f2e52
             </div>
         );
     }
