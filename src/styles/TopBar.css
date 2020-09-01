@@ -10,7 +10,7 @@
     display: flex;
     align-items: center;
     max-width: 72rem;
-    width: 72rem;
+    width: 65rem;
     margin: 0 auto;
     justify-content: space-between;
 }
@@ -29,7 +29,7 @@
     margin-right:10px;
     margin-top:10px;
     color: #000000;
-    font-size:15px;
+    font-size:13px;
 }
 
 .link{

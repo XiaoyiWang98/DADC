@@ -13,7 +13,7 @@
 @import "history/DonorHistoryTable.css";
 @import "history/NgoHistoryTable.css";
 @import "donors/DonorMain.css";
-@import "auth/Init.css";
+@import "ngos/NgoMain.css";
 
 
 .App {

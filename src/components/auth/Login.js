@@ -68,6 +68,7 @@ class NormalLoginForm extends Component {
                         :<h4>Resident Sign In</h4>
                     }
                 </Form.Item>
+                <hr className="line"/>
                 <Form.Item>
                     {getFieldDecorator('username', {
                         rules: [{ required: true, type:'email', message: 'Please input a valid email address!' }],

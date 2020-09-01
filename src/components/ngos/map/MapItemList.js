@@ -42,6 +42,7 @@ class MapItemList extends Component{
                                     itemId = {item.itemId}
                                     name ={item.name}
                                     address={item.address}
+                                    imageUrl={item.image_link}
                                     markFunction={this.props.markFunction}
                                     outMarkFunction={this.props.outMarkFunction}
                                 />

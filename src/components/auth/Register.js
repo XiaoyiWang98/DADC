@@ -143,13 +143,22 @@ class RegistrationForm extends Component {
                 },
                 sm: {
                     span: 16,
-                    offset: 8,
+                    offset: 4,
                 },
             },
         };
 
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register">
+
+               <dev className="signUp">
+               {this.props.userNGO?
+                        <h4>Sign Up As Ngo</h4>
+                        :<h4>Sign Up As Resident</h4>
+                    }
+               </dev>
+
+               <hr className="line"/>
 
                 <Form.Item label="Email">
                     {getFieldDecorator('email', {
@@ -288,7 +297,7 @@ class RegistrationForm extends Component {
                     )}
                 </Form.Item>
 
-                <Form.Item {...tailFormItemLayout}>
+                <Form.Item {...tailFormItemLayout} className="signUp">
                     <Button className="button-submit" htmlType="submit">
                         Sign Up
                     </Button><br/>

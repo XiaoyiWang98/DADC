@@ -34,7 +34,12 @@ class MapItem extends Component {
     render(){
         return(
             <div className="mapItem">
-                <div className="mapItemImage"></div>
+                <div className="mapItemImage">
+                    <img className="mapItemImageImage"
+                        src={this.props.imageUrl}
+                        alt="new"
+                    />
+                </div>
                 <div className='mapItemDetail'>
                     <div className="mapItemName">{this.props.name}</div>
                     <div className="mapItemAddress">
@@ -44,11 +49,13 @@ class MapItem extends Component {
                     </div>
                 </div>
                 <div className='mapItemCheckbox'>
+                    {typeof this.props.outMarkFunction === 'function' &&
                     <Checkbox
                         checked={this.state.checked}
                         disabled={this.state.disabled}
                         onChange={this.onChange}
                     />
+                    }
                 </div>
             </div>
         )
