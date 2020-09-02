@@ -20,7 +20,6 @@ class NgoHistorySection extends Component {
 
     componentDidMount() {
         const {auth_token} = this.props;
-        console.log("fetch history jwtToken:", auth_token);
 
         this.setState({ isLoading: true});
         fetch(`${API_ROOT}/ngo/search_item`, {
