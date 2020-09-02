@@ -95,7 +95,6 @@ class DonateForm extends Component {
     render() {
 
         const {getFieldDecorator} = this.props.form;
-        const { previewVisible, previewImage, fileList, previewTitle } = this.state;
 
         // const formItemLayout = {
 
@@ -120,7 +119,7 @@ class DonateForm extends Component {
 
 
         return (
-            <div className="main-content">
+            <div className="main-content donate-page">
             <div className="main-title">New Donation</div>
             <hr className="divide"/>
             <Form
