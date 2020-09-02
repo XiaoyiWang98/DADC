@@ -15,7 +15,25 @@
 @import "donors/DonorMain.css";
 @import "ngos/NgoMain.css";
 
-
+.html{
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .App {
   text-align: center;
+  width: 100vw;
+
+
+}
+
+.ant-checkbox-checked .ant-checkbox-inner{
+  background-color:#02a95c;
+  border-color: #02a95c;
+}
+
+.ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon{
+  color:#02a95c;
+}
+.ant-spin-dot-item{
+  background-color: #02a95c;
 }

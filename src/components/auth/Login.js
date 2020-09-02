@@ -42,7 +42,7 @@ class NormalLoginForm extends Component {
                             this.props.handleLoginSucceed();
                         }else{
                             this.props.userNGO?
-                                message.error("Please switch to Donor Page to login")
+                                message.error("Please switch to Resident Page to login")
                                 :message.error("Please switch to NGO Page to login");
                             this.props.handleLogout();
                         }
@@ -75,7 +75,7 @@ class NormalLoginForm extends Component {
                     })(
                         <Input
                             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="Username"
+                            placeholder="Email"
                         />,
                     )}
                 </Form.Item>

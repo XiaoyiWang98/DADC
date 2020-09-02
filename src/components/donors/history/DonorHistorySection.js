@@ -47,8 +47,9 @@ class DonorHistorySection extends Component {
     render() {
         console.log("Donor History list: ", this.props.full_history);
         return (
-            <div className="history-container">
-                <h1 className="history-heading">Past Donation Pickups</h1>
+            <div className="main-content">
+                <h1 className="main-title">Past Donation Pickups</h1>
+                <hr className="divide"/>
                 <StatusFilter filterBy={this.onStatusFilter}/>
                 <DatePicker className="history-datepicker" onChange={this.onDateChange}/>
                 <DonorHistoryTable filtered_history={this.state.history_to_display} isLoad={this.props.isLoad}/>
