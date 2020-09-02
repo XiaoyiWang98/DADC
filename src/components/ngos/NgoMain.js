@@ -1,17 +1,18 @@
 import React, {Component} from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
 
-import Login from "../auth/Login";
-import NgoHome from "./NgoHome";
-import {Register} from "../auth/Register";
-import MapCompositeTestLoader from "./map/MapCompositeTestLoader";
 import TopBar from "../TopBar";
 import NgoNavbar from "./NgoNavbar";
-import NgoHistorySection from "./history/NgoHistorySection";
+import Login from "../auth/Login";
+import NgoHome from "./NgoHome";
 import UserProfile from "../users/UserProfile";
-import {API_ROOT} from "../../constants";
-import {NGO_PROCESSED_SCHEDULES} from "../../tests/dummy_history";
+import {Register} from "../auth/Register";
+import MapCompositeTestLoader from "./map/MapCompositeTestLoader";
 import NgoNewDonations from "./NgoNewDonations";
+import NgoHistorySection from "./history/NgoHistorySection";
+import {NGO_PROCESSED_SCHEDULES} from "../../tests/dummy_history";
+import axios from "axios";
+import {API_ROOT, AUTH_HEADER} from "../../constants";
 
 class NgoMain extends Component {
 
@@ -25,18 +26,12 @@ class NgoMain extends Component {
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
         phoneNumber:this.props.session.idToken.payload["phone_number"],
-        isLoadingPickupList: false,
         email:this.props.session.idToken.payload["email"],
-        // isLoadingItems: false,
-        // error: '',
-        // NgoItems: []
     }
 
     componentDidMount() {
         console.log(this.state);
-        // TODO: Check if fetch() is async. Consider using axios.get()
-        //
-        // this.setState({ isLoadingItems: true, error: '' });
+
         // fetch(`${API_ROOT}/ngo/search_item`, {
         //     method: 'GET',
         //     headers: {
@@ -103,10 +98,9 @@ class NgoMain extends Component {
     }
 
     getHistory = () => {
-        // TODO: Add axios.get to get history from backend
+        let jwtToken = this.props.session.idToken.jwtToken;
         return this.props.isLoggedIn
-            ? <NgoHistorySection full_history={NGO_PROCESSED_SCHEDULES}
-                                 isLoad={this.state.isLoadingPickupList}/>
+            ? <NgoHistorySection auth_token={jwtToken}/>
             : <Redirect to="/"/>
     }
 
@@ -114,6 +108,7 @@ class NgoMain extends Component {
         return (
             <div className="ngo-main">
                 <TopBar handleLogout={this.props.handleLogout} isLoggedIn={this.props.isLoggedIn}/>
+                {/*TODO: Add method to update main based on route!*/}
                 <NgoNavbar />
                 <Switch>
                     <Route exact path="/register" render={this.getRegister}/>

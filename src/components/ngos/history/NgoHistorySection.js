@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import {DatePicker} from "antd";
+import {DatePicker, Spin} from "antd";
 import axios from "axios";
 
 import {ALL} from "./constants";
 //import NgoHistoryTable from "./NgoHistoryTable";
 import NgoHistoryTable from "./NgoHistoryTable";
 import StatusFilter from "./StatusFilter";
+import {API_ROOT, AUTH_HEADER} from "../../../constants"
+import {NGO_PROCESSED_SCHEDULES} from "../../../tests/dummy_history"
 
 
 class NgoHistorySection extends Component {
@@ -13,30 +15,63 @@ class NgoHistorySection extends Component {
         super(props);
         this.state = {
             selected_status: ALL,
-            history_to_display: this.props.full_history
+            full_history: [],
+            //history_to_display: this.props.full_history,
+            history_to_display: [],
+            isLoading: false
         }
     }
 
+    componentDidMount() {
+        const {auth_token} = this.props;
+        console.log("fetch history jwtToken:", auth_token);
+
+        this.setState({ isLoading: true});
+        fetch(`${API_ROOT}/ngo/search_item`, {
+            method: 'GET',
+            headers: {
+                Authorization: `${AUTH_HEADER} ${auth_token}`
+            }
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Failed to load history items.');
+            })
+            .then((data) => {
+                console.log('Past pickup schedules', data);
+                this.setState({
+                    full_history: data ? data : [],
+                    history_to_display: data ? data : [],
+                    isLoadind: false});
+            })
+            .catch((err) => {
+                console.error(err);
+                this.setState({isLoading: false})
+            });
+    }
+
     onDateChange = (date, dateStr) => {
-        const {full_history} = this.props;
+        const {full_history} = this.state;
         console.log("Selected Date:", date, dateStr);
         if (date != null) {
             this.setState({
                 history_to_display: full_history.filter(entry => entry.scheduleDate === dateStr)
             })
         } else {
-            this.setState({history_to_display: this.props.full_history});
+            this.setState({history_to_display: full_history});
         }
     }
 
     onStatusFilter = key => {
-        const {full_history} = this.props;
+        const {full_history} = this.state;
         console.log("Filter by order status: ", key);
         // Filter the pickup history list by status
         if (key === ALL) {
             this.setState({
                 selected_status: key,
-                history_to_display: this.props.full_history
+                history_to_display: full_history
             });
         } else {
             this.setState({
@@ -45,14 +80,18 @@ class NgoHistorySection extends Component {
         }
     }
 
-
     render() {
+        const {isLoading, history_to_display} = this.state;
         return (
             <div className="history-container">
                 <h1 className="history-heading">Past Donation Pickups</h1>
                 <StatusFilter filterBy={this.onStatusFilter}/>
                 <DatePicker className="history-datepicker" onChange={this.onDateChange}/>
-                <NgoHistoryTable filtered_history={this.state.history_to_display} isLoad={this.props.isLoad}/>
+                {isLoading
+                    ? <Spin tip="Loadiing past pickup schedules..." size="large"/>
+                    : <NgoHistoryTable filtered_history={history_to_display}
+                                       auth_token={this.props.auth_token}/>
+                }
             </div>
         );
     }

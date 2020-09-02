@@ -7,5 +7,5 @@ export const COMPLETE_MSG = "Completed!";
 export const SCHEDULED_MSG = "Scheduled on";
 export const PENDING_MSG = "Pending...";
 
-export const URL_GET_ALL_DONATIONS = "";
+export const URL_DONOR_GET_ALL_DONATIONS = "";
 

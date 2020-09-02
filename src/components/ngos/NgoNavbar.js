@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Icon, Nav, Sidenav} from 'rsuite';
+import {Button} from "antd";
 
 
 class NgoNavbar extends Component {
@@ -22,6 +23,7 @@ class NgoNavbar extends Component {
                             </Nav.Item>
                             <Nav.Item eventKey="4" icon={<Icon icon="history" />}>
                                 <Link to="/ngo/completed_pickup">History</Link>
+                                {/*<Button onClick={}>History</Button>*/}
                             </Nav.Item>
                         </Nav>
                     </Sidenav.Body>
