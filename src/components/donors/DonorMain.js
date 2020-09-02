@@ -25,6 +25,7 @@ class DonorMain extends Component {
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
         phoneNumber:this.props.session.idToken.payload["phone_number"],
+        token:this.props.session.idToken.jwtToken,
         isLoadingPickupList: false,
         email:this.props.session.idToken.payload["email"],
         isLoadingItems: false,
@@ -86,7 +87,7 @@ class DonorMain extends Component {
 
     getHome = () => {
         return this.props.isLoggedIn
-            ? <DonorHome session={this.props.session} collectMyItem = {this.collectMyItem}
+            ? <DonorHome info={this.state} collectMyItem = {this.collectMyItem}
             />
             : <Redirect to="/donors/home" />
     }
@@ -118,7 +119,7 @@ class DonorMain extends Component {
             if(this.state.donateSuccess){
                 return <Redirect to="/donors/home"/>
             } else {
-                return <Donate session={this.props.session} backToHome={this.backToHome}/>
+                return <Donate info={this.state} backToHome={this.backToHome}/>
             }
         } else {
             return <Redirect to="/"/>;
@@ -142,7 +143,7 @@ class DonorMain extends Component {
             <div className="donor-main">
                 <TopBar handleLogout={this.props.handleLogout} isLoggedIn={this.props.isLoggedIn}/>
                 <div className="main">
-                    <DonorNavbar className="navbar"/>
+                    <DonorNavbar />
                     <div className="switch">
                         <Switch>
                             {/* <Route exact path="/register" render={this.getRegister}/> */}
@@ -151,6 +152,8 @@ class DonorMain extends Component {
                             <Route exact path="/donors/profile" component={this.getProfile} />
                             <Route exact path="/donors/completed_pickup" render={this.getHistory} />
                             <Route exact path="/donors/donate" render={this.getDonate}/>
+                            <Route render={()=><DonorHome info={this.state} collectMyItem = {this.collectMyItem}
+            />}/>
                         </Switch>
                     </div>
                 </div>

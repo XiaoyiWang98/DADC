@@ -131,7 +131,10 @@ class App extends React.Component{
                                 :this.getInit()
                         }
                     </div>
-                    : this.getLoggedInUserMain()
+                    : 
+                   
+                        this.getLoggedInUserMain()
+                    
                 }
             </div>
         );

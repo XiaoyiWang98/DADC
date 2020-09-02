@@ -217,6 +217,8 @@ class NgoMain extends Component {
                             <Route exact path="/ngo/mapTest" component={MapCompositeTestLoader}/>
                             <Route exact path="/ngo/new_donation" component={this.getNewDonation}/>
                             <Route exact path="/ngo/completed_pickup" render={this.getHistory} />
+                            <Route render={()=><NgoHome session={this.props.session} collectSearchItem = {this.collectSearchItem}
+            />}/>
                         </Switch>
                     </div>
                 </div>

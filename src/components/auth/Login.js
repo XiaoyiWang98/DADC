@@ -42,7 +42,7 @@ class NormalLoginForm extends Component {
                             this.props.handleLoginSucceed();
                         }else{
                             this.props.userNGO?
-                                message.error("Please switch to Donor Page to login")
+                                message.error("Please switch to Resident Page to login")
                                 :message.error("Please switch to NGO Page to login");
                             this.props.handleLogout();
                         }

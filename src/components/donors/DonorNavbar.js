@@ -5,7 +5,7 @@ import {Link} from "react-router-dom"
 class DonorNavbar extends Component {
     render() {
         return (
-            <div style={{width: 250, overflow: "hidden"}}>
+            <div className="navbar">
                 <Sidenav activeKey="1">
                     <Sidenav.Body>
                         <Nav>
