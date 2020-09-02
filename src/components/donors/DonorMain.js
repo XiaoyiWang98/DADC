@@ -19,15 +19,15 @@ class DonorMain extends Component {
         user_id: this.props.session.idToken.payload["cognito:username"],
         NGO: this.props.session.idToken.payload["custom:custom:NGO"],
         address: this.props.session.idToken.payload["address"].formatted,
-        city:this.props.session.idToken.payload["custom:city"],
-        state:this.props.session.idToken.payload["custom:state"],
-        postal:this.props.session.idToken.payload["custom:postalCode"],
+        city: this.props.session.idToken.payload["custom:city"],
+        state: this.props.session.idToken.payload["custom:state"],
+        postal: this.props.session.idToken.payload["custom:postalCode"],
         lastName: this.props.session.idToken.payload["family_name"],
         firstName: this.props.session.idToken.payload["given_name"],
-        phoneNumber:this.props.session.idToken.payload["phone_number"],
-        token:this.props.session.idToken.jwtToken,
+        phoneNumber: this.props.session.idToken.payload["phone_number"],
+        token: this.props.session.idToken.jwtToken,
         isLoadingPickupList: false,
-        email:this.props.session.idToken.payload["email"],
+        email: this.props.session.idToken.payload["email"],
         isLoadingItems: false,
         error: '',
         donorItems: [],
@@ -62,14 +62,14 @@ class DonorMain extends Component {
         //     })
     }
 
-    updateInfo = (e) =>{
+    updateInfo = (e) => {
         this.setState({
             firstName: e.firstName,
             lastName: e.lastName,
             address: e.address,
             city: e.city,
             state: e.state,
-            postal: e.postal
+            postal: e.postal,
         })
     }
 
@@ -87,9 +87,9 @@ class DonorMain extends Component {
 
     getHome = () => {
         return this.props.isLoggedIn
-            ? <DonorHome info={this.state} collectMyItem = {this.collectMyItem}
+            ? <DonorHome info={this.state} collectMyItem={this.collectMyItem}
             />
-            : <Redirect to="/donors/home" />
+            : <Redirect to="/donors/home"/>
     }
 
     getProfile = () => {
@@ -108,15 +108,15 @@ class DonorMain extends Component {
     getHistory = () => {
         // TODO: Add axios.get to get history from backend
         return this.props.isLoggedIn
-            ? <DonorHistorySection full_history={DONATED_ITEMS}
-                                 isLoad={this.state.isLoadingHistory}
-                                 info={this.state} updateInfo={this.updateInfo}/>
+            ? <DonorHistorySection full_history={this.state.donorItems}
+                                   isLoad={this.state.isLoadingHistory}
+                                   info={this.state} updateInfo={this.updateInfo} updateList={this.collectMyItem}/>
             : <Redirect to="/donors/home"/>
     }
 
     getDonate = () => {
-        if(this.props.isLoggedIn){
-            if(this.state.donateSuccess){
+        if (this.props.isLoggedIn) {
+            if (this.state.donateSuccess) {
                 return <Redirect to="/donors/home"/>
             } else {
                 return <Donate info={this.state} backToHome={this.backToHome}/>
@@ -132,7 +132,7 @@ class DonorMain extends Component {
 
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(this.state.donateSuccess){
+        if (this.state.donateSuccess) {
             this.setState({donateSuccess: false});
             console.log("updated")
         }
@@ -143,17 +143,17 @@ class DonorMain extends Component {
             <div className="donor-main">
                 <TopBar handleLogout={this.props.handleLogout} isLoggedIn={this.props.isLoggedIn}/>
                 <div className="main">
-                    <DonorNavbar />
+                    <DonorNavbar/>
                     <div className="switch">
                         <Switch>
                             {/* <Route exact path="/register" render={this.getRegister}/> */}
                             <Route exact path="/" render={this.getLogin}/>
                             <Route exact path="/donors/home" render={this.getHome}/>
-                            <Route exact path="/donors/profile" component={this.getProfile} />
-                            <Route exact path="/donors/completed_pickup" render={this.getHistory} />
+                            <Route exact path="/donors/profile" component={this.getProfile}/>
+                            <Route exact path="/donors/completed_pickup" render={this.getHistory}/>
                             <Route exact path="/donors/donate" render={this.getDonate}/>
-                            <Route render={()=><DonorHome info={this.state} collectMyItem = {this.collectMyItem}
-            />}/>
+                            <Route render={() => <DonorHome info={this.state} collectMyItem={this.collectMyItem}
+                            />}/>
                         </Switch>
                     </div>
                 </div>

@@ -36,3 +36,12 @@
     font-size: 1.25em;
     margin-right: 3em;
 }
+.delete_button_box{
+    display: flex;
+}
+.delete_button{
+    margin-right: 20px;
+}
+.ant-list-item ant-list-item-no-flex{
+    display: flex;
+}
