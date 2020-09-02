@@ -60,7 +60,7 @@ class NormalMap extends Component{
                 }, (result, status) => {
                     if (status === google.maps.DirectionsStatus.OK) {
                         this.setState({directions: result, lastRouteUpdate: thisTime});
-                        return true
+                        this.props.updateOrderFunc(result.routes[0].waypoint_order)
                     } else {
                         console.error(`error fetching directions ${result}`);
                     }
@@ -77,7 +77,9 @@ class NormalMap extends Component{
         }
         const itemMarkers = []
         this.props.items.forEach(item=>{
-            if (JSON.parse(this.props.hoverIds)[item.itemId]){
+            if (JSON.parse(this.props.hoverIds)[item.itemId] && JSON.parse(this.props.selectedIds)[item.itemId]) {
+                itemMarkers.push(<ItemMarker key={item.itemId} item={item} colorlvl='select-attention'/>)
+            }else if (JSON.parse(this.props.hoverIds)[item.itemId]){
                 itemMarkers.push(<ItemMarker key={item.itemId} item={item} colorlvl='attention'/>)
             } else if (JSON.parse(this.props.selectedIds)[item.itemId]) {
                 itemMarkers.push(<ItemMarker key={item.itemId} item={item} colorlvl='selected'/>)
@@ -115,16 +117,16 @@ class NormalMap extends Component{
             >
                 {<Marker position={this.props.mapCenter} icon={homeIcon} />}
                 {itemMarkers}
-                {routeMarkers}
+                {/*{routeMarkers}*/}
                 {this.state.directions && <DirectionsRenderer directions={this.state.directions}
                                                               options={{
+                                                                  suppressMarkers: true,
                                                                   markerOptions: {
-                                                                      icon: {path:window.google.maps.SymbolPath.BACKWARD_OPEN_ARROW,
-                                                                          scale: 4,
-                                                                          strokeColor:'green'},
-                                                                      animation: window.google.maps.Animation.BOUNCE
-
-                                                              }
+                                                                      // icon: {path:window.google.maps.SymbolPath.BACKWARD_OPEN_ARROW,
+                                                                      //     scale: 4,
+                                                                      //     strokeColor:'green'},
+                                                                      // animation: window.google.maps.Animation.BOUNCE
+                                                                    }
                                                               }} />}
 
             </GoogleMap>

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {API_ROOT, AUTH_HEADER} from '../../constants';
+import {Link} from "react-router-dom";
+import {Button} from "antd";
 
 class DonorHome extends Component {
     state = {
@@ -25,7 +27,13 @@ class DonorHome extends Component {
                 throw new Error('Failed to load donorItems');
             })
             .then((data) => {
-                this.setState({donorItems: data ? data : [], isLoadingItems: false});
+                // handle the case when data is {"result": "FAILED"}
+                if (data.length === undefined) {
+                    throw new Error('Failed to load donorItems');
+                } else {
+                    this.setState({donorItems: data ? data : [], isLoadingItems: false});
+                    this.props.collectMyItem(data);
+                }
             })
             .catch((e) => {
                 console.error(e);
@@ -37,13 +45,26 @@ class DonorHome extends Component {
 
     render() {
         const donorItems = this.state.donorItems;
-        const pendingItems = donorItems.filter(item => item.status === "pending");
+        const pendingItems = donorItems.filter(item => item.status === 1);
         const pendingItemCount = pendingItems.length;
-        return (
-            <div className="home-tab">
+        let donorHomeContent;
+        if (pendingItemCount ===0) {
+            donorHomeContent = <div className="home-tab">
                 <h1>Hi, {this.state.firstName} {this.state.lastName}!
                     <br/>You have {pendingItemCount} unscheduled donations!
                     <br/>Make your donations today!</h1>
+                <Button className="button-home-tab" ><Link to="/donors/donate">Click here to donate -></Link></Button>
+            </div>
+        } else {
+            donorHomeContent = <div className="home-tab">
+                <h1>Hi, {this.state.firstName} {this.state.lastName}!
+                    <br/>You have {pendingItemCount} unscheduled donations!</h1>
+                <Button className="button-home-tab" ><Link to="/donors/completed_pickup">Click here to view -></Link></Button>
+            </div>
+        }
+        return (
+            <div>
+                {donorHomeContent}
             </div>
         )
     }

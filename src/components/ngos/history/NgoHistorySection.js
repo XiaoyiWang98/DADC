@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
 import {DatePicker, Spin} from "antd";
-import axios from "axios";
-
 import {ALL} from "./constants";
-//import NgoHistoryTable from "./NgoHistoryTable";
 import NgoHistoryTable from "./NgoHistoryTable";
 import StatusFilter from "./StatusFilter";
-import {API_ROOT, AUTH_HEADER} from "../../../constants"
+import {API_ROOT, AUTH_HEADER} from "../../../constants";
 import {NGO_PROCESSED_SCHEDULES} from "../../../tests/dummy_history"
 
 
@@ -16,7 +13,6 @@ class NgoHistorySection extends Component {
         this.state = {
             selected_status: ALL,
             full_history: [],
-            //history_to_display: this.props.full_history,
             history_to_display: [],
             isLoading: false
         }
@@ -37,17 +33,17 @@ class NgoHistorySection extends Component {
                 if (response.ok) {
                     return response.json();
                 }
-                throw new Error('Failed to load history items.');
+                throw new Error('Failed to load pickup history!');
             })
             .then((data) => {
                 console.log('Past pickup schedules', data);
                 this.setState({
                     full_history: data ? data : [],
                     history_to_display: data ? data : [],
-                    isLoadind: false});
+                    isLoading: false});
             })
             .catch((err) => {
-                console.error(err);
+                console.error("Error in loading pickup history!", err);
                 this.setState({isLoading: false})
             });
     }
@@ -88,7 +84,7 @@ class NgoHistorySection extends Component {
                 <StatusFilter filterBy={this.onStatusFilter}/>
                 <DatePicker className="history-datepicker" onChange={this.onDateChange}/>
                 {isLoading
-                    ? <Spin tip="Loadiing past pickup schedules..." size="large"/>
+                    ? <Spin className="history-spin" tip="Loading past pickup schedules..." size="large"/>
                     : <NgoHistoryTable filtered_history={history_to_display}
                                        auth_token={this.props.auth_token}/>
                 }

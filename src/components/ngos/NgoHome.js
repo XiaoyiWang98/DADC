@@ -15,9 +15,6 @@ class NgoHome extends Component {
     }
 
     componentDidMount() {
-        // fetch data and setState here NgoItems = []
-        // api get /ngo/search_item
-        // the API_ROOT need to be modified later
         this.setState({ isLoadingItems: true, error: '' });
         fetch(`${API_ROOT}/ngo/search_item`, {
             method: 'GET',
@@ -32,7 +29,13 @@ class NgoHome extends Component {
                 throw new Error('Failed to load donorItems');
             })
             .then((data) => {
-                this.setState({NgoItems: data ? data : [], isLoadingItems: false});
+                // handle the case when data is {"result": "FAILED"}
+                if (data.length === undefined) {
+                    throw new Error('Failed to load donorItems');
+                } else {
+                    this.setState({NgoItems: data ? data : [], isLoadingItems: false});
+                    this.props.collectSearchItem(data);
+                }
             })
             .catch((e) => {
                 console.error(e);

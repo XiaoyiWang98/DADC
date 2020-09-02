@@ -28,3 +28,10 @@
     margin-left: 6em;
     margin-top: 2em;
 }
+
+.history-spin {
+    display: flex;
+    height: 400px;
+    align-items: center;
+    justify-content: center;
+}

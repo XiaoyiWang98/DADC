@@ -29,7 +29,7 @@ class MapCompositeTestLoader extends Component{
 
         var i;
         var xd = 0.00, yd = 0.007;
-        for(i = 0; i<25; i++){
+        for(i = 0; i<10; i++){
             if( i%5 == 0){
                 xd = -0.007
                 yd = - yd
@@ -69,7 +69,7 @@ class MapCompositeTestLoader extends Component{
         return (
             <MapComposite items={this.state.items}
                           center={{ lat: 37.351288, lng: -121.967793 }}
-                          handleCheckedFunction={this.handlechecked}
+                          // handleCheckedFunction={this.handlechecked}
             />
         );
     }

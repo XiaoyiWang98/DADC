@@ -7,6 +7,7 @@ import Login from "./auth/Login";
 import TopBar from "./TopBar";
 import {Switch, Route} from 'react-router-dom';
 import {Register} from "./auth/Register"
+import Init from "./auth/Init";
 
 
 class App extends React.Component{
@@ -30,7 +31,8 @@ class App extends React.Component{
     state = {
         isLoggedIn: false,
         session: null,
-        userNGO: false
+        userNGO: false,
+        initState: false
     }
 
     componentDidMount() {
@@ -79,10 +81,24 @@ class App extends React.Component{
             <div className="auth-main">
                 <Switch>
                     <Route exact path="/register" render={() => <Register handleLogout={this.handleLogout}
-                                                                          userNGO={this.state.userNGO}/>}/>
-                    <Route exact path="/" render={() => <Login handleLoginSucceed={this.handleLoginSucceed}/>}/>
+                                                                          userNGO={this.state.userNGO}
+                                                                          switchToNGO={this.switchToNGO} switchToDonor={this.switchToDonor}/>}/>
+                    <Route exact path="/" render={() => <Login handleLoginSucceed={this.handleLoginSucceed}
+                                                                    userNGO={this.state.userNGO} handleLogout={this.handleLogout}
+                                                                    switchToNGO={this.switchToNGO} switchToDonor={this.switchToDonor}/>}/>
                     <Route render={() => <Login handleLoginSucceed={this.handleLoginSucceed}
-                                                userNGO={this.state.userNGO} handleLogout={this.handleLogout}/>}/>
+                                                userNGO={this.state.userNGO} handleLogout={this.handleLogout}
+                                                switchToNGO={this.switchToNGO} switchToDonor={this.switchToDonor}/>}/>
+                </Switch>
+            </div>
+        );
+    }
+
+    getInit = () => {
+        return(
+            <div className="auth-main">
+                <Switch>
+                    <Route render={() => <Init initState={this.state.initState} afterInit={this.AfterInit}/>}/>
                 </Switch>
             </div>
         );
@@ -96,6 +112,10 @@ class App extends React.Component{
         this.setState({userNGO:false})
     }
 
+    AfterInit = () =>{
+        this.setState({initState:true})
+    }
+
     render(){
         return (
             <div className="App">
@@ -104,8 +124,12 @@ class App extends React.Component{
                     <div>
                         <TopBar handleLogout={this.handleLogout}
                                 isLoggedIn={this.state.isLoggedIn} state={this.state.userNGO}
-                                switchToNGO={this.switchToNGO} switchToDonor={this.switchToDonor}/>
-                        {this.getAuthPageWithRouter()}
+                                initState={this.state.initState} afterInit={this.AfterInit}/>
+                        {
+                            this.state.initState?
+                                this.getAuthPageWithRouter()
+                                :this.getInit()
+                        }
                     </div>
                     : this.getLoggedInUserMain()
                 }
