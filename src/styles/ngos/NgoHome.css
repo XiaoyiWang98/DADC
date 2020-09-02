@@ -16,3 +16,7 @@
     background-color: white;
     border: 0;
 }
+
+.content{
+    display: flex;
+}

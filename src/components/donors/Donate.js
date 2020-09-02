@@ -38,6 +38,7 @@ class DonateForm extends Component {
 
                 fetch(`${API_ROOT}/donor/new_item`, {
                     method: 'POST',
+                    mode:'cors',
                     headers: {
                         Authorization: `${AUTH_HEADER} ${this.props.session.idToken.jwtToken}`,
                     },

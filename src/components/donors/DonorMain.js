@@ -12,6 +12,7 @@ import DonorNavbar from "./DonorNavbar"
 import DonorHistorySection from "./history/DonorHistorySection"
 import {Donate} from "./Donate"
 
+
 class DonorMain extends Component {
 
     state = {
@@ -107,7 +108,8 @@ class DonorMain extends Component {
         // TODO: Add axios.get to get history from backend
         return this.props.isLoggedIn
             ? <DonorHistorySection full_history={DONATED_ITEMS}
-                                 isLoad={this.state.isLoadingHistory}/>
+                                 isLoad={this.state.isLoadingHistory}
+                                 info={this.state} updateInfo={this.updateInfo}/>
             : <Redirect to="/"/>
     }
 

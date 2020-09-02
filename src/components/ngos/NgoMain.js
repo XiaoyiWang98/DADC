@@ -144,14 +144,14 @@ class NgoMain extends Component {
         return this.props.isLoggedIn
             ? <NgoHome session={this.props.session} collectSearchItem = {this.collectSearchItem}
             />
-            : <Redirect to="/" />
+            : <Redirect to="/ngo/home" />
     }
 
     getProfile = () => {
         return this.props.isLoggedIn
             //? <UserProfile session={this.props.session} handleLogout={this.props.handleLogout}/>
             ? <UserProfile info={this.state} updateInfo={this.updateInfo}/>
-            : <Redirect to="/"/>
+            : <Redirect to="/ngo/home"/>
     }
 
     getNewDonation = () => {
@@ -171,7 +171,7 @@ class NgoMain extends Component {
                                         backToHistory={this.backToHistory} />
             }
         } else {
-            return <Redirect to="/"/>
+            return <Redirect to="/ngo/home"/>
         }
     }
 
@@ -186,7 +186,7 @@ class NgoMain extends Component {
         return this.props.isLoggedIn
             ? <NgoHistorySection full_history={NGO_PROCESSED_SCHEDULES}
                                  isLoad={this.state.isLoadingPickupList}/>
-            : <Redirect to="/"/>
+            : <Redirect to="/ngo/home"/>
     }
 
     backToHistory = () => {
@@ -210,7 +210,7 @@ class NgoMain extends Component {
                     <NgoNavbar className="navbar"/>
                     <div className="ngo-switch" >
                         <Switch >
-                            <Route exact path="/register" render={this.getRegister}/>
+                            {/* <Route exact path="/register" render={this.getRegister}/> */}
                             <Route exact path="/" render={this.getLogin}/>
                             <Route exact path="/ngo/home" render={this.getHome}/>
                             <Route exact path="/ngo/profile" component={this.getProfile} />

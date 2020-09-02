@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
-import logo from "../assets/images/logo.svg";
-import avatar from "../assets/images/avatar.svg";
+import logo from "../assets/images/logo.png";
+import { Link } from 'react-router-dom';
 
 class TopBar extends Component {
     render() {
         return (
             <header className="App-header">
+                <div className="header-container">
                 <img src={logo} className="App-logo"/>
-                <span className="App-title">D&DC</span>
                 {this.props.isLoggedIn ?
                     <span>
-                        <img src={avatar} className="Avatar"/>
-                        <a className="logout" onClick={this.props.handleLogout}>
-                        Logout </a>
+                        <a className="Login link" onClick={this.props.handleLogout}>
+                        Sign out</a>
                     </span> :
                     <span>
                         {this.props.initState?
@@ -30,12 +29,17 @@ class TopBar extends Component {
                                 {/*        Donor </a>*/}
                                 {/*    </span>*/}
                                 {/*}*/}
-                            </span>:<span>
-                                <a className="Login" onClick={this.props.afterInit}>
-                                    Login </a>
+                            </span>:<span className="Login">
+                                {/* <a className="Login" onClick={this.props.afterInit}>
+                                    Login </a> */}
+                                    Already have an account?<Link className="link" to='/' onClick={this.props.afterInit}>Sign in</Link>
+                                    
                             </span>
                         }
                     </span> }
+
+                </div>
+                
             </header>
         );
     }
