@@ -66,22 +66,24 @@ class NgoNewDonations extends Component {
   render() {
     return (
       <div className="ngo-new-donations">
-        <div className="ngo-nd-title">New Donations</div>
-        <div className="ngo-nd-date">
-          <DatePicker onChange={this.onChangeDate} />
+        <div className="main-title map-top-bar">
+          <div>New Donations</div>
+          <div className="map-date-submit">
+            <DatePicker onChange={this.onChangeDate} />
+
+            <Button
+              className="button-submit schedule-button"
+              htmlType="submit"
+              onClick={this.schedulePickup}
+            >
+              Schedule Pickup
+            </Button>
+          </div>
         </div>
-        <div className="ngo-nd-schedule">
-          <Button
-            className="ngo-nd-button"
-            onClick={this.schedulePickup}
-            size="large"
-          >
-            Schedule Pickup
-          </Button>
-        </div>
+        <hr className="divide" />
         <div className="ngo-nd-map">
           {this.state.pickupList === null || this.state.center === null ? (
-            <Spin tip="Loading..." size="large" />
+            <Spin className="spin" tip="Loading..." size="large" />
           ) : (
             <MapComposite
               items={this.state.pickupList}
