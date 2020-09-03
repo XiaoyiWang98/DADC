@@ -22,7 +22,7 @@ class NgoHistorySection extends Component {
         const {auth_token} = this.props;
 
         this.setState({ isLoading: true});
-        fetch(`${API_ROOT}/ngo/search_item`, {
+        fetch(`${API_ROOT}/ngo/my_schedule`, {
             method: 'GET',
             headers: {
                 Authorization: `${AUTH_HEADER} ${auth_token}`
@@ -30,12 +30,14 @@ class NgoHistorySection extends Component {
         })
             .then((response) => {
                 if (response.ok) {
+                    console.log("Past pickup response: ", response);
                     return response.json();
                 }
                 throw new Error('Failed to load pickup history!');
             })
             .then((data) => {
                 console.log('Past pickup schedules', data);
+
                 this.setState({
                     full_history: data ? data : [],
                     history_to_display: data ? data : [],
@@ -49,10 +51,9 @@ class NgoHistorySection extends Component {
 
     onDateChange = (date, dateStr) => {
         const {full_history} = this.state;
-        console.log("Selected Date:", date, dateStr);
         if (date != null) {
             this.setState({
-                history_to_display: full_history.filter(entry => entry.scheduleDate === dateStr)
+                history_to_display: full_history.filter(entry => entry.scheduleTime === dateStr)
             })
         } else {
             this.setState({history_to_display: full_history});
@@ -61,9 +62,8 @@ class NgoHistorySection extends Component {
 
     onStatusFilter = key => {
         const {full_history} = this.state;
-        console.log("Filter by order status: ", key);
         // Filter the pickup history list by status
-        if (key === ALL) {
+        if (key == ALL) {
             this.setState({
                 selected_status: key,
                 history_to_display: full_history
@@ -71,7 +71,7 @@ class NgoHistorySection extends Component {
         } else {
             this.setState({
                 selected_status: key,
-                history_to_display: full_history.filter(entry => entry.status === key)});
+                history_to_display: full_history.filter(entry => entry.status == key)});
         }
     }
 

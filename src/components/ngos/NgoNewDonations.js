@@ -6,54 +6,10 @@ import MapComposite from "./map/MapComposite";
 
 import {API_ROOT, AUTH_HEADER} from "../../constants";
 
+import {parseData} from "../../Utils";
+
 
 class NgoNewDonations extends Component {
-    // constructor() {
-    //     super();
-    //     const now = new Date();
-    //     this.state = {
-    //         pickupDate: null,
-    //         pickupList: this.props.pickupList,
-    //         selected: [],
-    //         center: { lat: 37.351288, lng: -121.967793 },
-    //         visibleModal: false,
-    //         errorMessage: ""
-    //     }
-    //
-    //     // render fake list
-    //     // const item = {
-    //     //     itemId: 0,
-    //     //     status: "pending",
-    //     //     post_date: "2020-08-14",
-    //     //     lat: 37.373288,
-    //     //     lng: -121.967793,
-    //     //     name: "name",
-    //     //     address: {
-    //     //         address: "1 Infinite Loop",
-    //     //         city: "Cupertino",
-    //     //         state: "CA",
-    //     //         zip: 95014
-    //     //     },
-    //     //     description: "blah blah blah blh.",
-    //     //     image_link: "https://www.nindelivers.com/wp-content/uploads/2019/05/parcel-package.jpeg"
-    //     // }
-    //     //
-    //     // var i;
-    //     // var xd = 0.00, yd = 0.007;
-    //     // for(i = 0; i<25; i++){
-    //     //     if( i%5 == 0){
-    //     //         xd = -0.007
-    //     //         yd = - yd
-    //     //     }else{
-    //     //         xd = 0
-    //     //     }
-    //     //     item.itemId = i
-    //     //     item.lat += xd
-    //     //     item.lng += yd
-    //     //     item.name = "name " + i.toString()
-    //     //     this.setState({pickupList: this.state.pickupList.push(Object.assign({}, item))})
-    //     // }
-    // }
 
     state = {
         pickupDate: null,
@@ -110,45 +66,6 @@ class NgoNewDonations extends Component {
         );
     }
 
-    parseData = (data) => {
-
-        const item = {
-            itemId: 0,
-            status: 0,
-            lat: 37.373288,
-            lng: -121.967793,
-            name: "name",
-            address: {
-                address: "1 Infinite Loop",
-                city: "Cupertino",
-                state: "CA",
-                zip: 95014
-            },
-            description: "blah blah blah blh.",
-            image_link: "https://www.nindelivers.com/wp-content/uploads/2019/05/parcel-package.jpeg"
-        }
-
-        var i;
-        let list = []
-        for (i = 0; i < data.length; i++) {
-            const cur = data[i];
-            item.itemId = cur.itemID;
-            item.status = cur.status;
-            item.name = cur.name;
-            item.description = cur.description;
-            item.image_link = cur.imageUrl;
-            item.address.address = cur.address.split(",")[0];
-            item.address.city = cur.address.split(",")[1];
-            item.address.state = cur.address.split(",")[2].split(" ")[1];
-            item.address.zip = cur.address.split(",")[2].split(" ")[2];
-            item.lat = parseFloat(cur.location.split(" ")[0].split(",")[0]);
-            item.lng = parseFloat(cur.location.split(" ")[1]);
-            list.push(Object.assign({}, item));
-        }
-
-        this.setState({pickupList: list});
-    }
-
     updatePickupList = () => {
         // console.log("updatePickupList");
         // console.log(`${API_ROOT}/ngo/search_item`)
@@ -170,11 +87,9 @@ class NgoNewDonations extends Component {
                 }
             })
             .then(data => {
-                // console.log(data[0]);
-                // this.setState({
-                //     pickupList: data
-                // })
-                this.parseData(data);
+                console.log("searched items: ", data);
+                let item_list = parseData(data);
+                this.setState({pickupList: item_list});
             })
             .catch(error => {
                 console.error(error);
@@ -236,22 +151,16 @@ class NgoNewDonations extends Component {
         // console.log(this.state.selected);
     }
 
-    onChangeDate = (value) => {
-        if (value === null) {
+    onChangeDate = (date, dateStr) => {
+        if (date === null) {
             this.setState({
                 pickupDate: null
             });
             return;
         }
-        const date = value._d;
-        this.setState(() => ({
-            pickupDate: {
-                year: date.getFullYear(),
-                month: date.getMonth() + 1,
-                date: date.getDate()
-            },
-            errorMessage: ""
-        }))
+        this.setState({pickupDate: dateStr}, function () {
+            console.log("pickup date: ", this.state.pickupDate);
+        });
     }
 
     schedulePickup = () => {
@@ -325,11 +234,11 @@ class NgoNewDonations extends Component {
         // console.log(this.state.selected);
 
         const pickData = JSON.stringify({
-            "ScheduleDate": `${pickupDate.year}-${pickupDate.month < 10 ? 0 : ''}${pickupDate.month}-${pickupDate.date < 10 ? 0 : ''}${pickupDate.date}`,
+            //"ScheduleDate": `${pickupDate.year}-${pickupDate.month < 10 ? 0 : ''}${pickupDate.month}-${pickupDate.date < 10 ? 0 : ''}${pickupDate.date}`,
+            "ScheduleDate": pickupDate,
             "itemIds": selected
         })
-
-        // console.log(pickData);
+        console.log("Submitting new pickup schedule: ", pickData);
 
         fetch(`${API_ROOT}/ngo/new_schedule`, {
             method: 'POST',

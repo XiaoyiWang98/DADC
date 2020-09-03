@@ -20,8 +20,7 @@ class MapComposite extends Component{
             hoverStatus: hover,
             items: this.props.items,
             items_order: []
-        }
-        ;
+        };
 
         }
 

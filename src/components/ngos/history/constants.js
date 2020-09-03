@@ -1,6 +1,6 @@
-export const COMPLETED = "completed";
-export const PENDING = "pending";
-export const ALL = "all";
+export const PENDING = 0;
+export const COMPLETED = 1;
+export const ALL = 2;
 
 export const COMPLETE_MSG = "Completed!";
 export const PENDING_MSG = "Pending...";
