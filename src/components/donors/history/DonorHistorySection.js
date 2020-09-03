@@ -24,10 +24,10 @@ class DonorHistorySection extends Component {
 
     onDateChange = (date, dateStr) => {
         const {full_history} = this.props;
-        console.log("Selected Date:", date, dateStr);
+        console.log("Choose A Post Date:", date, dateStr);
         if (date != null) {
             this.setState({
-                history_to_display: full_history.filter(entry => entry.post_date === dateStr)
+                history_to_display: full_history.filter(entry => entry.postTime === dateStr)
             })
         } else {
             this.setState({history_to_display: this.props.full_history});
@@ -68,11 +68,13 @@ class DonorHistorySection extends Component {
         console.log("Donor History list: ", this.props.full_history);
         console.log("history to display", this.state.history_to_display)
         return (
-            <div className="main-content">
+            <div className="main-content history-page">
                 <h1 className="main-title">Past Donation Pickups</h1>
                 <hr className="divide"/>
+                <div className="filter-setting">
                 <StatusFilter filterBy={this.onStatusFilter}/>
                 <DatePicker className="history-datepicker" onChange={this.onDateChange}/>
+                </div>
                 <DonorHistoryTable
                     updateList={this.props.updateList}
                     filtered_history={this.state.history_to_display}

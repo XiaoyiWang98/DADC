@@ -139,7 +139,7 @@ class DonateForm extends Component {
                 </Form.Item>
 
                 <Form.Item >
-                    {getFieldDecorator('Description', {
+                    {getFieldDecorator('description', {
                         rules: [{required: true}],
                     })(<Input placeholder="Description"
                     />)}

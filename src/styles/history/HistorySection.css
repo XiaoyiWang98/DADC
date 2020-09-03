@@ -13,8 +13,7 @@
 
 .history-status-filter {
     float: left;
-    margin-left: 1em;
-    margin-top: 2em;
+    margin-left: 50px;
     font-size: 1.2em;
 }
 
@@ -26,5 +25,10 @@
 .history-datepicker {
     float: left;
     margin-left: 6em;
-    margin-top: 2em;
+}
+
+.filter-setting{
+    display: flex;
+    justify-content: space-between;
+    width: 680px;
 }

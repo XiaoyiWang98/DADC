@@ -74,7 +74,11 @@ class DonorHome extends Component {
             <div className="home-name">Welcome, {this.state.firstName}!</div>
             <div className="home-status">
             <div className="home-status-content">You have<div className="home-number">{pendingItemCount}</div></div>
+            {pendingItemCount===1?
+            <div className="home-status-content">item has been scheduled!</div>
+            :
             <div className="home-status-content">items have been scheduled!</div>
+    }
             </div>
             <Link className="link jumper" to="/donors/completed_pickup">Check them out!</Link>
             </div>
