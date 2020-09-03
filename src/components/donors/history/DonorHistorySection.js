@@ -9,9 +9,16 @@ import StatusFilter from "./StatusFilter";
 class DonorHistorySection extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            selected_status: ALL,
-            history_to_display: this.props.full_history
+    }
+
+    state = {
+        selected_status: ALL,
+        history_to_display: this.props.full_history
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.full_history != this.props.full_history){
+            this.setState({history_to_display : this.props.full_history})
         }
     }
 
@@ -36,22 +43,42 @@ class DonorHistorySection extends Component {
                 selected_status: key,
                 history_to_display: this.props.full_history
             });
-        } else {
+        }
+        else if (key === 'pending'){
             this.setState({
                 selected_status: key,
-                history_to_display: full_history.filter(entry => entry.status === key)});
+                history_to_display: full_history.filter(entry => entry.status == 0)
+            })
+        } else if (key === "scheduled"){
+            this.setState({
+                selected_status: key,
+                history_to_display: full_history.filter(entry => entry.status == 1)
+            })
+        }
+        else {
+            this.setState({
+                selected_status: key,
+                history_to_display: full_history.filter(entry => entry.status == 2)
+            })
         }
     }
 
 
     render() {
         console.log("Donor History list: ", this.props.full_history);
+        console.log("history to display", this.state.history_to_display)
         return (
-            <div className="history-container">
-                <h1 className="history-heading">Past Donation Pickups</h1>
+            <div className="main-content">
+                <h1 className="main-title">Past Donation Pickups</h1>
+                <hr className="divide"/>
                 <StatusFilter filterBy={this.onStatusFilter}/>
                 <DatePicker className="history-datepicker" onChange={this.onDateChange}/>
-                <DonorHistoryTable filtered_history={this.state.history_to_display} isLoad={this.props.isLoad}/>
+                <DonorHistoryTable
+                    updateList={this.props.updateList}
+                    filtered_history={this.state.history_to_display}
+                    isLoad={this.props.isLoad}
+                    info={this.props.info}
+                    />
             </div>
         );
     }

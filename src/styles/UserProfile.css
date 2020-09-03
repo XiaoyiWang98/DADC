@@ -1,42 +1,27 @@
 .profile{
-    text-align: left;
-    margin-top: 50px;
-    margin-left: 400px;
-    font-size: large;
-    font-weight: bolder;
-}
-.center{
-    align-items: left;
+    text-align:left;
+    margin-left: 70px;
 }
 
-.name{
+.describe{
+    font-size: large;
+    font-weight: bolder;
+    margin-top: 20px;
+}
+
+.info{
+    font-size: large;
+}
+
+.profile-name{
+    justify-content: space-between;
+    width: 90%;
     display: flex;
 }
 
-.last-name{
-    margin-left: 80px;
-
-}
-
-.email{
-    /* display: flex; */
-    margin-top: 30px;
-}
-
-.phone{
-    /* display:flex; */
-    margin-top: 30px;
-}
-.address{
-    display:flex;
-    margin-top: 30px;
-}
-
-.edit{
-    margin-left: 30px;
-}
-
-.addressInfo{
-    /* display: flex; */
-    margin-left: 10px;
+.profile-edit{
+    width: 45%;
+    justify-content: space-between;
+    margin: 0 auto;
+    display: flex;
 }

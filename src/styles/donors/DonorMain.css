@@ -1,8 +1,59 @@
 .main{
     display: flex;
+    margin: 0 auto;
+    width: 1150px;
 }
 
 .switch{
-    width: 60%;
+    flex-grow: 20;
     margin-top: 20px;
+}
+
+.navbar{
+    flex-grow: 1;
+    margin-top: 20px;
+    margin-right:20px;
+    /* box-shadow: 0px 0px 1px; */
+    width: 140px;
+    padding-top: 20px;
+    background-color: #f7f7fa;
+}
+
+.main-content{
+    box-shadow: 1px 3px 6px;
+    width: 740px;
+}
+
+.my-profile{
+    height: 540px;
+}
+
+.donate-page{
+    height: 700px;
+}
+
+.donate{
+    width: 400px;
+    margin: 0 auto;
+}
+
+.main-title{
+    font-size: x-large;
+    font-weight: bolder;
+    height:80px;
+    display: flex;
+    margin-left: 50px;
+    align-items: center;
+}
+
+.divide{
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 0px;
+}
+
+.rs-sidenav .rs-nav-item .rs-nav-item-content, .rs-sidenav .rs-dropdown .rs-dropdown-toggle{
+    color: #02a95c;
+    text-align: right;
+    padding-left: 0px;
 }

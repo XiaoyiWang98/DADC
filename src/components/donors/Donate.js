@@ -9,15 +9,15 @@ import {
     Upload,
 } from 'antd';
 import {API_ROOT, AUTH_HEADER} from "../../constants";
-import {Route, Switch} from "react-router-dom"
 
 
 class DonateForm extends Component {
     state = {
-        street: this.props.session.idToken.payload["address"]["formatted"],
-        city: this.props.session.idToken.payload["custom:city"],
-        defState: this.props.session.idToken.payload["custom:state"],
-        postal: this.props.session.idToken.payload["custom:postalCode"],
+        street: this.props.info.address,
+        city: this.props.info.city,
+        defState: this.props.info.state,
+        postal: this.props.info.postal,
+        token:this.props.info.token,
         checked: false,
         disabled: false,
     }
@@ -38,8 +38,9 @@ class DonateForm extends Component {
 
                 fetch(`${API_ROOT}/donor/new_item`, {
                     method: 'POST',
+                    mode:'cors',
                     headers: {
-                        Authorization: `${AUTH_HEADER} ${this.props.session.idToken.jwtToken}`,
+                        Authorization: `${AUTH_HEADER} ${this.state.token}`,
                     },
                     body: formData,
                 })
@@ -95,108 +96,118 @@ class DonateForm extends Component {
 
         const {getFieldDecorator} = this.props.form;
 
-        const formItemLayout = {
+        // const formItemLayout = {
 
-            labelCol: {
-                span: 8,
-            },
-            wrapperCol: {
-                span: 16,
-            },
-        };
+        //     labelCol: {
+        //         span: 8,
+        //     },
+        //     wrapperCol: {
+        //         span: 16,
+        //     },
+        // };
 
-        const tailLayout = {
-            wrapperCol: {offset: 8, span: 24},
-        };
+        // const tailLayout = {
+        //     wrapperCol: {offset: 8, span: 24},
+        // };
 
-        const tailFormItemLayout = {
-            wrapperCol: {
-                    span: 24,
-                    offset: 9,
-            },
-        };
+        // const tailFormItemLayout = {
+        //     wrapperCol: {
+        //             span: 24,
+        //             offset: 9,
+        //     },
+        // };
+
 
         return (
+            <div className="main-content donate-page">
+            <div className="main-title">New Donation</div>
+            <hr className="divide"/>
             <Form
-                {...formItemLayout}
+                
                 onSubmit={this.handleSubmit}
                 className="donate"
             >
                 <Form.Item
-                    label="Item name"
                     name="itemname"
                     rules={[{required: true}]}
                 >
                     {getFieldDecorator('itemname', {
                         rules: [{required: true}],
-                    })(<Input/>)}
+                    })(<Input
+                            placeholder="Item Name"
+                        />)}
+                </Form.Item>
+
+                <Form.Item >
+                    {getFieldDecorator('Description', {
+                        rules: [{required: true}],
+                    })(<Input placeholder="Description"
+                    />)}
                 </Form.Item>
 
                 <Form.Item
-                    label="Street"
                     name="street"
                     rules={[{required: true}]}
                 >
                     {getFieldDecorator('street', {
                         rules: [{required: true}],
-                    })(<Input disabled={this.state.disabled}/>)}
+                    })(<Input disabled={this.state.disabled}
+                                placeholder="Pick Up Street Name"
+                        />)}
                 </Form.Item>
 
                 <Form.Item
-                    label="City"
                     name="city"
                     rules={[{required: true}]}
                 >
                     {getFieldDecorator('city', {
                         rules: [{required: true}],
-                    })(<Input disabled={this.state.disabled}/>)}
+                    })(<Input placeholder="City"
+                    disabled={this.state.disabled}/>)}
                 </Form.Item>
 
+                <div className="name">
                 <Form.Item
-                    label="State"
                     name="state"
                     rules={[{required: true}]}
                 >
                     {getFieldDecorator('state', {
                         rules: [{required: true}],
-                    })(<Input disabled={this.state.disabled}/>)}
+                    })(<Input placeholder="State"
+                    disabled={this.state.disabled}/>)}
                 </Form.Item>
 
                 <Form.Item
-                    label="Postal code"
                     name="postalCode"
                     rules={[{required: true}]}
                 >
                     {getFieldDecorator('postalCode', {
                         rules: [{required: true}],
-                    })(<Input disabled={this.state.disabled}/>)}
+                    })(<Input placeholder="Zip Code"
+                    disabled={this.state.disabled}/>)}
                 </Form.Item>
+                </div>
 
                 <Form.Item
-                    {...tailFormItemLayout}
                     name="profileAddress"
                     valuePropName="checked"
                     className="check-box"
                 >
                     <Checkbox onChange={this.onCheck}>
-                        Use profile address
+                        Use Default Address
                     </Checkbox>
                 </Form.Item>
 
-                <Form.Item label="Description">
-                    {getFieldDecorator('Description', {
-                        rules: [{required: true}],
-                    })(<Input/>)}
-                </Form.Item>
+                
 
-                <Form.Item label="Image">
+                <Form.Item >
                     <div className="dropbox">
                         {getFieldDecorator('image', {
                             valuePropName: 'fileList',
                             getValueFromEvent: this.normFile,
                             rules: [{ required: true, message: 'Please select an image.' }]
                         })(
-                            <Upload.Dragger name="files" beforeUpload={this.beforeUpload}>
+                            <Upload.Dragger className="dragger" name="files" beforeUpload={this.beforeUpload}>
                                 <p className="ant-upload-drag-icon">
                                     <Icon type="inbox" />
                                 </p>
@@ -206,12 +217,13 @@ class DonateForm extends Component {
                     </div>
                 </Form.Item>
 
-                <Form.Item {...tailLayout}>
-                    <Button type="primary" htmlType="submit">
+                <Form.Item >
+                    <Button className="button-submit" htmlType="submit">
                         Submit
                     </Button>
                 </Form.Item>
             </Form>
+            </div>
         );
     }
 }

@@ -13,7 +13,7 @@ class NgoNavbar extends Component {
                     <Sidenav.Body>
                         <Nav>
                             <Nav.Item eventKey="1" icon={<Icon icon="home"/>}>
-                                <Link to="/ngo/home">Home</Link>
+                                
                             </Nav.Item>
                             <Nav.Item eventKey="2" icon={<Icon icon="group" />}>
                                 <Link to="/ngo/profile">Profile</Link>

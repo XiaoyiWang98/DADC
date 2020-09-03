@@ -98,7 +98,7 @@ class App extends React.Component{
         return(
             <div className="auth-main">
                 <Switch>
-                    <Route render={() => <Init initState={this.state.initState} afterInit={this.AfterInit}/>}/>
+                    <Route render={() => <Init initState={this.state.initState} afterInit={this.AfterInit} switchToNGO={this.switchToNGO}/>}/>
                 </Switch>
             </div>
         );
@@ -131,11 +131,15 @@ class App extends React.Component{
                                 :this.getInit()
                         }
                     </div>
-                    : this.getLoggedInUserMain()
+                    : 
+                   
+                        this.getLoggedInUserMain()
+                    
                 }
             </div>
         );
     }
 }
+
 
 export default App;

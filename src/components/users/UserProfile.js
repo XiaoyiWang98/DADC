@@ -152,45 +152,50 @@ class UserProfileForm extends Component {
 
        
         return (
-            <div>
+            <div className="main-content my-profile">
+                <div className="main-title">My Profile</div>
+                <hr className="divide"/>
                 {!this.state.edit ? 
                 <div className="profile">
                     {this.state.NGO == 0 ? 
-                    <div className="name">
-                    <div className="first-name">First name:   {this.state.firstName}</div> 
-                    <div className="last-name">Last name:   {this.state.lastName}</div>
-                    <EditTwoTone className="edit" size="large" onClick={this.editProfile}/>
-                </div>
-                :
-                <div className="name">
-                        <div className="first-name">Organization name:{this.state.firstName}</div> 
-                        <EditTwoTone className="edit" size="large" onClick={this.editProfile}/>
+                    <div>
+                        <div className="describe profile-name">
+                            <div>Name</div>
+                            <EditTwoTone twoToneColor="#02a95c" size="large" onClick={this.editProfile}/></div>
+                        <div className="info">{this.state.firstName}  {this.state.lastName}</div>    
+                    </div>
+                    :
+                    <div>
+                        <div className="describe">Organization Name:<EditTwoTone twoToneColor="#02a95c" size="large" onClick={this.editProfile}/></div>
+                        <div className="info">{this.state.firstName}</div> 
+                        
                     </div>
                 }
-                    <div className="email">Email:   {this.state.email}</div>
-                    <div className="phone">Phone Number:   {this.state.phoneNumber}</div>
-                    <div className="address">Address:   <div className="addressInfo"><div>{this.state.address}</div>
-                                                                                <div>{this.state.city}</div>
-                                                                                <div>{this.state.state}</div>
-                                                                                <div>{this.state.postal}</div>
-                                                      </div>
-                    </div>
+                    <div className="describe">Email</div>
+                    <div className="info">{this.state.email}</div>
+
+                    <div className="describe">Phone Number</div>
+                    <div className="info">{this.state.phoneNumber}</div>
+
+                    <div className="describe">Address</div>
+                    <div className="info">{this.state.address}</div>
+                    <div className="info">{this.state.city}, {this.state.state}  {this.state.postal}</div>
                 </div>
             :
-            <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register" >
+            <Form onSubmit={this.handleSubmit} className="register" >
 
-                <Form.Item label="First Name" name="firstName">
-                    {getFieldDecorator('firstName', {
-                        initialValue: firstName,
-                        rules: [{ required: true, message: 'Please input your first name!'}],
-                    })(
-                        <Input
-                            placeholder="First Name"
-                        />,
-                    )}
-                </Form.Item>
-
-                <Form.Item label="Last Name" >
+                    <div className="name">
+                    <Form.Item >
+                        {getFieldDecorator('firstName', {
+                            initialValue: firstName,
+                            rules: [{required: true, message: 'Please input your first name!'}],
+                        })(
+                            <Input
+                                placeholder="First Name"
+                            />,
+                        )}
+                    </Form.Item>
+                    <Form.Item >
                     {getFieldDecorator('lastName', {
                         initialValue: lastName,
                         rules: [{ required: true, message: 'Please input your last name!' }],
@@ -200,8 +205,9 @@ class UserProfileForm extends Component {
                         />,
                     )}
                 </Form.Item>
+                </div>
 
-                <Form.Item label="Email">
+                <Form.Item >
                     {getFieldDecorator('email', {
                         initialValue: email,
                         rules: [{ required: true, type:'email', message: 'Please input a valid email address!'}],
@@ -210,7 +216,7 @@ class UserProfileForm extends Component {
                     />)}
                 </Form.Item>
 
-                <Form.Item label="Phone Number">
+                <Form.Item >
                     {getFieldDecorator('phoneNumber', {
                         initialValue: phoneNumber,
                         rules: [{ required: true, message: 'Please input your phone number!' }],
@@ -221,7 +227,7 @@ class UserProfileForm extends Component {
                     )}
                 </Form.Item>
 
-                <Form.Item label="Mailing Address">
+                <Form.Item>
                     {getFieldDecorator('address', {
                         initialValue: address,
                         rules: [{ required: true, message: 'Please input your mailing address!' }],
@@ -233,7 +239,7 @@ class UserProfileForm extends Component {
                     )}
                 </Form.Item>
 
-                <Form.Item label="City">
+                <Form.Item >
                     {getFieldDecorator('city', {
                         initialValue:city,
                         rules: [{ required: true, message: 'Please input the city of your mailing address!' }],
@@ -245,38 +251,36 @@ class UserProfileForm extends Component {
                     )}
                 </Form.Item>
 
-                <Form.Item label="State">
+                <div className="name">
+                <Form.Item >
                     {getFieldDecorator('state', {
                         initialValue:state,
                         rules: [{ required: true, message: 'Please input the state of your mailing address!' }],
                     })(
-                        // <Input
-                        //     placeholder="Primary address"
-                        // />,
-                        <Input placeholder="Ex: CA"  />
+                        <Input placeholder="State" autoSize />
                     )}
                 </Form.Item>
 
-                <Form.Item label="Postal Code">
+                <Form.Item >
                     {getFieldDecorator('postal', {
                         initialValue:postal,
                         rules: [{ required: true, message: 'Please input the postal code of your mailing address!' }],
                     })(
-                        // <Input
-                        //     placeholder="Primary address"
-                        // />,
-                        <Input placeholder="Ex: 94116"  />
+                        <Input placeholder="Zip Code" autoSize />
                     )}
                 </Form.Item>
+                </div>
            
 
-                <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">
+                <Form.Item >
+                    <div className="profile-edit">
+                    <Button className="button-submit" htmlType="submit">
                         Save
                     </Button>
-                    <Button type="default" onClick={this.editProfile}>
+                    <Button type="default"  onClick={this.editProfile}>
                         Cancel
                     </Button>
+                    </div>
                 </Form.Item>
 
             </Form>

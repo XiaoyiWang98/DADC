@@ -42,7 +42,7 @@ class NormalLoginForm extends Component {
                             this.props.handleLoginSucceed();
                         }else{
                             this.props.userNGO?
-                                message.error("Please switch to Donor Page to login")
+                                message.error("Please switch to Resident Page to login")
                                 :message.error("Please switch to NGO Page to login");
                             this.props.handleLogout();
                         }
@@ -64,17 +64,18 @@ class NormalLoginForm extends Component {
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <Form.Item>
                     {this.props.userNGO?
-                        <h4>Welcome and Pickup</h4>
-                        :<h4>Welcome and Donate</h4>
+                        <h4>Ngo Sign In</h4>
+                        :<h4>Resident Sign In</h4>
                     }
                 </Form.Item>
+                <hr className="line"/>
                 <Form.Item>
                     {getFieldDecorator('username', {
                         rules: [{ required: true, type:'email', message: 'Please input a valid email address!' }],
                     })(
                         <Input
                             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="Username"
+                            placeholder="Email"
                         />,
                     )}
                 </Form.Item>
@@ -92,16 +93,16 @@ class NormalLoginForm extends Component {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" className="login-form-button">
-                        Log in
+                    <Button className="button-submit login-form-button" htmlType="submit" >
+                        Sign in to D&DC
                     </Button>
-                    Or <Link to="/register">register now!</Link> <br/>
+                    Don't have an account? <Link className="link" to="/register">Sign up</Link> <br/>
                     {this.props.userNGO?
                         <span>
-                            Are you <Link onClick={this.props.switchToDonor}>Donor</Link>?
+                            Switch to <Link className="link" onClick={this.props.switchToDonor}>Resident Account</Link>
                         </span>:
                         <span>
-                            Are you <Link onClick={this.props.switchToNGO}>NGO</Link>?
+                            Switch to <Link className="link" onClick={this.props.switchToNGO}>Ngo Account</Link>
                         </span>
                     }
 
