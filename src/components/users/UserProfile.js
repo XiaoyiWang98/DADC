@@ -44,6 +44,9 @@ class UserProfileForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        if (!values.lastName) {
+          values.lastName = "b";
+        }
         const user = UserPool.getCurrentUser();
         console.log("user->", user);
         if (user != null) {
@@ -176,7 +179,7 @@ class UserProfileForm extends Component {
               </div>
             ) : (
               <div>
-                <div className="describe">
+                <div className="describe profile-name">
                   Organization Name:
                   <EditTwoTone
                     twoToneColor="#02a95c"
@@ -201,7 +204,32 @@ class UserProfileForm extends Component {
           </div>
         ) : (
           <Form onSubmit={this.handleSubmit} className="register">
-            <div className="name">
+            {this.state.NGO == 0 ? (
+              <div className="name">
+                <Form.Item>
+                  {getFieldDecorator("firstName", {
+                    initialValue: firstName,
+                    rules: [
+                      {
+                        required: true,
+                        message: "Please input your first name!",
+                      },
+                    ],
+                  })(<Input placeholder="First Name" />)}
+                </Form.Item>
+                <Form.Item>
+                  {getFieldDecorator("lastName", {
+                    initialValue: lastName,
+                    rules: [
+                      {
+                        required: true,
+                        message: "Please input your last name!",
+                      },
+                    ],
+                  })(<Input placeholder="Last Name" />)}
+                </Form.Item>
+              </div>
+            ) : (
               <Form.Item>
                 {getFieldDecorator("firstName", {
                   initialValue: firstName,
@@ -211,17 +239,9 @@ class UserProfileForm extends Component {
                       message: "Please input your first name!",
                     },
                   ],
-                })(<Input placeholder="First Name" />)}
+                })(<Input placeholder="Business Name" />)}
               </Form.Item>
-              <Form.Item>
-                {getFieldDecorator("lastName", {
-                  initialValue: lastName,
-                  rules: [
-                    { required: true, message: "Please input your last name!" },
-                  ],
-                })(<Input placeholder="Last Name" />)}
-              </Form.Item>
-            </div>
+            )}
 
             <Form.Item>
               {getFieldDecorator("email", {
