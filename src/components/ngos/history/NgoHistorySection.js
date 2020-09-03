@@ -4,7 +4,7 @@ import {ALL} from "./constants";
 import NgoHistoryTable from "./NgoHistoryTable";
 import StatusFilter from "./StatusFilter";
 import {API_ROOT, AUTH_HEADER} from "../../../constants";
-import {NGO_PROCESSED_SCHEDULES} from "../../../tests/dummy_history"
+import {COMPLETED} from "./constants";
 
 
 class NgoHistorySection extends Component {
@@ -75,6 +75,22 @@ class NgoHistorySection extends Component {
         }
     }
 
+    updateHistory = (completed_schedule_id) => {
+        console.log("completed schedule id: ", completed_schedule_id);
+
+        const {full_history, history_to_display} = this.state;
+        const new_full_history = full_history.map(
+            pickup => {return pickup.schedule_id !== completed_schedule_id ? pickup : {...pickup, status: COMPLETED}});
+        const new_history_to_display = history_to_display.map(
+            pickup => {return pickup.schedule_id !== completed_schedule_id ? pickup : {...pickup, status: COMPLETED}});
+        console.log("new full history", new_full_history);
+        console.log("new history to display", new_history_to_display);
+        this.setState({
+            full_history: new_full_history,
+            history_to_display: new_history_to_display
+        })
+    }
+
     render() {
         const {isLoading, history_to_display} = this.state;
         return (
@@ -85,7 +101,9 @@ class NgoHistorySection extends Component {
                 {isLoading
                     ? <Spin className="history-spin" tip="Loading past pickup schedules..." size="large"/>
                     : <NgoHistoryTable filtered_history={history_to_display}
-                                       auth_token={this.props.auth_token}/>
+                                       auth_token={this.props.auth_token}
+                                       update_history={this.updateHistory}
+                    />
                 }
             </div>
         );

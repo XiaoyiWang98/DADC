@@ -20,17 +20,23 @@ function Item(id, status, name, description, image_link, address, lat, lng) {
     this.lng = lng;
 }
 
-export const parseData = (data) => {
-    let i;
+function makeAddress(addr_str) {
+    const addr_splitted = addr_str.split(",");
+    return new Address(
+        addr_splitted[0],
+        addr_splitted[1],
+        addr_splitted[2].split(" ")[1],
+        addr_splitted[2].split(" ")[2]
+    );
+}
+
+export const parseItemList = (data) => {
+
     let item_list = []
+    let i;
     for (i = 0; i < data.length; i++) {
-        const cur = data[i], addr_splitted = cur.address.split(",");
-        let item_Addr = new Address(
-            addr_splitted[0],
-            addr_splitted[1],
-            addr_splitted[2].split(" ")[1],
-            addr_splitted[2].split(" ")[2]
-        )
+        const cur = data[i]
+        let item_Addr = makeAddress(cur.address);
         let item = new Item(
             cur.itemID,
             cur.status,
@@ -44,4 +50,23 @@ export const parseData = (data) => {
         item_list.push(item);
     }
     return item_list;
+}
+
+export const formatItemList = (json_parsed_item_list) => {
+    const vom_itemList = [];
+    json_parsed_item_list.forEach(item => {
+        let addrObj = makeAddress(item.address);
+        let itemObj = new Item(
+            0,
+            item.status,
+            item.name,
+            item.description,
+            item.imageUrl,
+            addrObj,
+            parseFloat(item.location.lat),
+            parseFloat(item.location.lon)
+        );
+        vom_itemList.push(itemObj);
+    })
+    return vom_itemList;
 }

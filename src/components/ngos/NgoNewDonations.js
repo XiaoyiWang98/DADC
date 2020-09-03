@@ -6,7 +6,7 @@ import MapComposite from "./map/MapComposite";
 
 import {API_ROOT, AUTH_HEADER} from "../../constants";
 
-import {parseData} from "../../Utils";
+import {parseItemList} from "../../Utils";
 
 
 class NgoNewDonations extends Component {
@@ -88,7 +88,8 @@ class NgoNewDonations extends Component {
             })
             .then(data => {
                 console.log("searched items: ", data);
-                let item_list = parseData(data);
+
+                let item_list = parseItemList(data);
                 this.setState({pickupList: item_list});
             })
             .catch(error => {
@@ -153,6 +154,7 @@ class NgoNewDonations extends Component {
 
     onChangeDate = (date, dateStr) => {
         if (date === null) {
+            console.log("date is null!");
             this.setState({
                 pickupDate: null
             });
@@ -164,7 +166,7 @@ class NgoNewDonations extends Component {
     }
 
     schedulePickup = () => {
-        // console.log(this.state);
+        console.log("New Donation state: ", this.state);
         console.log(this.props.session);
         if (this.state.selected.length == 0) {
             this.setState({
