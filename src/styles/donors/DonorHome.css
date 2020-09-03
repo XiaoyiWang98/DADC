@@ -44,6 +44,7 @@
 
 .jumper{
     float: right;
+    font-style: italic;
     margin-right: 40px;
     margin-top: 50;
     font-size: large;
