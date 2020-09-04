@@ -1,57 +1,59 @@
 .spin-box {
-    height: 370px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  height: 370px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.history-page{
-    height: 564px;
+.history-page {
+  height: 564px;
 }
 
 .donor-history-list-box {
-    padding: 20px;
-    
-    margin-top: 25px;
-    margin-left: 10px;
-    margin-right: 10px;
-    max-height: 698px;
-    background-color: #f7f7fa;
-    box-shadow: inset 0px 0px 6px;
+  padding: 20px;
+
+  margin-top: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+  max-height: 698px;
+  background-color: #f7f7fa;
+  box-shadow: inset 0px 0px 6px;
 }
 
 .donor-history-list {
-    height: 358px;
-    overflow-y: scroll;
-    text-align: left;
-    width: 690px;
+  height: 415px;
+  overflow-y: scroll;
+  text-align: left;
+  width: 690px;
 }
 
 .donation-pending-text {
-    color: gray;
+  color: gray;
 }
 
 .donation-complete-text {
-    color: forestgreen;
+  color: forestgreen;
 }
 
 .donation-scheduled-text {
-    color: darkorange;
+  color: darkorange;
 }
 
-.donation-complete-text, .donation-pending-text, .donation-scheduled-text {
-    text-align: left;
-    font-weight: bold;
-    margin-right: 3em;
+.donation-complete-text,
+.donation-pending-text,
+.donation-scheduled-text {
+  text-align: left;
+  font-weight: bold;
+  margin-right: 3em;
 }
-.delete_button_box{
-    display: flex;
+.delete_button_box {
+  display: flex;
 }
-.delete_button{
-    margin-right: 20px;
+.delete_button {
+  margin-right: 20px;
 }
 
-.ant-list-lg .ant-list-item{
-    display: flex;
+.ant-list-lg .ant-list-item {
+  display: flex;
 }
 /*  .ant-list-item */

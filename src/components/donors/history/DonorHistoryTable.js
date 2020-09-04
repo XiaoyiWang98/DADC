@@ -24,7 +24,7 @@ class DonorHistoryTable extends Component {
       <div className="donor-history-list-box">
         {isLoad ? (
           <div className="spin-box">
-            <Spin tip="Loadiing..." size="large" />
+            <Spin className="spin" tip="Loading..." />
           </div>
         ) : (
           <List

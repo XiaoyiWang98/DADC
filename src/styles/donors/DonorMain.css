@@ -6,13 +6,13 @@
 
 .switch {
   flex-grow: 20;
-  margin-top: 20px;
+  margin-top: 50px;
   width: 740px;
 }
 
 .navbar {
   flex-grow: 1;
-  margin-top: 20px;
+  margin-top: 50px;
   margin-right: 20px;
   /* box-shadow: 0px 0px 1px; */
   width: 140px;
@@ -23,11 +23,12 @@
 .main-content {
   box-shadow: 1px 3px 6px;
   width: 740px;
+  height: 624px;
 }
 
-.my-profile {
+/* .my-profile {
   height: 540px;
-}
+} */
 
 .donate-page {
   height: 720px;
