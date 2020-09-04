@@ -9,7 +9,69 @@ import {API_ROOT, AUTH_HEADER} from "../../constants";
 import {parseItemList} from "../../Utils";
 
 
+
 class NgoNewDonations extends Component {
+
+  render() {
+    return (
+      <div className="ngo-new-donations">
+        <div className="main-title map-top-bar">
+          <div>New Donations</div>
+          <div className="map-date-submit">
+            <DatePicker onChange={this.onChangeDate} />
+
+            <Button
+              className="button-submit schedule-button"
+              htmlType="submit"
+              onClick={this.schedulePickup}
+            >
+              Schedule Pickup
+            </Button>
+          </div>
+        </div>
+        <hr className="divide" />
+        <div className="ngo-nd-map">
+          {this.state.pickupList === null || this.state.center === null ? (
+            <Spin className="spin" tip="Loading..." size="large" />
+          ) : (
+            <MapComposite
+              items={this.state.pickupList}
+              center={this.state.center}
+              handleCheckedFunction={this.handleChecked}
+            />
+          )}
+        </div>
+        <Modal
+          title="Schedule Pickup Information"
+          visible={this.state.visibleModal}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          footer={
+            this.state.errorMessage === ""
+              ? [
+                  <Button key="back" onClick={this.handleCancel}>
+                    Cancel
+                  </Button>,
+                  <Button key="submit" onClick={this.handleOk}>
+                    Submit Schedule
+                  </Button>,
+                ]
+              : [
+                  <Button key="back" onClick={this.handleCancel}>
+                    Ok
+                  </Button>,
+                ]
+          }
+        >
+          {this.state.errorMessage === "" ? (
+            <p>Are you confirmed to submit your next pickup schedule?</p>
+          ) : (
+            <p>{this.state.errorMessage}</p>
+          )}
+        </Modal>
+      </div>
+    );
+  }
 
     state = {
         pickupDate: null,
@@ -20,51 +82,51 @@ class NgoNewDonations extends Component {
         errorMessage: ""
     }
 
-    render() {
-        return (
-            <div className="ngo-new-donations">
-                <div className="ngo-nd-title">New Donations</div>
-                <div className="ngo-nd-date">
-                    <DatePicker onChange={this.onChangeDate}/>
-                </div>
-                <div className="ngo-nd-schedule">
-                    <Button
-                        className="ngo-nd-button"
-                        onClick={this.schedulePickup}
-                        size="large"
-                    >Schedule Pickup</Button>
-                </div>
-                <div className="ngo-nd-map">
-                    {(this.state.pickupList === null || this.state.center === null) ?
-                        <Spin tip="Loading..." size="large"/>
-                        :
-                        <MapComposite
-                            items={this.state.pickupList}
-                            center={this.state.center}
-                            handleCheckedFunction={this.handleChecked}
-                        />
-                    }
-                </div>
-                <Modal
-                    title="Schedule Pickup Information"
-                    visible={this.state.visibleModal}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                    footer={this.state.errorMessage === "" ?
-                        [<Button key="back" onClick={this.handleCancel}>Cancel</Button>,
-                            <Button key="submit" onClick={this.handleOk}>Submit Schedule</Button>]
-                        :
-                        [<Button key="back" onClick={this.handleCancel}>Ok</Button>]
-                    }
-                >
-                    {
-                        this.state.errorMessage === "" ? <p>Are you confirmed to submit your next pickup schedule?</p>
-                            : <p>{this.state.errorMessage}</p>
-                    }
-                </Modal>
-            </div>
-        );
-    }
+    // render() {
+    //     return (
+    //         <div className="ngo-new-donations">
+    //             <div className="ngo-nd-title">New Donations</div>
+    //             <div className="ngo-nd-date">
+    //                 <DatePicker onChange={this.onChangeDate}/>
+    //             </div>
+    //             <div className="ngo-nd-schedule">
+    //                 <Button
+    //                     className="ngo-nd-button"
+    //                     onClick={this.schedulePickup}
+    //                     size="large"
+    //                 >Schedule Pickup</Button>
+    //             </div>
+    //             <div className="ngo-nd-map">
+    //                 {(this.state.pickupList === null || this.state.center === null) ?
+    //                     <Spin tip="Loading..." size="large"/>
+    //                     :
+    //                     <MapComposite
+    //                         items={this.state.pickupList}
+    //                         center={this.state.center}
+    //                         handleCheckedFunction={this.handleChecked}
+    //                     />
+    //                 }
+    //             </div>
+    //             <Modal
+    //                 title="Schedule Pickup Information"
+    //                 visible={this.state.visibleModal}
+    //                 onOk={this.handleOk}
+    //                 onCancel={this.handleCancel}
+    //                 footer={this.state.errorMessage === "" ?
+    //                     [<Button key="back" onClick={this.handleCancel}>Cancel</Button>,
+    //                         <Button key="submit" onClick={this.handleOk}>Submit Schedule</Button>]
+    //                     :
+    //                     [<Button key="back" onClick={this.handleCancel}>Ok</Button>]
+    //                 }
+    //             >
+    //                 {
+    //                     this.state.errorMessage === "" ? <p>Are you confirmed to submit your next pickup schedule?</p>
+    //                         : <p>{this.state.errorMessage}</p>
+    //                 }
+    //             </Modal>
+    //         </div>
+    //     );
+    // }
 
     updatePickupList = () => {
         // console.log("updatePickupList");

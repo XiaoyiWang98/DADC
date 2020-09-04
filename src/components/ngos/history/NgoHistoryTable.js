@@ -17,7 +17,6 @@ class NgoHistoryTable extends Component {
 
     constructor() {
         super();
-        console.log("HistoryTable props", this.props);
         this.state = {
             showOnMap: false,
             itemList: [],
@@ -116,10 +115,10 @@ class NgoHistoryTable extends Component {
                     onCancel={this.handleCancel}
                     footer={<Button key="back" type="primary" onClick={this.handleCancel}>Back to history</Button>}
                 >
-                    <MapComposite
-                        items={this.state.itemList}
-                        center={this.state.center}
-                    />
+                <MapComposite
+                    items={this.state.itemList}
+                    center={this.state.center}
+                />
                 </Modal>
             </div>
         );

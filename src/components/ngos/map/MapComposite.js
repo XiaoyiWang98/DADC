@@ -19,11 +19,13 @@ class MapComposite extends Component {
       items: this.props.items,
       items_order: [],
     };
+    console.log("[MapComposite] items: ", this.state.items);
   }
 
   updateItemOrder = (orderList) => {
     this.setState({ items_order: orderList });
   };
+
   componentDidMount() {
     const mimicUpdate = () => {
       const selected = {};

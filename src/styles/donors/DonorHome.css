@@ -1,56 +1,59 @@
-.content-home{
-    height: 540px;
-
+.content-home {
+  height: 540px;
 }
 
-.spin{
-    margin-top: 100px;
-    color: #02a95c;
-   align-items: center;
+.spin {
+  margin-top: 100px;
+  color: #02a95c;
+  align-items: center;
 }
 
-.home-name{
-    height: 150px;
-    margin-left: 40px;
-    font-size: xxx-large;
-    font-weight: bolder;
-    align-items: center;
-    display: flex;
+.home-name {
+  height: 150px;
+  margin-left: 40px;
+  font-size: xxx-large;
+  font-weight: bolder;
+  align-items: center;
+  display: flex;
 }
 
-.home-status{
-    margin-top: -15px;
-    margin-left: 70px;
-    margin-bottom: 70px;
-    font-size: xx-large;
-    font-weight: bold;
-    align-items: center;
+.home-img {
+  height: 180px;
 }
 
-.no-donation{
-    margin-top: 20px;
+.home-status {
+  margin-top: -15px;
+  margin-left: 70px;
+  margin-bottom: 70px;
+  font-size: xx-large;
+  font-weight: bold;
+  align-items: center;
 }
 
-.home-status-content{
-    display: flex;
-    align-items: baseline;
+.no-donation {
+  margin-top: 20px;
 }
 
-.home-number{
-    font-size: 100px;
-    color: #00c468;
-    margin-left: 40px;
+.home-status-content {
+  display: flex;
+  align-items: baseline;
 }
 
-.jumper{
-    float: right;
-    font-style: italic;
-    margin-right: 40px;
-    margin-top: 50;
-    font-size: large;
+.home-number {
+  font-size: 100px;
+  color: #00c468;
+  margin-left: 40px;
 }
 
-.nav-button{
-    height: 100%;
-    width: 100%;
+.jumper {
+  float: right;
+  font-style: italic;
+  margin-right: 40px;
+  margin-top: 50px;
+  font-size: large;
+}
+
+.nav-button {
+  height: 100%;
+  width: 100%;
 }

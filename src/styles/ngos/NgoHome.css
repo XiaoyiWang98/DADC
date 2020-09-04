@@ -1,22 +1,11 @@
-.ant-tabs-tab{
-    /*font-weight: bold;*/
+.ngo-home-noItem {
+  margin-left: 70px;
+  margin-bottom: 70px;
+  margin-top: 20px;
+  font-size: x-large;
+  align-items: center;
 }
 
-.ant-tabs-tab-active{
-    background-color: aliceblue;
-}
-
-.home-tab {
-    text-align: left;
-    margin: 50px 50px;
-}
-
-.button-home-tab {
-    float:right;
-    background-color: white;
-    border: 0;
-}
-
-.content{
-    display: flex;
+.content {
+  display: flex;
 }

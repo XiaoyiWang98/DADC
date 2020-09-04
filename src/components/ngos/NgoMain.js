@@ -119,30 +119,74 @@ class NgoMain extends Component {
     //     })
     // }
 
+    // render() {
+    //     return (
+    //         <div>
+    //             <TopBar handleLogout={this.props.handleLogout} isLoggedIn={this.props.isLoggedIn}/>
+    //             <div className="ngo-main">
+    //                 <NgoNavbar className="navbar"/>
+    //                 <div className="ngo-switch" >
+    //                     <Switch >
+    //                         {/* <Route exact path="/register" render={this.getRegister}/> */}
+    //                         <Route exact path="/" render={this.getLogin}/>
+    //                         <Route exact path="/ngo/home" render={this.getHome}/>
+    //                         <Route exact path="/ngo/profile" component={this.getProfile} />
+    //                         <Route exact path="/ngo/mapTest" component={MapCompositeTestLoader}/>
+    //                         <Route exact path="/ngo/new_donation" component={this.getNewDonation}/>
+    //                         <Route exact path="/ngo/completed_pickup" render={this.getHistory} />
+    //                         <Route render={()=><NgoHome session={this.props.session} collectSearchItem = {this.collectSearchItem}
+    //                         />}/>
+    //                     </Switch>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     );
+    // }
 
-    render() {
-        return (
-            <div>
-                <TopBar handleLogout={this.props.handleLogout} isLoggedIn={this.props.isLoggedIn}/>
-                <div className="ngo-main">
-                    <NgoNavbar className="navbar"/>
-                    <div className="ngo-switch" >
-                        <Switch >
-                            {/* <Route exact path="/register" render={this.getRegister}/> */}
-                            <Route exact path="/" render={this.getLogin}/>
-                            <Route exact path="/ngo/home" render={this.getHome}/>
-                            <Route exact path="/ngo/profile" component={this.getProfile} />
-                            <Route exact path="/ngo/mapTest" component={MapCompositeTestLoader}/>
-                            <Route exact path="/ngo/new_donation" component={this.getNewDonation}/>
-                            <Route exact path="/ngo/completed_pickup" render={this.getHistory} />
-                            <Route render={()=><NgoHome session={this.props.session} collectSearchItem = {this.collectSearchItem}
-                            />}/>
-                        </Switch>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <TopBar
+          handleLogout={this.props.handleLogout}
+          isLoggedIn={this.props.isLoggedIn}
+        />
+        <div className="main">
+          <NgoNavbar className="navbar" />
+          <div className="switch">
+            <Switch>
+              {/* <Route exact path="/register" render={this.getRegister}/> */}
+              <Route exact path="/" render={this.getLogin} />
+              <Route exact path="/ngo/home" render={this.getHome} />
+              <Route exact path="/ngo/profile" component={this.getProfile} />
+              <Route
+                exact
+                path="/ngo/mapTest"
+                component={MapCompositeTestLoader}
+              />
+              <Route
+                exact
+                path="/ngo/new_donation"
+                component={this.getNewDonation}
+              />
+              <Route
+                exact
+                path="/ngo/completed_pickup"
+                render={this.getHistory}
+              />
+              <Route
+                render={() => (
+                  <NgoHome
+                    session={this.props.session}
+                    collectSearchItem={this.collectSearchItem}
+                  />
+                )}
+              />
+            </Switch>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default NgoMain;
