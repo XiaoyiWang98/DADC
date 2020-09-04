@@ -71,10 +71,7 @@ class DonorHistorySection extends Component {
         <hr className="divide" />
         <div className="filter-setting">
           <StatusFilter filterBy={this.onStatusFilter} />
-          <DatePicker
-            className="history-datepicker"
-            onChange={this.onDateChange}
-          />
+          <DatePicker onChange={this.onDateChange} />
         </div>
         <DonorHistoryTable
           updateList={this.props.updateList}
