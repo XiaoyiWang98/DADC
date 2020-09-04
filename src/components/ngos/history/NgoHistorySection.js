@@ -75,19 +75,16 @@ class NgoHistorySection extends Component {
     }
 
     updateHistory = (completed_schedule_id) => {
-        console.log("completed schedule id: ", completed_schedule_id);
-
         const {full_history, history_to_display} = this.state;
         const new_full_history = full_history.map(
-            pickup => {return pickup.schedule_id !== completed_schedule_id ? pickup : {...pickup, status: COMPLETED}});
+            pickup => {return pickup.scheduleID !== completed_schedule_id ? pickup : {...pickup, status: COMPLETED}});
         const new_history_to_display = history_to_display.map(
-            pickup => {return pickup.schedule_id !== completed_schedule_id ? pickup : {...pickup, status: COMPLETED}});
-        console.log("new full history", new_full_history);
-        console.log("new history to display", new_history_to_display);
+            pickup => {return pickup.scheduleID !== completed_schedule_id ? pickup : {...pickup, status: COMPLETED}});
+
         this.setState({
             full_history: new_full_history,
             history_to_display: new_history_to_display
-        })
+        });
     }
 
     render() {
