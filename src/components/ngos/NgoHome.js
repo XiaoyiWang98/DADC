@@ -1,127 +1,93 @@
-import React, {Component} from 'react';
-import {Tabs} from "antd";
-import UserProfile from '../users/UserProfile';
-import {API_ROOT} from '../../constants';
-import NgoNewDonations from "./NgoNewDonations";
-import MapComposite from "./map/MapComposite";
-import MapCompositeTestLoader from "./map/MapCompositeTestLoader";
-import NgoHistorySection from "./history/NgoHistorySection";
-import DonorHistorySection from "../donors/history/DonorHistorySection";
-import {DONATED_ITEMS, NGO_PROCESSED_SCHEDULES} from "../../tests/dummy_history"; // TODO: Replace me!
-
-const {TabPane} = Tabs;
+import React, { Component } from "react";
+import { Button, Tabs, Spin } from "antd";
+import { API_ROOT, AUTH_HEADER } from "../../constants";
+import { Link } from "react-router-dom";
+import sad from "../../assets/images/sad.jpg";
 
 class NgoHome extends Component {
+  state = {
+    lastName: this.props.session.idToken.payload["family_name"],
+    firstName: this.props.session.idToken.payload["given_name"],
+    isLoadingItems: false,
+    error: "",
+    NgoItems: [],
+  };
 
-    state = {
-        user_id: this.props.session.idToken.payload["cognito:username"],
-        NGO: this.props.session.idToken.payload["custom:custom:NGO"],
-        address: this.props.session.idToken.payload["address"].formatted,
-        city:this.props.session.idToken.payload["custom:city"],
-        state:this.props.session.idToken.payload["custom:state"],
-        postal:this.props.session.idToken.payload["custom:postalCode"],
-        lastName: this.props.session.idToken.payload["family_name"],
-        firstName: this.props.session.idToken.payload["given_name"],
-        phoneNumber:this.props.session.idToken.payload["phone_number"],
-        isLoadingPickupList: false,
-        email:this.props.session.idToken.payload["email"],
-        isLoadingItems: false,
-        error: '',
-        NgoItems: []
-    }
+  componentDidMount() {
+    this.setState({ isLoadingItems: true, error: "" });
+    fetch(`${API_ROOT}/ngo/search_item`, {
+      method: "GET",
+      headers: {
+        Authorization: `${AUTH_HEADER} ${this.props.session.idToken.jwtToken}`,
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+        throw new Error("Failed to load donorItems");
+      })
+      .then((data) => {
+        // handle the case when data is {"result": "FAILED"}
+        if (data.length === undefined) {
+          throw new Error("Failed to load donorItems");
+        } else {
+          this.setState({ NgoItems: data ? data : [], isLoadingItems: false });
+          this.props.collectSearchItem(data);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+        this.setState({ isLoadingItems: false, error: e.message });
+      });
+  }
 
-    componentDidMount() {
-        console.log(this.state.firstName);
-        console.log(this.state.lastName);
-        console.log(this.state.user_id);
-        console.log(this.state.NGO);
-        console.log(this.state.address);
-        console.log(this.state.phoneNumber);
-        console.log(this.state.city);
-        console.log(this.state.postal);
-        // fetch data and setState here NgoItems = []
-        // api get /ngo/search_item
-        // the API_ROOT and exact headers need to be modified later
-        this.setState({ isLoadingItems: true, error: '' });
-        fetch(`${API_ROOT}/ngo/search_item`, {
-            method: 'GET',
-            headers: {
-                Authorization: `${this.props.session.idToken}`
-            }
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                throw new Error('Failed to load donorItems');
-            })
-            .then((data) => {
-                this.setState({NgoItems: data ? data : [], isLoadingItems: false});
-            })
-            .catch((e) => {
-                console.error(e);
-                this.setState({isLoadingItems: false, error: e.message});
-            });
-    }
-
-    renderHome = () => {
-        const donationCount = this.state.NgoItems.length;
-        return (
-            <div className="home-tab">
-                <h1>Hi, {this.state.firstName} {this.state.lastName}!
-                    <br/>There are {donationCount} donations around you!</h1>
-                {/*redirect destination of this button needs to be filled later*/}
-                <button className="button-home-tab"><a href="#">Click here to view -></a></button>
-            </div>)
-    }
-
-    updateInfo = (e) =>{
-        this.setState({
-            firstName: e.firstName,
-            lastName: e.lastName,
-            address: e.address,
-            city: e.city,
-            state: e.state,
-            postal: e.postal
-        })
-    }
-
-    renderNewDonations = () => {
-        //return <NgoNewDonations/>; TODO: Add Calender!
-        return <MapCompositeTestLoader />
-    }
-
-    renderHistory = () => {
-        // TODO: Make http request to fetch pickup list here!
-        return (
-            <NgoHistorySection full_history={NGO_PROCESSED_SCHEDULES}
-                               isLoad={this.state.isLoadingPickupList}/>
-        )
-    }
-
-    render() {
-        return (
-            <div>
-                <Tabs tabPosition="left">
-                    <TabPane tab="Home" key="1">
-                        {this.renderHome()}
-                    </TabPane>
-                    <TabPane tab="Profile" key="2">
-                        <UserProfile info={this.state}
-                        updateInfo={this.updateInfo}
-                        />
-                    </TabPane>
-                    <TabPane tab="NewDonations" key="3">
-                        {this.renderNewDonations()}
-                    </TabPane>
-                    <TabPane tab="History" key="4">
-                        {this.renderHistory()}
-                    </TabPane>
-                </Tabs>
-            </div>
-        );
-    }
-
+  render() {
+    const donationCount = this.state.NgoItems.length;
+    const is_are_text = donationCount === 1 ? "is" : "are";
+    const loading = this.state.isLoadingItems;
+    return (
+      <div className="main-content content-home">
+        {loading ? (
+          <Spin className="spin" tip="Loading..." />
+        ) : (
+          <div>
+            {donationCount === 0 ? (
+              <div>
+                <div className="home-name">{this.state.firstName}:</div>
+                <img className="home-img" src={sad} />
+                <div className="ngo-home-noItem">
+                  <div className="home-status-content">
+                    There Are No New Donations
+                  </div>
+                  <div className="home-status-content">At This Time.</div>
+                  <div className="home-status-content">
+                    Please Check Back Later.
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div className="home-name">{this.state.firstName}:</div>
+                <div className="home-status">
+                  <div className="home-status-content">
+                    There {is_are_text}
+                    <div className="home-number">{donationCount}</div>
+                  </div>
+                  <div className="home-status-content">
+                    new Donations Around Your Location!
+                  </div>
+                  <Link className="link jumper" to="/ngo/new_donation">
+                    Check them out!
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
 }
 
 export default NgoHome;

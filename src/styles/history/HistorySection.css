@@ -1,3 +1,9 @@
+.history-container {
+    margin-left: 3em;
+    margin-right: 3em;
+    margin-bottom: 1em;
+}
+
 .history-heading {
     text-align: left;
     margin: auto;
@@ -7,8 +13,7 @@
 
 .history-status-filter {
     float: left;
-    margin-left: 1em;
-    margin-top: 2em;
+    margin-left: 50px;
     font-size: 1.2em;
 }
 
@@ -21,4 +26,17 @@
     float: left;
     margin-left: 6em;
     margin-top: 2em;
+}
+
+.history-spin {
+    display: flex;
+    height: 400px;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter-setting{
+    display: flex;
+    justify-content: space-between;
+    width: 680px;
 }

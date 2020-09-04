@@ -1,12 +1,59 @@
-.ant-tabs-tab{
-    /*font-weight: bold;*/
+.content-home {
+  height: 540px;
 }
 
-.ant-tabs-tab-active{
-    background-color: aliceblue;
+.spin {
+  margin-top: 100px;
+  color: #02a95c;
+  align-items: center;
 }
 
-.home-tab {
-    text-align: left;
-    margin: 50px 50px;
+.home-name {
+  height: 150px;
+  margin-left: 40px;
+  font-size: xxx-large;
+  font-weight: bolder;
+  align-items: center;
+  display: flex;
+}
+
+.home-img {
+  height: 180px;
+}
+
+.home-status {
+  margin-top: -15px;
+  margin-left: 70px;
+  margin-bottom: 70px;
+  font-size: xx-large;
+  font-weight: bold;
+  align-items: center;
+}
+
+.no-donation {
+  margin-top: 20px;
+}
+
+.home-status-content {
+  display: flex;
+  align-items: baseline;
+}
+
+.home-number {
+  font-size: 100px;
+  color: #00c468;
+  margin-left: 40px;
+}
+
+.jumper {
+  float: right;
+  font-style: italic;
+  margin-right: 40px;
+  margin-top: 50px;
+  font-size: large;
+}
+
+.nav-button {
+  height: 100%;
+  width: 100%;
 }

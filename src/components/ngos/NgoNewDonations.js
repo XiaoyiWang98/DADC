@@ -1,192 +1,353 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 
-import {Button, Calendar, Checkbox, List, Avatar, Modal, message} from "antd";
+import { Button, Modal, message, DatePicker, Spin } from "antd";
 
-import NgoMap from "./NgoMap";
-// TODO： change logo for item list
-import itemLogo from "../../assets/images/logo.svg"
+import MapComposite from "./map/MapComposite";
 
+import { API_ROOT, AUTH_HEADER } from "../../constants";
 
+import { parseItemList } from "../../Utils";
 
 class NgoNewDonations extends Component {
-    constructor() {
-        super();
-        const now = new Date();
-        this.state = {
-            pickupDate: {
-                year: now.getFullYear(),
-                month: now.getMonth(),
-                date: now.getDate()
-            },
-            // TODO: change list info to this.props, also check the names, this list is only for test and should be deleted
-            pickUpList: [{id: 1, name: "facemask", address: "1234 M St"}, {id: 2, name: "mattress", address: "5678 S Ln"}],
-            selected: [],
-            visibleModal: false,
-            errorMessage: ""
-        }
-    }
+  render() {
+    return (
+      <div className="ngo-new-donations">
+        <div className="main-title map-top-bar">
+          <div>New Donations</div>
+          <div className="map-date-submit">
+            <DatePicker onChange={this.onChangeDate} />
 
-    // TODO: change map reactions in line 34
-    render() {
-        return (
-            <div className="ngo-new-donations">
-                <div className="ngo-nd-left">
-                    <NgoMap
-                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3CEh9DXuyjozqptVB5LA-dN7MxWWkr9s&v=3.exp&libraries=geometry,drawing,places"
-                        loadingElement={<div style={{ height: `100%` }} />}
-                        containerElement={<div style={{ height: `800px` }} />}
-                        mapElement={<div style={{ height: `100%` }} />}
-                    />
-                </div>
-                <div className="ngo-nd-right">
-                    <div className="ngo-nd-title">Pickup Locations</div>
-                    <hr/>
-                    <List
-                        className="ngo-nd-list"
-                        itemLayout="horizontal"
-                        dataSource={this.state.pickUpList}
-                        renderItem={item => (
-                            <List.Item actions={[<Checkbox dataInfo={item} onChange={this.onChangeItem}/>]}>
-                                <List.Item.Meta
-                                    avatar={<Avatar size={50} src={itemLogo} />}
-                                    title={<p>{item.name}</p>}
-                                    description={<p>{item.address}</p>}
-                                />
-                            </List.Item>
-                        )}
-                    />
-                    <div className="ngo-nd-title">Select Date</div>
-                    <hr/>
-                    <div className="ngo-nd-date">
-                        <Calendar fullscreen={false} onChange={this.onChangeDate}/>
-                    </div>
-                    <div className="ngo-nd-schedule">
-                        <Button
-                            className="ngo-nd-button"
-                            onClick={this.schedulePickup}
-                            size="large"
-                        >Schedule Pickup</Button>
-                    </div>
-                </div>
-                <Modal
-                    title="Schedule Pickup Information"
-                    visible={this.state.visibleModal}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                    footer={this.state.errorMessage === "" ?
-                        [<Button key="back" onClick={this.handleCancel}>Cancel</Button>,
-                            <Button key="submit" onClick={this.handleOk}>Submit Schedule</Button>]
-                            :
-                        [<Button key="back" onClick={this.handleCancel}>Ok</Button>]
-                    }
-                >
-                    {
-                        this.state.errorMessage === "" ? <p>Are you confirmed to submit your next pickup schedule?</p>
-                            : <p>{this.state.errorMessage}</p>
-                    }
-                </Modal>
-            </div>
-        );
-    }
+            <Button
+              className="button-submit schedule-button"
+              htmlType="submit"
+              onClick={this.schedulePickup}
+            >
+              Schedule Pickup
+            </Button>
+          </div>
+        </div>
+        <hr className="divide" />
+        <div className="ngo-nd-map">
+          {this.state.pickupList === null || this.state.center === null ? (
+            <Spin className="spin" tip="Loading..." size="large" />
+          ) : (
+            <MapComposite
+              items={this.state.pickupList}
+              center={this.state.center}
+              handleCheckedFunction={this.handleChecked}
+            />
+          )}
+        </div>
+        <Modal
+          title="Schedule Pickup Information"
+          visible={this.state.visibleModal}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          footer={
+            this.state.errorMessage === ""
+              ? [
+                  <Button key="back" onClick={this.handleCancel}>
+                    Cancel
+                  </Button>,
+                  <Button key="submit" onClick={this.handleOk}>
+                    Submit Schedule
+                  </Button>,
+                ]
+              : [
+                  <Button key="back" onClick={this.handleCancel}>
+                    Ok
+                  </Button>,
+                ]
+          }
+        >
+          {this.state.errorMessage === "" ? (
+            <p>Are you confirmed to submit your next pickup schedule?</p>
+          ) : (
+            <p>{this.state.errorMessage}</p>
+          )}
+        </Modal>
+      </div>
+    );
+  }
 
-    onChangeDate = (value) => {
-        const date = value._d;
-        this.setState(() => ({
-            pickupDate: {
-                year: date.getFullYear(),
-                month: date.getMonth(),
-                date: date.getDate()
-            }
-        }))
-    }
+  state = {
+    pickupDate: null,
+    pickupList: null,
+    selected: [],
+    center: null,
+    visibleModal: false,
+    errorMessage: "",
+  };
 
-    // TODO: change the error message and other error cases if necessary
-    schedulePickup = () => {
-        if (this.state.selected.length == 0) {
-            this.setState({
-                errorMessage: "Please select at least 1 item!"
-            })
-        }
-        else if (this.state.selected.length > 25) {
-            this.setState({
-                errorMessage: "Please select no more than 25 items!"
-            })
-        }
-        else if (!this.compareDate(this.state.pickupDate)) {
-            this.setState({
-                errorMessage: "Please select the date after today!"
-            })
-        }
-        this.showModal();
-    }
+  // render() {
+  //     return (
+  //         <div className="ngo-new-donations">
+  //             <div className="ngo-nd-title">New Donations</div>
+  //             <div className="ngo-nd-date">
+  //                 <DatePicker onChange={this.onChangeDate}/>
+  //             </div>
+  //             <div className="ngo-nd-schedule">
+  //                 <Button
+  //                     className="ngo-nd-button"
+  //                     onClick={this.schedulePickup}
+  //                     size="large"
+  //                 >Schedule Pickup</Button>
+  //             </div>
+  //             <div className="ngo-nd-map">
+  //                 {(this.state.pickupList === null || this.state.center === null) ?
+  //                     <Spin tip="Loading..." size="large"/>
+  //                     :
+  //                     <MapComposite
+  //                         items={this.state.pickupList}
+  //                         center={this.state.center}
+  //                         handleCheckedFunction={this.handleChecked}
+  //                     />
+  //                 }
+  //             </div>
+  //             <Modal
+  //                 title="Schedule Pickup Information"
+  //                 visible={this.state.visibleModal}
+  //                 onOk={this.handleOk}
+  //                 onCancel={this.handleCancel}
+  //                 footer={this.state.errorMessage === "" ?
+  //                     [<Button key="back" onClick={this.handleCancel}>Cancel</Button>,
+  //                         <Button key="submit" onClick={this.handleOk}>Submit Schedule</Button>]
+  //                     :
+  //                     [<Button key="back" onClick={this.handleCancel}>Ok</Button>]
+  //                 }
+  //             >
+  //                 {
+  //                     this.state.errorMessage === "" ? <p>Are you confirmed to submit your next pickup schedule?</p>
+  //                         : <p>{this.state.errorMessage}</p>
+  //                 }
+  //             </Modal>
+  //         </div>
+  //     );
+  // }
 
-    // TODO: change valid date definition if needed
-    compareDate = (date) => {
-        const now = new Date();
-        if (date.year < now.getFullYear()) {
-            return false;
+  updatePickupList = () => {
+    // console.log("updatePickupList");
+    // console.log(`${API_ROOT}/ngo/search_item`)
+    fetch(`${API_ROOT}/ngo/search_item`, {
+      method: "GET",
+      headers: {
+        Authorization: `${AUTH_HEADER} ${this.props.session.idToken.jwtToken}`,
+      },
+    })
+      .then((response) => {
+        // console.log(response);
+        if (response.ok) {
+          // console.log("good");
+          // console.log(response.text());
+          return response.json();
+        } else {
+          message.error("Failed to send request.");
+          throw new Error("Failed to send request.");
         }
-        if (date.year === now.getFullYear()) {
-            if (date.month < now.getMonth()) {
-                return false;
-            }
-            if (date.month === now.getMonth() && date.date <= now.getDate()) {
-                return false;
-            }
-        }
-        return true;
-    }
+      })
+      .then((data) => {
+        console.log("searched items: ", data);
 
-    onChangeItem = (e) => {
-        const { dataInfo, checked } = e.target;
-        const { selected } = this.state;
-        const list = this.addOrRemove(dataInfo, checked, selected);
-        this.setState({
-            selected: list
+        let item_list = parseItemList(data);
+        this.setState({ pickupList: item_list });
+      })
+      .catch((error) => {
+        console.error(error);
+        message.error("Error caught: Failed to get pickup list.");
+      });
+
+    fetch(
+      "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+        this.props.session.idToken.payload["address"].formatted.replace(
+          " ",
+          "+"
+        ) +
+        ",+" +
+        this.props.session.idToken.payload["custom:city"].replace(" ", "+") +
+        ",+" +
+        this.props.session.idToken.payload["custom:state"] +
+        "+" +
+        this.props.session.idToken.payload["custom:postalCode"] +
+        "&key=AIzaSyCq-BRueDRRCUgFkqTgO93mFkgBfP0hOjU",
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        message.error("Failed to get your geo location.");
+      })
+      .then((data) => {
+        // console.log(data);
+        if (data.status === "OK") {
+          this.setState({
+            center: data.results[0].geometry.location,
+          });
+        } else {
+          message.error("Failed to get your geo location.");
+        }
+      })
+      .catch((error) => {
+        message.error("Error caught: Failed to get your geo location.");
+      });
+  };
+
+  componentDidMount() {
+    this.updatePickupList();
+  }
+
+  handleChecked = (id, check) => {
+    this.setState({
+      errorMessage: "",
+    });
+    if (check && this.state.selected.indexOf(id) === -1) {
+      this.setState((state) => {
+        state.selected.push(id);
+        return state;
+      });
+    } else {
+      this.setState(
+        this.setState((state) => {
+          state.selected.splice(state.selected.indexOf(id), 1);
+          return state;
         })
+      );
     }
+    // console.log(this.state.selected);
+  };
 
-    addOrRemove = (item, status, list) => {
-        const found = list.some(entry => entry.id === item.id);
-        if (status && !found) {
-            list.push(item)
-        }
-        if (!status && found) {
-            list = list.filter(entry => {
-                return entry.id !== item.id;
-            });
-        }
-        return list;
+  onChangeDate = (date, dateStr) => {
+    if (date === null) {
+      console.log("date is null!");
+      this.setState({
+        pickupDate: null,
+      });
+      return;
     }
+    this.setState({ pickupDate: date }, function () {
+      console.log("pickup date: ", this.state.pickupDate);
+    });
+  };
 
-    showModal = () => {
-        this.setState({
-            visibleModal: true,
-        });
-    };
+  schedulePickup = () => {
+    console.log("New Donation state: ", this.state);
+    console.log(this.props.session);
+    if (this.state.selected.length == 0) {
+      this.setState({
+        errorMessage: "Please select at least 1 item!",
+      });
+    } else if (this.state.selected.length > 25) {
+      this.setState({
+        errorMessage: "Please select no more than 25 items!",
+      });
+    } else if (this.state.pickupDate === null) {
+      this.setState({
+        errorMessage: "Please select the pickup date!",
+      });
+    } else if (!this.compareDate(this.state.pickupDate)) {
+      this.setState({
+        errorMessage: "Please select the date after today!",
+      });
+    }
+    this.showModal();
+  };
 
-    // TODO: change the schedule function and interaction with the parent node
-    handleOk = e => {
-        // console.log(e);
-        console.log("Pickup information:\nDate " + this.state.pickupDate + "\nItems ", this.state.selected);
-        console.log("success");
-        this.setState({
-            visibleModal: false,
-            errorMessage: ""
-        });
-        message.success({
-            content: "You have scheduled your next route successfully!"
-        });
-    };
+  compareDate = (date) => {
+    const now = new Date();
+    if (date.year < now.getFullYear()) {
+      return false;
+    }
+    if (date.year === now.getFullYear()) {
+      if (date.month < now.getMonth() + 1) {
+        return false;
+      }
+      if (date.month === now.getMonth() + 1 && date.date <= now.getDate()) {
+        return false;
+      }
+    }
+    return true;
+  };
 
-    handleCancel = e => {
-        // console.log(e);
-        console.log("cancelled");
-        this.setState({
-            visibleModal: false,
-            errorMessage: ""
-        });
-    };
+  showModal = () => {
+    this.setState({
+      visibleModal: true,
+    });
+  };
+
+  handleOk = (e) => {
+    // console.log(e);
+    // console.log("Pickup information:\nDate: ", this.state.pickupDate, "\nItems: ", this.state.selected);
+    this.setState({
+      visibleModal: false,
+    });
+
+    const { pickupDate, selected } = this.state;
+    // const pickups = [];
+    // var i;
+    // for (i in this.state.selected) {
+    //     pickups.push(this.state.pickupList[i].itemId);
+    // }
+
+    // const formdata = new FormData();
+    // formdata.set("ScheduleDate", `${pickupDate.year}-${pickupDate.month < 10 ? 0 : ''}${pickupDate.month}-${pickupDate.date < 10 ? 0 : ''}${pickupDate.date}`);
+    // formdata.set("itemIds", this.state.selected);
+
+    // console.log(formdata.get("ScheduleDate"));
+    // console.log(formdata.get("itemIds"));
+    // console.log(this.state.selected);
+
+    const pickData = JSON.stringify({
+      //"ScheduleDate": `${pickupDate.year}-${pickupDate.month < 10 ? 0 : ''}${pickupDate.month}-${pickupDate.date < 10 ? 0 : ''}${pickupDate.date}`,
+      ScheduleDate: pickupDate,
+      itemIds: selected,
+    });
+    console.log("Submitting new pickup schedule: ", pickData);
+
+    fetch(`${API_ROOT}/ngo/new_schedule`, {
+      method: "POST",
+      headers: {
+        Authorization: `${AUTH_HEADER} ${this.props.session.idToken.jwtToken}`,
+      },
+      body: pickData,
+    })
+      .then((response) => {
+        // console.log(response);
+        if (response.ok) {
+          // message.success({
+          //     content: "You have scheduled your next route successfully!"
+          // });
+          return response.json();
+        } else {
+          message.error("Failed to send request.");
+          throw new Error("Failed to send request.");
+        }
+      })
+      .then((data) => {
+        // console.log(data);
+        if (data.result === "SUCCESS") {
+          message.success("You have scheduled your next route successfully!");
+          this.props.backToHistory();
+        } else {
+          message.error("Failed to schedule pickups.");
+          throw new Error("Failed to schedule pickups.");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        message.error("Failed to schedule pickups.");
+      });
+  };
+
+  handleCancel = (e) => {
+    // console.log(e);
+    // console.log("cancelled");
+    this.setState({
+      visibleModal: false,
+      errorMessage: "",
+    });
+  };
 }
 
 export default NgoNewDonations;

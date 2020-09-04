@@ -9,10 +9,12 @@
     "@testing-library/user-event": "^7.2.1",
     "amazon-cognito-identity-js": "^4.3.3",
     "antd": "^3.26.18",
+    "axios": "^0.19.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-maps": "^9.4.5",
-    "react-scripts": "^3.4.3"
+    "react-scripts": "^3.4.3",
+    "rsuite": "^4.8.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -38,4 +40,5 @@
   "devDependencies": {
     "react-router-dom": "^5.2.0"
   }
+
 }

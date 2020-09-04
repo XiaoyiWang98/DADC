@@ -1,127 +1,112 @@
-import React, {Component} from 'react';
-import {Tabs} from 'antd';
-import UserProfile from '../users/UserProfile';
-import {API_ROOT} from '../../constants';
-
-import DonorHistorySection from "./history/DonorHistorySection";
-import { DONATED_ITEMS } from "../../tests/dummy_history";
-
-const {TabPane} = Tabs;
+import React, { Component } from "react";
+import { API_ROOT, AUTH_HEADER } from "../../constants";
+import { Link } from "react-router-dom";
+import { Spin } from "antd";
 
 class DonorHome extends Component {
-    state = {
-        user_id: this.props.session.idToken.payload["cognito:username"],
-        NGO: this.props.session.idToken.payload["custom:custom:NGO"],
-        address: this.props.session.idToken.payload["address"].formatted,
-        city:this.props.session.idToken.payload["custom:city"],
-        state:this.props.session.idToken.payload["custom:state"],
-        postal:this.props.session.idToken.payload["custom:postalCode"],
-        email:this.props.session.idToken.payload["email"],
-        lastName: this.props.session.idToken.payload["family_name"],
-        firstName: this.props.session.idToken.payload["given_name"],
-        phoneNumber: this.props.session.idToken.payload["phone_number"],
-        isLoadingHistory: false,
-        isLoadingItems: false,
-        error: '',
-        donorItems: []
-    }
+  state = {
+    lastName: this.props.info.lastName,
+    firstName: this.props.info.firstName,
+    isLoadingItems: false,
+    token: this.props.info.token,
+    error: "",
+    donorItems: [],
+  };
 
-    componentDidMount() {
-        console.log(this.state.firstName);
-        console.log(this.state.lastName);
-        console.log(this.state.user_id);
-        console.log(this.state.NGO);
-        console.log(this.state.address);
-        console.log(this.state.phoneNumber);
-        // fetch data and setState here donorItems = []
-        // api get /donor/my_item
-        // the API_ROOT and exact headers need to be modified later
-        this.setState({ isLoadingItems: true, error: '' });
-        fetch(`${API_ROOT}/donor/my_item`, {
-            method: 'GET',
-            headers: {
-                Authorization: `${this.props.session.idToken}`
-            }
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                throw new Error('Failed to load donorItems');
-            })
-            .then((data) => {
-                this.setState({donorItems: data ? data : [], isLoadingItems: false});
-            })
-            .catch((e) => {
-                console.error(e);
-                this.setState({isLoadingItems: false, error: e.message});
-            })
+  componentDidMount() {
+    this.setState({ isLoadingItems: true, error: "" });
 
-    }
+    fetch(`${API_ROOT}/donor/my_item`, {
+      method: "GET",
+      headers: {
+        Authorization: `${AUTH_HEADER} ${this.state.token}`,
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+        throw new Error("Failed to load donorItems");
+      })
+      .then((data) => {
+        console.log(data);
+        // handle the case when data is {"result": "FAILED"}
+        if (data.length === undefined) {
+          throw new Error("Failed to load donorItems");
+        } else {
+          this.setState({
+            donorItems: data ? data : [],
+            isLoadingItems: false,
+          });
+          this.props.collectMyItem(data);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+        this.setState({ isLoadingItems: false, error: e.message });
+      });
+  }
 
-    renderHome = () => {
-        return (
-            <div className="home-tab">
-                <h1>Hi, {this.state.firstName} {this.state.lastName}!
-                    <br/>Make your donations today!</h1>
-            </div>)
-    }
+  render() {
+    const donorItems = this.state.donorItems;
+    const loading = this.state.isLoadingItems;
+    const pendingItems = donorItems.filter((item) => item.status === 1);
+    const pendingItemCount = pendingItems.length;
 
-    renderProfile = () => {
-        return (
-            <h2>Hi, {this.state.firstName} {this.state.lastName}!
-                <br/>This is a donor profile page</h2>)
-    }
+    return (
+      <div className="main-content content-home">
+        {loading ? (
+          <Spin className="spin" tip="Loading..." />
+        ) : (
+          <div>
+            {pendingItemCount === 0 ? (
+              <div>
+                <div className="home-name">
+                  Welcome, {this.state.firstName}!
+                </div>
+                <div className="home-status no-donation">
+                  <div className="home-status-content">
+                    You don't have any items{" "}
+                  </div>
+                  <div className="home-status-content">
+                    have been scheduled.
+                  </div>
+                </div>
 
-    renderHistory = () => {
-        // TODO: get donation history list via HTTP req!
-        return (
-            <DonorHistorySection full_history={DONATED_ITEMS}
-                                 isLoad={this.state.isLoadingHistory}/>
-        )
-    }
-
-    renderDonateNow = () => {
-        return (
-            <h2>Hi, {this.state.firstName} {this.state.lastName}!
-                <br/>This is a donor donate now page</h2>)
-    }
-
-    updateInfo = (e) =>{
-        this.setState({
-            firstName: e.firstName,
-            lastName: e.lastName,
-            address: e.address,
-            city: e.city,
-            state: e.state,
-            postal: e.postal
-        })
-    }
-
-
-    render() {
-        return (
-            <div>
-                <Tabs tabPosition="left" className="tabs">
-                    <TabPane tab="Home" key="1" className="home-tab">
-                        {this.renderHome()}
-                    </TabPane>
-                    <TabPane tab="Profile" key="2">
-                        <UserProfile info={this.state}
-                            updateInfo={this.updateInfo}
-                        
-                        />
-                    </TabPane>
-                    <TabPane tab="History" key="3">
-                        {this.renderHistory()}
-                    </TabPane>
-                    <TabPane tab="Donate Now!" key="4">
-                        {this.renderDonateNow()}
-                    </TabPane>
-                </Tabs>
-            </div>
-        );
-    }
+                <Link className="link jumper" to="/donors/donate">
+                  Make a new donations today!
+                </Link>
+              </div>
+            ) : (
+              <div>
+                <div className="home-name">
+                  Welcome, {this.state.firstName}!
+                </div>
+                <div className="home-status">
+                  <div className="home-status-content">
+                    You have
+                    <div className="home-number">{pendingItemCount}</div>
+                  </div>
+                  {pendingItemCount === 1 ? (
+                    <div className="home-status-content">
+                      item has been scheduled!
+                    </div>
+                  ) : (
+                    <div className="home-status-content">
+                      items have been scheduled!
+                    </div>
+                  )}
+                </div>
+                <Link className="link jumper" to="/donors/completed_pickup">
+                  Check them out!
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
 }
 
 export default DonorHome;

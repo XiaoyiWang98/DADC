@@ -68,7 +68,7 @@ export const NGO_SCHEDULES = [
 
 export const NGO_PROCESSED_SCHEDULES = [
     {
-        scheduleId: 0,
+        scheduleId: 100,
         scheduleDate: "2020-08-15",
         status: "pending",
         totalLocations: 1,
