@@ -99,6 +99,7 @@ class NgoHistorySection extends Component {
                     : <NgoHistoryTable filtered_history={history_to_display}
                                        auth_token={this.props.auth_token}
                                        update_history={this.updateHistory}
+                                       session={this.props.session}
                     />
                 }
             </div>

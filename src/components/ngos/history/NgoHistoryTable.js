@@ -23,6 +23,9 @@ class NgoHistoryTable extends Component {
             center: {lat: 0, lng: 0}
         }
     }
+    componentDidMount() {
+        this.getMapCenter()
+    }
 
     handle_viewOnMap = (e) => {
         const item_list_unparsed = JSON.parse(e.target.value);
@@ -31,7 +34,6 @@ class NgoHistoryTable extends Component {
         this.setState({
             showOnMap: true,
             itemList: item_list,
-            center: this.getMapCenter(item_list)
         }, function () {
             console.log("[VOM] after setState itemList:", this.state.itemList)
         })
@@ -62,11 +64,38 @@ class NgoHistoryTable extends Component {
             });
     };
 
-    getMapCenter = (itemList) => {
-        // TODO: We can later use (lat_min + lat_max) / 2, (lng_min + lng_max) / 2 for center
-        return itemList.length > 0
-            ? {lat: itemList[0].lat, lng: itemList[0].lng}
-            : {lat: 40, lng: 74};
+    getMapCenter = () => {
+        fetch("https://maps.googleapis.com/maps/api/geocode/json?address="
+            + this.props.session.idToken.payload["address"].formatted.replace(' ', '+')
+            + ",+"
+            + this.props.session.idToken.payload["custom:city"].replace(' ', '+')
+            + ",+"
+            + this.props.session.idToken.payload["custom:state"]
+            + "+"
+            + this.props.session.idToken.payload["custom:postalCode"]
+            + "&key=AIzaSyCq-BRueDRRCUgFkqTgO93mFkgBfP0hOjU",
+            {
+                method: 'GET'
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                message.error("Failed to get your geo location.");
+            })
+            .then(data => {
+                // console.log(data);
+                if (data.status === "OK") {
+                    this.setState({
+                        center: data.results[0].geometry.location
+                    })
+                } else {
+                    message.error("Failed to get your geo location.");
+                }
+            })
+            .catch(error => {
+                message.error("Error caught: Failed to get your geo location.")
+            })
     }
 
     handleOk = e => {
