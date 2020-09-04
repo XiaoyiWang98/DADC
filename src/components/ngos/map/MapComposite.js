@@ -52,6 +52,11 @@ class MapComposite extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    const {items} = this.props;
+    if (JSON.stringify(prevProps.items) !== JSON.stringify(items)) {
+      console.log(`[MapComposite] map prop changed: prevProps${prevProps}, curProps${this.props}`);
+      this.setState({items: items});
+    }
     // if (typeof this.props.handleCheckedFunction !== 'function') {
     //     // sort the item here
     //     console.log(this.state.items_order)
