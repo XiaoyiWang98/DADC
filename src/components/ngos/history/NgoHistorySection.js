@@ -79,21 +79,18 @@ class NgoHistorySection extends Component {
   };
 
   updateHistory = (completed_schedule_id) => {
-    console.log("completed schedule id: ", completed_schedule_id);
-
     const { full_history, history_to_display } = this.state;
     const new_full_history = full_history.map((pickup) => {
-      return pickup.schedule_id !== completed_schedule_id
+      return pickup.scheduleID !== completed_schedule_id
         ? pickup
         : { ...pickup, status: COMPLETED };
     });
     const new_history_to_display = history_to_display.map((pickup) => {
-      return pickup.schedule_id !== completed_schedule_id
+      return pickup.scheduleID !== completed_schedule_id
         ? pickup
         : { ...pickup, status: COMPLETED };
     });
-    console.log("new full history", new_full_history);
-    console.log("new history to display", new_history_to_display);
+
     this.setState({
       full_history: new_full_history,
       history_to_display: new_history_to_display,
@@ -104,14 +101,18 @@ class NgoHistorySection extends Component {
     const { isLoading, history_to_display } = this.state;
     return (
       <div className="main-content history-page">
-        <h1 className="main-title">Schedule history</h1>
+        <h1 className="main-title">Past Donation Pickups</h1>
         <hr className="divide" />
         <div className="filter-setting">
           <StatusFilter filterBy={this.onStatusFilter} />
           <DatePicker onChange={this.onDateChange} />
         </div>
         {isLoading ? (
-          <Spin className="spin" tip="Loading..." size="large" />
+          <Spin
+            className="history-spin"
+            tip="Loading past pickup schedules..."
+            size="large"
+          />
         ) : (
           <NgoHistoryTable
             filtered_history={history_to_display}
