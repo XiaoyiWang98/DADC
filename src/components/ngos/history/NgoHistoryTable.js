@@ -25,14 +25,15 @@ class NgoHistoryTable extends Component {
     }
 
     handle_viewOnMap = (e) => {
-        console.log("View on Map clicked!");
         const item_list_unparsed = JSON.parse(e.target.value);
         const item_list = formatItemList(item_list_unparsed);
-        console.log("View on Map itemList: ", item_list);
+        console.log("View on Map clicked! View on Map itemList: ", item_list);
         this.setState({
             showOnMap: true,
             itemList: item_list,
             center: this.getMapCenter(item_list)
+        }, function () {
+            console.log("[VOM] after setState itemList:", this.state.itemList)
         })
     }
 
@@ -42,7 +43,7 @@ class NgoHistoryTable extends Component {
 
         console.log("[MarkComplete] e.target:", e.target);
         console.log("target style.display: ", e.target.style.display);
-        // // Make the button disappear
+        // Make the button disappear
         e.target.style.display = "none";
 
         axios.post(
@@ -115,10 +116,10 @@ class NgoHistoryTable extends Component {
                     onCancel={this.handleCancel}
                     footer={<Button key="back" type="primary" onClick={this.handleCancel}>Back to history</Button>}
                 >
-                <MapComposite
-                    items={this.state.itemList}
-                    center={this.state.center}
-                />
+                    <MapComposite
+                        items={this.state.itemList}
+                        center={this.state.center}
+                    />
                 </Modal>
             </div>
         );
