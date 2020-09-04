@@ -103,7 +103,8 @@ class NgoMain extends Component {
     getHistory = () => {
         let jwtToken = this.props.session.idToken.jwtToken;
         return this.props.isLoggedIn
-            ? <NgoHistorySection auth_token={jwtToken}/>
+            ? <NgoHistorySection auth_token={jwtToken}
+            session={this.props.session}/>
             : <Redirect to="/"/>
     }
 

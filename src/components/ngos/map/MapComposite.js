@@ -18,6 +18,7 @@ class MapComposite extends Component {
       hoverStatus: hover,
       items: this.props.items,
       items_order: [],
+      center: this.props.center
     };
     console.log("[MapComposite] items: ", this.state.items);
   }
@@ -52,10 +53,16 @@ class MapComposite extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {items} = this.props;
-    if (JSON.stringify(prevProps.items) !== JSON.stringify(items)) {
-      console.log(`[MapComposite] map prop changed: prevProps${prevProps}, curProps${this.props}`);
-      this.setState({items: items});
+    const {items, center} = this.props;
+    if ((center.lat !== prevProps.center.lat)
+        || (center.lng !== prevProps.center.lng)
+        || (JSON.stringify(prevProps.items) !== JSON.stringify(items))) {
+      console.log(`[MapComposite] map prop changed!`);
+      console.log("[MapComposite] cur center", center);
+      console.log("[MapComposite] cur items", items);
+      console.log("[MapComposite] prev center", prevProps.center);
+      console.log("[MapComposite] prev items", prevProps.items);
+      this.setState({items: items, center: center});
     }
     // if (typeof this.props.handleCheckedFunction !== 'function') {
     //     // sort the item here
@@ -86,7 +93,7 @@ class MapComposite extends Component {
             containerElement={<div style={{ height: `100%` }} />}
             mapElement={<div style={{ height: `100%` }} />}
             updateOrderFunc={this.updateItemOrder}
-            mapCenter={this.props.center}
+            mapCenter={this.state.center}
             items={this.state.items}
             selectedIds={JSON.stringify(this.state.selectedStatus)}
             hoverIds={JSON.stringify(this.state.hoverStatus)}
