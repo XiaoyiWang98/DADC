@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Checkbox } from "antd";
+import { Checkbox, Avatar } from "antd";
 
 class MapItem extends Component {
   constructor(props) {
@@ -32,9 +32,10 @@ class MapItem extends Component {
   render() {
     return (
       <div className="mapItem">
-        <div className="mapItemImage">
-          <img
-            className="mapItemImageImage"
+        <div>
+          <Avatar
+            // className="mapItemImageImage"
+            size={60}
             src={this.props.imageUrl}
             alt="new"
           />

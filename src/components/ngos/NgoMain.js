@@ -226,9 +226,9 @@ class NgoMain extends Component {
           handleLogout={this.props.handleLogout}
           isLoggedIn={this.props.isLoggedIn}
         />
-        <div className="ngo-main">
+        <div className="main">
           <NgoNavbar className="navbar" />
-          <div className="ngo-switch">
+          <div className="switch">
             <Switch>
               {/* <Route exact path="/register" render={this.getRegister}/> */}
               <Route exact path="/" render={this.getLogin} />

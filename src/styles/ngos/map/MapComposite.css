@@ -1,69 +1,65 @@
-.mapComposite{
-    flex: auto;
-    height: 700px;
-    width: 100%
+.mapComposite {
+  height: 525px;
+  width: 100%;
+  display: flex;
 }
 
-.map{
-    height: 100%;
-    width: 70%;
-    float: left;
+.map {
+  height: 510px;
+  margin-left: 20px;
+  width: 70%;
 }
 
-.itemList{
-    height: 100%;
-    width: 30%;
-    float: right;
+.itemList {
+  height: 510px;
+  padding: 10px;
+  margin-left: 20px;
+  padding-right: 3px;
+  margin-right: 10px;
+  background-color: #f7f7fa;
+  box-shadow: inset 0px 0px 6px;
 }
 
 .scrollable-container {
-    height: 100%;
-    overflow-y: scroll;
-
+  overflow-y: scroll;
 }
-.background {
+/* .background {
     height: 700px;
-    /*background-image: url('https://zos.alipayobjects.com/rmsportal/RmjwQiJorKyobvI.jpg');*/
-}
+    /*background-image: url('https://zos.alipayobjects.com/rmsportal/RmjwQiJorKyobvI.jpg');
+} */
 
 .mapItem {
-    height: 100px;
-    width: 100%;
-
-    background-color: #FFFFFF;
-    border-bottom: 1px solid black;
-    display: flex;
-    transition:background 1s;
-
+  height: 117px;
+  border-bottom: 1px solid #bfbfbf;
+  display: flex;
+  align-items: center;
+  /* transition: background 1s; */
 }
-.mapItem:hover{
-    background: rgba(255, 230, 0, 1);
+.mapItem:hover {
+  background: rgb(255, 255, 255);
 }
 
-.mapItemAddress{
-    text-align: left;
-
+.mapItemAddress {
+  text-align: left;
 }
-.mapItemName{
-    font-weight: bold;
-    text-align: left;
+.mapItemName {
+  font-weight: bold;
+  text-align: left;
 }
-.mapItemImage{
-    height: 100%;
-    width: 100px;
-    background-image: url('https://via.placeholder.com/100');
+.mapItemImage {
+  height: 100%;
+  width: 100px;
+  background-image: url("https://via.placeholder.com/100");
 }
-.mapItemImageImage{
-    height: 100px;
-    width: 100px;
+.mapItemImageImage {
+  height: 100px;
+  width: 100px;
 }
-.mapItemDetail{
-
+.mapItemDetail {
 }
-.mapItemCheckbox{
-    margin-left: auto;
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-right: 15px;
+.mapItemCheckbox {
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 15px;
 }
-
