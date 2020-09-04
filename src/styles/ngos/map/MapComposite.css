@@ -22,6 +22,8 @@
 
 .scrollable-container {
   overflow-y: scroll;
+  height: 490px;
+  width: 231px;
 }
 /* .background {
     height: 700px;
