@@ -44,6 +44,7 @@ class NgoHome extends Component {
 
   render() {
     const donationCount = this.state.NgoItems.length;
+    const is_are_text = donationCount === 1 ? "is" : "are";
     const loading = this.state.isLoadingItems;
     return (
       <div className="main-content content-home">
@@ -70,7 +71,7 @@ class NgoHome extends Component {
                 <div className="home-name">{this.state.firstName}:</div>
                 <div className="home-status">
                   <div className="home-status-content">
-                    There Are
+                    There {is_are_text}
                     <div className="home-number">{donationCount}</div>
                   </div>
                   <div className="home-status-content">
