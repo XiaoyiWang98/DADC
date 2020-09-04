@@ -100,7 +100,7 @@ class NgoHistorySection extends Component {
   render() {
     const { isLoading, history_to_display } = this.state;
     return (
-      <div className="main-content">
+      <div className="main-content history-page">
         <h1 className="main-title">Schedule History</h1>
         <hr className="divide" />
         <div className="filter-setting">

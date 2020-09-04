@@ -5,7 +5,7 @@ import axios from "axios";
 import { API_ROOT, AUTH_HEADER } from "../../../constants";
 
 import { COMPLETE_MSG, COMPLETED, PENDING_MSG } from "./constants";
-import gift from "../../../assets/images/gift.svg";
+import pickup from "../../../assets/images/pickup.jpg";
 import MapComposite from "../map/MapComposite";
 import { formatItemList } from "../../../Utils";
 
@@ -147,9 +147,11 @@ class NgoHistoryTable extends Component {
                 ]}
               >
                 <List.Item.Meta
-                  avatar={<Avatar size={60} src={gift} alt="donation items" />}
+                  avatar={
+                    <Avatar size={60} src={pickup} alt="donation items" />
+                  }
                   title={<p>{`Total Items: ${schedule.itemList.length}`}</p>}
-                  description={`Date: ${schedule.scheduleTime}`}
+                  description={`Schedule Date: ${schedule.scheduleTime}`}
                 />
                 {schedule.status === COMPLETED ? (
                   <div className="ngo-pickup-complete-text">{COMPLETE_MSG}</div>
@@ -171,6 +173,7 @@ class NgoHistoryTable extends Component {
               Back to history
             </Button>
           }
+          destroyOnClose={true}
         >
           <MapComposite
             items={this.state.itemList}
