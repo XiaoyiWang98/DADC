@@ -18,7 +18,7 @@ class Init extends Component {
     };
 
     return (
-      <div>
+      <div className="postboard">
         <Carousel autoplay>
           <div>
             <h3 style={contentStyle}>
