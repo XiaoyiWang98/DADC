@@ -144,6 +144,7 @@ class NgoHistoryTable extends Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     footer={<Button key="back" type="primary" onClick={this.handleCancel}>Back to history</Button>}
+                    destroyOnClose={true}
                 >
                     <MapComposite
                         items={this.state.itemList}
