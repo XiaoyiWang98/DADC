@@ -6,8 +6,8 @@ import StatusFilter from "./StatusFilter";
 import {API_ROOT, AUTH_HEADER} from "../../../constants";
 import {COMPLETED} from "./constants";
 
-
 class NgoHistorySection extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -66,8 +66,7 @@ class NgoHistorySection extends Component {
         if (key == ALL) {
             this.setState({
                 selected_status: key,
-                history_to_display: full_history
-            });
+                history_to_display: full_history});
         } else {
             this.setState({
                 selected_status: key,

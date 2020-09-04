@@ -37,7 +37,7 @@ class NgoNewDonations extends Component {
                 <div className="ngo-nd-map">
                     {(this.state.pickupList === null || this.state.center === null) ?
                         <Spin tip="Loading..." size="large"/>
-                            :
+                        :
                         <MapComposite
                             items={this.state.pickupList}
                             center={this.state.center}
@@ -53,7 +53,7 @@ class NgoNewDonations extends Component {
                     footer={this.state.errorMessage === "" ?
                         [<Button key="back" onClick={this.handleCancel}>Cancel</Button>,
                             <Button key="submit" onClick={this.handleOk}>Submit Schedule</Button>]
-                            :
+                        :
                         [<Button key="back" onClick={this.handleCancel}>Ok</Button>]
                     }
                 >

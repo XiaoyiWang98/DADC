@@ -13,8 +13,7 @@
 
 .history-status-filter {
     float: left;
-    margin-left: 1em;
-    margin-top: 2em;
+    margin-left: 50px;
     font-size: 1.2em;
 }
 
@@ -34,4 +33,10 @@
     height: 400px;
     align-items: center;
     justify-content: center;
+}
+
+.filter-setting{
+    display: flex;
+    justify-content: space-between;
+    width: 680px;
 }
