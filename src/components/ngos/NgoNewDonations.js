@@ -226,7 +226,7 @@ class NgoNewDonations extends Component {
       });
       return;
     }
-    this.setState({ pickupDate: date }, function () {
+    this.setState({ pickupDate: dateStr }, function () {
       console.log("pickup date: ", this.state.pickupDate);
     });
   };

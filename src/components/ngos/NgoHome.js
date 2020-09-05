@@ -6,9 +6,10 @@ import sad from "../../assets/images/sad.jpg";
 
 class NgoHome extends Component {
   state = {
-    lastName: this.props.session.idToken.payload["family_name"],
-    firstName: this.props.session.idToken.payload["given_name"],
+    lastName: this.props.info.lastName,
+    firstName: this.props.info.firstName,
     isLoadingItems: false,
+    token: this.props.info.token,
     error: "",
     NgoItems: [],
   };
@@ -18,7 +19,7 @@ class NgoHome extends Component {
     fetch(`${API_ROOT}/ngo/search_item`, {
       method: "GET",
       headers: {
-        Authorization: `${AUTH_HEADER} ${this.props.session.idToken.jwtToken}`,
+        Authorization: `${AUTH_HEADER} ${this.state.token}`,
       },
     })
       .then((response) => {
